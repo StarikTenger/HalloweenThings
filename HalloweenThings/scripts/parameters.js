@@ -1,5 +1,5 @@
 'use strict'
-
+const {Howl, Howler} = require('howler');
 
 //// CONSTANTS ////
 // Directions
@@ -52,6 +52,19 @@ window.SIZE_Y = 20 + MARGIN * 2;
 
 // Music
 window.VOLUME = 1;
+
+// Sounds
+// Loop
+window.SOUND_MUSIC = new Howl({
+    src: ['music/main_theme.mp3'],
+    loop: true
+});
+window.SOUND_STEPS = new Howl({
+    src: ['sounds/steps.wav'],
+    loop: true});
+// Single
+window.SOUND_SHOOT = new Howl({src: ['sounds/shoot.wav'],});
+window.SOUND_MATCH= new Howl({src: ['sounds/match.wav'],});
 
 // Generation
 window.SPEC_GRAVE_RADIUS = 10;

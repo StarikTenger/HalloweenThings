@@ -422,7 +422,7 @@ class Game {
 
         // Grid pos
         object.grid_pos = this.getCell(this.player.pos);
-
+        return deltaPos.x || deltaPos.y;
     }
 
     // Player's movement & actions
@@ -452,7 +452,19 @@ class Game {
         this.player.animationType = this.player.dir;
 
         // Movement
-        this.move(this.player, deltaPos);
+        this.move(this.player, deltaPos)
+        if ((KEY_D || KEY_A || KEY_S || KEY_W)) {
+            if (window.SOUND_STEPS.isPlaying != 1) {
+                window.SOUND_STEPS.play();
+                window.SOUND_STEPS.isPlaying = 1;
+                console.log('step');
+            }
+        }
+        else {
+            window.SOUND_STEPS.pause();
+            window.SOUND_STEPS.isPlaying = 0;
+            console.log('pause');
+        }
 
         // Cooldowns
         this.player.step(DT);
@@ -471,6 +483,7 @@ class Game {
         //// Match using (interacting) ////
         if (KEY_F && !KEY_F_PREV) {
             if (this.player.matches > 0) {
+                window.SOUND_MATCH.play();
                 this.player.lamp = 1;
                 this.player.matches--;
                 this.temporalLightSources.push(new TemporalLightSource(this.player.pos, 5, 2));
@@ -605,6 +618,7 @@ class Game {
             }
 
             if (this.player.weapon.timeToCooldown <= 0 && this.player.weapon.ammo > 0) { // Are we able to shoot
+                window.SOUND_SHOOT.play();
                 // Stupid collision check
                 let pos = new Vec2(this.player.pos.x, this.player.pos.y);
                 dir = dir.mult(new Vec2(2, 2));
@@ -737,7 +751,7 @@ class Game {
             this.monsterTimer = MONSTER_PERIOD;
         }
 
-        //// Behaviour ////
+        //// Behavior ////
         for (let i = 0; i < this.monsters.length; i++) {
             // Get current monster
             let monster = this.monsters[i];
@@ -764,9 +778,8 @@ class Game {
                         deltaPos = deltaPos.plus(neighbors[j]);
                 }
 
-                if(!Random.random(0, 1)) {
-                    this.move(monster, deltaPos.mult(new Vec2(1, 1)), 0);
-                }
+                let vel = 0.5;
+                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
             }
             else if (monster.monsterType === MNS_GHOST) { // GHOST
                 // Movement
@@ -785,9 +798,8 @@ class Game {
                     if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
                         deltaPos = deltaPos.plus(neighbors[j]);
                 }
-
-                if(!Random.random(0, 2))
-                    this.move(monster, deltaPos.mult(new Vec2(1, 1)), 1);
+                let vel = 0.3;
+                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
             }
 
             let x2 = monster.pos.x;

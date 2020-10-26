@@ -4,6 +4,7 @@ const Game = require("./game.js")
 const Draw = require("./draw.js")
 const Vec2 = require("./vec2.js")
 
+
 window.addEventListener("load", function() {
     let game = new Game();
     let draw = new Draw(CTX);
@@ -13,20 +14,11 @@ window.addEventListener("load", function() {
     game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
     game.player.status = 4;
 
-    // let myAudio = new Audio('music/main_theme.mp3');
-    //
-    // myAudio.addEventListener('ended', function() {
-    //     this.currentTime = 0;
-    //     this.play();
-    // }, false);
-    //
-    // myAudio.play();
+
 
     function step() {
         window.game = game; // For checking from console
 
-        // myAudio.volume = VOLUME;
-        // myAudio.play();
         game.step();
         draw.draw(game);
 
@@ -52,6 +44,9 @@ window.addEventListener("load", function() {
         KEY_RIGHT_PREV = KEY_RIGHT;
 
         if (game.RELOAD === 1) {
+            SOUND_MUSIC.pause();
+            SOUND_MUSIC.play();
+
             game = new Game();
             game.initialGeneration();
             game.generate();

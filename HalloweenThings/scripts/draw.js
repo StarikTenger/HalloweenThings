@@ -11,10 +11,10 @@ class Draw {
     }
 
     image(texture, x, y, w, h, flip) {
-        x = Math.round(x);
-        y = Math.round(y);
-        w = Math.round(w);
-        h = Math.round(h);
+        // x = Math.round(x);
+        // y = Math.round(y);
+        // w = Math.round(w);
+        // h = Math.round(h);
 
         if(!flip)
             flip = 0;
@@ -31,10 +31,10 @@ class Draw {
     }
 
     rect(x, y, w, h, color) {
-        x = Math.round(x);
-        y = Math.round(y);
-        w = Math.round(w);
-        h = Math.round(h);
+        // x = Math.round(x);
+        // y = Math.round(y);
+        // w = Math.round(w);
+        // h = Math.round(h);
 
         this.ctx.imageSmoothingEnabled = 0;
         this.ctx.fillStyle = color;

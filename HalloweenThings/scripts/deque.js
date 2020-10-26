@@ -29,3 +29,5 @@ class Deque {
         return this.back && this.back.value;
     }
 }
+
+module.exports = Deque

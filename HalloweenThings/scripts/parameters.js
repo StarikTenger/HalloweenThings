@@ -1,91 +1,92 @@
 'use strict'
 
+
 //// CONSTANTS ////
 // Directions
-let NONE = 0
-let RIGHT = 3;
-let DOWN = 2;
-let LEFT = 4;
-let UP = 1;
+window.NONE = 0
+window.RIGHT = 3;
+window.DOWN = 2;
+window.LEFT = 4;
+window.UP = 1;
 
 // Subjects' types
-let SBJ_HEAL = 1;
-let SBJ_OIL = 2;
-let SBJ_WHISKEY = 3;
-let SBJ_MATCHBOX = 4;
-let SBJ_AMMO = 5;
+window.SBJ_HEAL = 1;
+window.SBJ_OIL = 2;
+window.SBJ_WHISKEY = 3;
+window.SBJ_MATCHBOX = 4;
+window.SBJ_AMMO = 5;
 
 // Monsters' names
 
-let MNS_ZOMBIE = 1;
-let MNS_GHOST = 2;
-let MNS_TENTACLE = 3;
+window.MNS_ZOMBIE = 1;
+window.MNS_GHOST = 2;
+window.MNS_TENTACLE = 3;
 
 //// GAME PREFERENCES ////
-let DT = 0.050; // Tick time in seconds
-let CELL_SIZE = 8;
-let TEXTURE_SIZE = 8;
+window.DT = 0.050; // Tick time in seconds
+window.CELL_SIZE = 8;
+window.TEXTURE_SIZE = 8;
 
-let EPS = 0.0001;
+window.EPS = 0.0001;
 
 // Limitations for player
-let LIMIT_HP = 3;
-let LIMIT_OIL = 10;
-let LIMIT_MIND = 10;
-let LIMIT_MATCHES = 3;
+window.LIMIT_HP = 3;
+window.LIMIT_OIL = 10;
+window.LIMIT_MIND = 10;
+window.LIMIT_MATCHES = 3;
 
-let OIL_CONSUMPTION = 0.2;
-let DIST_LIGHT = 7;
-let DIST_LOAD = 12;
+window.OIL_CONSUMPTION = 0.2;
+window.DIST_LIGHT = 7;
+window.DIST_LOAD = 12;
 
-let MONSTER_LIMIT = 4; // Maximum number of monsters
-let MONSTER_PERIOD = 7; // Time between monsters spawn
+window.MONSTER_LIMIT = 4; // Maximum number of monsters
+window.MONSTER_PERIOD = 7; // Time between monsters spawn
 
-let SUBJECT_LIMIT = 5.5; // Maximum number of subjects
-let SUBJECT_PERIOD = 1.65; // Time between subjects spawn
+window.SUBJECT_LIMIT = 5.5; // Maximum number of subjects
+window.SUBJECT_PERIOD = 1.65; // Time between subjects spawn
 
 // Map parameters
-let MARGIN = 3; // Cells on map's sides, that are not changing
-let SIZE_X = 20 + MARGIN * 2;
-let SIZE_Y = 20 + MARGIN * 2;
+window.MARGIN = 3; // Cells on map's sides, that are not changing
+window.SIZE_X = 20 + MARGIN * 2;
+window.SIZE_Y = 20 + MARGIN * 2;
 
 // Music
-let VOLUME = 1;
+window.VOLUME = 1;
 
 // Generation
-let SPEC_GRAVE_RADIUS = 10;
-let HARDNESS = 0;
+window.SPEC_GRAVE_RADIUS = 10;
+window.HARDNESS = 0;
 
 // consts
-let LIFE_ETERNAL = -12222;
+window.LIFE_ETERNAL = -12222;
 
 
 //// DRAW PREFERENCES ////
-let SCALE = 10; // 1 Cell in px
+window.SCALE = 10; // 1 Cell in px
 while (64 * SCALE <= Math.min(window.innerHeight, window.innerWidth)) {
     SCALE += 1;
 }
 SCALE = 7;
 
 // Canvas
-let SCREEN = document.getElementById("screen");
+window.SCREEN = document.getElementById("screen");
 SCREEN.width = SCREEN.height = 128 * SCALE;
-let CTX = SCREEN.getContext("2d");
+window.CTX = SCREEN.getContext("2d");
 
 // Images
 function getImg(src) { // Load images
-    let img = new Image(); 
+    let img = new Image();
     img.src = src;
     return img;
 }
 
 // Loading current imgs
-let IMGS_GROUND = [
+window.IMGS_GROUND = [
     getImg("textures/grounds/ground1.png"),
     getImg("textures/grounds/ground2.png")
 ];
 
-let IMGS_COVERING = [
+window.IMGS_COVERING = [
     getImg("textures/coverings/covering1.png"),
     getImg("textures/coverings/covering2.png"),
     getImg("textures/coverings/covering3.png"),
@@ -96,19 +97,19 @@ let IMGS_COVERING = [
     getImg("textures/coverings/covering8.png")
 ];
 
-let IMGS_SPEC_GRAVE = [
+window.IMGS_SPEC_GRAVE = [
     getImg("textures/spec_graves/spec_grave1.png"),
     getImg("textures/spec_graves/spec_grave2.png"),
     getImg("textures/spec_graves/spec_grave3.png")
 ];
 
-let IMGS_SPEC_MINI_GRAVE = [
+window.IMGS_SPEC_MINI_GRAVE = [
     getImg("textures/spec_graves/spec_mini_grave1.png"),
     getImg("textures/spec_graves/spec_mini_grave2.png"),
     getImg("textures/spec_graves/spec_mini_grave3.png")
 ];
 
-let IMGS_GRAVE = [
+window.IMGS_GRAVE = [
     getImg("textures/graves/grave1.png"),
     getImg("textures/graves/grave2.png"),
     getImg("textures/graves/grave3.png"),
@@ -122,18 +123,18 @@ let IMGS_GRAVE = [
     getImg("textures/graves/grave11.png"),
 ];
 
-let IMGS_GATES = [
+window.IMGS_GATES = [
     getImg("textures/gates1.png"),
     getImg("textures/gates2.png")
 ];
 
-let IMGS_MONSTER = [
+window.IMGS_MONSTER = [
     getImg("textures/monsters/monster1.png"),
     getImg("textures/monsters/monster2.png"),
     getImg("textures/monsters/monster3.png")
 ];
 
-let IMGS_SUBJECT = [
+window.IMGS_SUBJECT = [
     getImg("textures/subjects/heal.png"),
     getImg("textures/subjects/oil.png"),
     getImg("textures/subjects/whiskey.png"),
@@ -142,62 +143,62 @@ let IMGS_SUBJECT = [
 ];
 
 // Player animation
-let ANM_PLAYER_STANDING = [
+window.ANM_PLAYER_STANDING = [
     getImg("textures/player/player_standing_0.png"),
     getImg("textures/player/player_standing_1.png")
 ];
 
-let ANM_PLAYER_MOVING_RIGHT = [
+window.ANM_PLAYER_MOVING_RIGHT = [
     getImg("textures/player/player_moving_right_0.png"),
     getImg("textures/player/player_moving_right_1.png")
 ];
 
-let ANM_PLAYER_MOVING_UP = [
+window.ANM_PLAYER_MOVING_UP = [
     getImg("textures/player/player_moving_up_0.png"),
     getImg("textures/player/player_moving_up_1.png")
 ];
 
-let ANM_PLAYER_MOVING_DOWN = [
+window.ANM_PLAYER_MOVING_DOWN = [
     getImg("textures/player/player_moving_down_0.png"),
     getImg("textures/player/player_moving_down_1.png")
 ];
 
 // MONSTERS
 
-let ANM_ZOMBIE_STANDING = [
+window.ANM_ZOMBIE_STANDING = [
     getImg("textures/monsters/zombie_standing_0.png"),
     getImg("textures/monsters/zombie_standing_1.png")
 ];
 
-let ANM_ZOMBIE_MOVING_UP = [
+window.ANM_ZOMBIE_MOVING_UP = [
     getImg("textures/monsters/zombie_moving_up_0.png"),
     getImg("textures/monsters/zombie_moving_up_1.png")
 ];
 
-let ANM_ZOMBIE_MOVING_DOWN = [
+window.ANM_ZOMBIE_MOVING_DOWN = [
     getImg("textures/monsters/zombie_moving_down_0.png"),
     getImg("textures/monsters/zombie_moving_down_1.png")
 ];
 
-let ANM_ZOMBIE_MOVING_RIGHT = [
+window.ANM_ZOMBIE_MOVING_RIGHT = [
     getImg("textures/monsters/zombie_moving_right_0.png"),
     getImg("textures/monsters/zombie_moving_right_1.png")
 ];
 
 // GATES
-let ANM_GATES = [
+window.ANM_GATES = [
     getImg("textures/particles/gates/gates0.png"),
     getImg("textures/particles/gates/gates1.png"),
     getImg("textures/particles/gates/gates2.png"),
     getImg("textures/particles/gates/gates3.png")
 ];
 
-let ANM_GHOST_STANDING = [
+window.ANM_GHOST_STANDING = [
     getImg("textures/monsters/ghost_standing_0.png"),
     getImg("textures/monsters/ghost_standing_1.png")
 ];
 
-let ANM_GHOST_MOVING_UP = [
+window.ANM_GHOST_MOVING_UP = [
     getImg("textures/monsters/ghost_moving_up_0.png"),
     getImg("textures/monsters/ghost_moving_up_1.png"),
     getImg("textures/monsters/ghost_moving_up_2.png"),
@@ -205,21 +206,21 @@ let ANM_GHOST_MOVING_UP = [
 
 ];
 
-let ANM_GHOST_MOVING_DOWN = [
+window.ANM_GHOST_MOVING_DOWN = [
     getImg("textures/monsters/ghost_moving_down_0.png"),
     getImg("textures/monsters/ghost_moving_down_1.png"),
     getImg("textures/monsters/ghost_moving_down_2.png"),
     getImg("textures/monsters/ghost_moving_down_3.png")
 ];
 
-let ANM_GHOST_MOVING_RIGHT = [
+window.ANM_GHOST_MOVING_RIGHT = [
     getImg("textures/monsters/ghost_moving_right_0.png"),
     getImg("textures/monsters/ghost_moving_right_1.png"),
     getImg("textures/monsters/ghost_moving_right_2.png"),
     getImg("textures/monsters/ghost_moving_right_3.png"),
 ];
 
-let ANM_WORM_STANDING = [
+window.ANM_WORM_STANDING = [
     getImg("textures/monsters/worm_standing_0.png"),
     getImg("textures/monsters/worm_standing_1.png"),
     getImg("textures/monsters/worm_standing_2.png"),
@@ -228,27 +229,27 @@ let ANM_WORM_STANDING = [
 
 // ===================
 
-let IMG_MONSTER0 = getImg("textures/monsters/zombie_standing_0.png");
-let IMG_SHADOW = getImg("textures/shadow.png");
-let IMG_INTERFACE = getImg("textures/interface/interface.png");
-let IMG_INTERFACE_OVERLAY = getImg("textures/interface/interfaceOverlay.png");
-let IMG_MATCH = getImg("textures/interface/match.png");
-let IMG_MENTAL_DANGER = getImg("textures/interface/mental_danger.png");
+window.IMG_MONSTER0 = getImg("textures/monsters/zombie_standing_0.png");
+window.IMG_SHADOW = getImg("textures/shadow.png");
+window.IMG_INTERFACE = getImg("textures/interface/interface.png");
+window.IMG_INTERFACE_OVERLAY = getImg("textures/interface/interfaceOverlay.png");
+window.IMG_MATCH = getImg("textures/interface/match.png");
+window.IMG_MENTAL_DANGER = getImg("textures/interface/mental_danger.png");
 
 // Endgame screens
-let IMG_DEAD = getImg("textures/interface/deathscreen.png");
-let IMG_DELIRIOUS = getImg("textures/interface/deliriumscreen.png");
-let IMG_WIN = getImg("textures/interface/winscreen.png");
-let IMG_START_SCREEN = getImg("textures/interface/startscreen.png");
+window.IMG_DEAD = getImg("textures/interface/deathscreen.png");
+window.IMG_DELIRIOUS = getImg("textures/interface/deliriumscreen.png");
+window.IMG_WIN = getImg("textures/interface/winscreen.png");
+window.IMG_START_SCREEN = getImg("textures/interface/startscreen.png");
 
 // Sprite animations
-let ANM_BLOOD = [
+window.ANM_BLOOD = [
     getImg("textures/particles/blood/blood0.png"),
     getImg("textures/particles/blood/blood1.png"),
     getImg("textures/particles/blood/blood2.png")
 ];
 
-let ANM_IGNITION_RED = [
+window.ANM_IGNITION_RED = [
     getImg("textures/particles/ignition/ignition_red_0.png"),
     getImg("textures/particles/ignition/ignition_red_1.png"),
     getImg("textures/particles/ignition/ignition_red_2.png"),
@@ -257,7 +258,7 @@ let ANM_IGNITION_RED = [
     getImg("textures/particles/ignition/ignition_red_5.png"),
 ];
 
-let ANM_IGNITION_GREEN = [
+window.ANM_IGNITION_GREEN = [
     getImg("textures/particles/ignition/ignition_green_0.png"),
     getImg("textures/particles/ignition/ignition_green_1.png"),
     getImg("textures/particles/ignition/ignition_green_2.png"),
@@ -266,7 +267,7 @@ let ANM_IGNITION_GREEN = [
     getImg("textures/particles/ignition/ignition_green_5.png"),
 ];
 
-let ANM_IGNITION_BLUE = [
+window.ANM_IGNITION_BLUE = [
     getImg("textures/particles/ignition/ignition_blue_0.png"),
     getImg("textures/particles/ignition/ignition_blue_1.png"),
     getImg("textures/particles/ignition/ignition_blue_2.png"),
@@ -275,15 +276,15 @@ let ANM_IGNITION_BLUE = [
     getImg("textures/particles/ignition/ignition_blue_5.png"),
 ];
 
-let ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
+window.ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
 
-let ANM_MATCH = [
+window.ANM_MATCH = [
     getImg("textures/particles/match/match0.png"),
     getImg("textures/particles/match/match1.png"),
     getImg("textures/particles/match/match2.png")
 ];
 
-let ANM_MATCH_BURNING = [
+window.ANM_MATCH_BURNING = [
     getImg("textures/particles/match_burn/match_burn_0.png"),
     getImg("textures/particles/match_burn/match_burn_1.png"),
     getImg("textures/particles/match_burn/match_burn_2.png"),
@@ -291,7 +292,7 @@ let ANM_MATCH_BURNING = [
     getImg("textures/particles/match_burn/match_burn_4.png")
 ];
 
-let ANM_ACTIVE_GRAVE = [
+window.ANM_ACTIVE_GRAVE = [
     getImg("textures/particles/active_grave/active_grave_0.png"),
     getImg("textures/particles/active_grave/active_grave_1.png"),
     getImg("textures/particles/active_grave/active_grave_2.png"),
@@ -299,7 +300,7 @@ let ANM_ACTIVE_GRAVE = [
     getImg("textures/particles/active_grave/active_grave_4.png")
 ];
 
-let ANM_PISTOL_SHOT = [
+window.ANM_PISTOL_SHOT = [
     getImg("textures/interface/pistol_shot/pistol_0.png"),
     getImg("textures/interface/pistol_shot/pistol_1.png"),
     getImg("textures/interface/pistol_shot/pistol_2.png"),
@@ -307,21 +308,21 @@ let ANM_PISTOL_SHOT = [
     getImg("textures/interface/pistol_shot/pistol_4.png")
 ];
 
-let ANM_TRACER_LEFT = [
+window.ANM_TRACER_LEFT = [
     getImg("textures/particles/tracer/tracer_left.png")
 ];
-let ANM_TRACER_RIGHT = [
+window.ANM_TRACER_RIGHT = [
     getImg("textures/particles/tracer/tracer_right.png")
 ];
-let ANM_TRACER_UP = [
+window.ANM_TRACER_UP = [
     getImg("textures/particles/tracer/tracer_up.png")
 ];
-let ANM_TRACER_DOWN = [
+window.ANM_TRACER_DOWN = [
     getImg("textures/particles/tracer/tracer_down.png")
 ];
 
 // Damage animation
-let ANM_DAMAGE = [
+window.ANM_DAMAGE = [
     getImg("textures/particles/damage/damage0.png"),
     getImg("textures/particles/damage/damage1.png"),
     getImg("textures/particles/damage/damage2.png"),
@@ -330,21 +331,21 @@ let ANM_DAMAGE = [
 
 //// KEY CONFIG ////
 // Keys (0 - released, 1 - pressed)
-let KEY_W = 0; let KEY_W_PREV = 0; 
-let KEY_A = 0; let KEY_A_PREV = 0; 
-let KEY_S = 0; let KEY_S_PREV = 0; 
-let KEY_D = 0; let KEY_D_PREV = 0;
-let KEY_X = 0; let KEY_X_PREV = 0;
-let KEY_F = 0; let KEY_F_PREV = 0; 
-let KEY_1 = 0; let KEY_1_PREV = 0;
-let KEY_2 = 0; let KEY_2_PREV = 0;
-let KEY_UP = 0; let KEY_UP_PREV = 0; 
-let KEY_DOWN = 0; let KEY_DOWN_PREV = 0; 
-let KEY_LEFT = 0; let KEY_LEFT_PREV = 0; 
-let KEY_RIGHT = 0; let KEY_RIGHT_PREV = 0; 
-let KEY_ENTER = 0; let KEY_ENTER_PREV = 0;
-let KEY_PLUS = 0; let KEY_PLUS_PREV = 0;
-let KEY_MINUS = 0; let KEY_MINUS_PREV = 0;
+window.KEY_W = 0; window.KEY_W_PREV = 0;
+window.KEY_A = 0; window.KEY_A_PREV = 0;
+window.KEY_S = 0; window.KEY_S_PREV = 0;
+window.KEY_D = 0; window.KEY_D_PREV = 0;
+window.KEY_X = 0; window.KEY_X_PREV = 0;
+window.KEY_F = 0; window.KEY_F_PREV = 0;
+window.KEY_1 = 0; window.KEY_1_PREV = 0;
+window.KEY_2 = 0; window.KEY_2_PREV = 0;
+window.KEY_UP = 0; window.KEY_UP_PREV = 0;
+window.KEY_DOWN = 0; window.KEY_DOWN_PREV = 0;
+window.KEY_LEFT = 0; window.KEY_LEFT_PREV = 0;
+window.KEY_RIGHT = 0; window.KEY_RIGHT_PREV = 0;
+window.KEY_ENTER = 0; window.KEY_ENTER_PREV = 0;
+window.KEY_PLUS = 0; window.KEY_PLUS_PREV = 0;
+window.KEY_MINUS = 0; window.KEY_MINUS_PREV = 0;
 
 function checkKey(e, t) {
     if(e.keyCode == 87)
@@ -380,7 +381,7 @@ function checkKey(e, t) {
     
 }
 
-window.addEventListener('keydown',this.checkDown,false);
+window.addEventListener('keydown', checkDown,false);
 function checkDown(e) {
    
     // Checking for buttons pressed
@@ -390,7 +391,7 @@ function checkDown(e) {
     }
 }
 
-window.addEventListener('keyup',this.checkUp,false);
+window.addEventListener('keyup', checkUp,false);
 function checkUp(e) {
    
     // Checking for buttons pressed

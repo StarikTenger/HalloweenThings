@@ -1,0 +1,4 @@
+
+# Do not include node_modules in project
+
+node_modules/*

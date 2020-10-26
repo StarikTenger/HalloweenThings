@@ -15,10 +15,10 @@ class Weapon {
     constructor() {
         this.damage = 1;
         // Ammo
-        this.ammoMax = 5;
+        this.ammoMax = 10;
         this.ammo = this.ammoMax;
         // Cooldown
-        this.cooldownTime = 1;
+        this.cooldownTime = 0.5;
         this.timeToCooldown = this.cooldownTime;
     }
 }

@@ -344,20 +344,6 @@ Game.prototype.generate = function() {
 
     //// Monsters ////
     this.monsterTimer -= DT; // dt
-    // Killing lost monsters (out of stable zone)
-    for (let i = 0; i < this.monsters.length; i++) {
-        let monster = this.monsters[i];
-        if (this.checkCell(monster.gridPos) || this.grid[monster.gridPos.x][monster.gridPos.y].light <= 0 || monster.hp <= 0 || dist(monster.pos, this.player.pos) > DIST_LOAD * 8 * 2) {
-            // Drop items
-            if (random(0, 99) < 70) { // Chance 70%
-                let sbj = new Subject(); // Dropped subject
-                sbj.type = this.subject_type();
-                sbj.pos = monster.pos;
-                this.subjects.push(sbj);
-            }
-            this.monsters.splice(i, 1);
-        }
-    }
 
     // Spawning new monsters
     for (let i = 0; i < 10; i++) { // We try to spwawn monster for 10 times
@@ -367,11 +353,9 @@ Game.prototype.generate = function() {
         // Checking for limitations
         if(this.monsters.length >= MONSTER_LIMIT) // Too much monsters
             break;
-        if(this.monsterTimer > 0) // We can't spawn monsters to often
-            break;
+        //if(this.monsterTimer > 0) // We can't spawn monsters to often
+        //    break;
         if(this.grid[pos.x][pos.y].obstacle) // Cell is not empty
-            continue;
-        if(this.grid[pos.x][pos.y].light <= 0) // No light (zone is unstable)
             continue;
         if(this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
             continue;
@@ -806,6 +790,21 @@ Game.prototype.monstersControl = function() {
         // Damage
         if (dist(monster.pos, this.player.pos) <= monster.attackRange) {
             this.hurt(this.player, monster.damage);    
+        }
+    }
+
+    // Killing lost monsters (out of stable zone)
+    for (let i = 0; i < this.monsters.length; i++) {
+        let monster = this.monsters[i];
+        if (monster.hp <= 0 || dist(monster.pos, this.player.pos) > 1000) {
+            // Drop items
+            if (random(0, 99) < 70) { // Chance 70%
+                let sbj = new Subject(); // Dropped subject
+                sbj.type = this.subject_type();
+                sbj.pos = monster.pos;
+                this.subjects.push(sbj);
+            }
+            this.monsters.splice(i, 1);
         }
     }
 }

@@ -1,3 +1,471 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+
+const Vec2 = require("./vec2")
+
+// Sprite
+class Animation {
+    constructor(frames, pos, box, t, interface_bind, repeating) {
+        this.frames = frames; // Images
+        this.pos = new Vec2(pos.x, pos.y); // Position
+        this.box = box; // Size
+        this.frameTime = t; // Frame change period
+        this.timer = this.frameTime; // Countdown to change frame
+        this.currentFrame = 0; // id of current frame
+        this.alive = 1; // If 0 - animation must be deleted
+
+        if (interface_bind) {
+            this.interface_bind = 1; // drawn at very top of all layers
+        } else {
+            this.interface_bind = 0;
+        }
+        if (repeating) { // 0 - dying after repeating, 1 - repeating, 2 - last frame alive
+            this.repeating = repeating;
+        } else {
+            this.repeating = 0;
+        }
+    }
+
+    step() {
+        this.timer -= DT;
+        if (this.timer <= 0) {
+            this.currentFrame++;
+            this.timer = this.frameTime;
+            if (this.currentFrame >= this.frames.length)
+            {
+                if (this.repeating === 0) { // Repeating check
+                    this.alive = 0;
+                }
+                else if (this.repeating === 1) {
+                    this.currentFrame = 0;
+                }
+            }
+        }
+    }
+
+    getFrame() {
+        return this.frames[this.currentFrame];
+    }
+}
+
+module.exports = Animation
+},{"./vec2":14}],2:[function(require,module,exports){
+class Anime {
+    constructor(frame_time, frames) {
+        this.frame_time = frame_time;
+        this.frames = frames;
+        this.frame = 0;
+        this.frames_cnt = this.frames.length;
+    }
+}
+
+module.exports = Anime
+},{}],3:[function(require,module,exports){
+// Cell on the grid
+class Cell {
+    constructor() {
+        this.ground = 0;
+        this.covering = 0;
+        this.grave = 0;
+        this.gates = 0; // 0 - none, 1 - left part, 2 - right part
+        this.obstacle = 0; // 0 - player can pass, 1 - player can't pass
+        this.type = 0; // For different texturing
+        this.light = 0; // Illumination
+
+        this.zombieNav = 0; // Used to navigate zombies
+        this.ghostNav = 0; // Used to navigate zombies
+    }
+}
+
+module.exports = Cell
+},{}],4:[function(require,module,exports){
+class Deque {
+    constructor() {
+        this.front = this.back = undefined;
+    }
+    addFront(value) {
+        if (!this.front) this.front = this.back = { value };
+        else this.front = this.front.next = { value, prev: this.front };
+    }
+    removeFront() {
+        let value = this.peekFront();
+        if (this.front === this.back) this.front = this.back = undefined;
+        else (this.front = this.front.prev).next = undefined;
+        return value;
+    }
+    peekFront() { 
+        return this.front && this.front.value;
+    }
+    addBack(value) {
+        if (!this.front) this.front = this.back = { value };
+        else this.back = this.back.prev = { value, next: this.back };
+    }
+    removeBack() {
+        let value = this.peekBack();
+        if (this.front === this.back) this.front = this.back = undefined;
+        else (this.back = this.back.next).back = undefined;
+        return value;
+    }
+    peekBack() { 
+        return this.back && this.back.value;
+    }
+}
+
+module.exports = Deque
+},{}],5:[function(require,module,exports){
+
+const Vec2 = require("./vec2")
+
+// This class is responsible for drawing
+class Draw {
+    constructor(ctx) {
+        this.ctx = ctx;
+
+        this.cam = new Vec2(0, 0); // Camera position
+        this.center = new Vec2(64, 64); // Screen center (здфнукы ы)
+    }
+
+    image(texture, x, y, w, h, flip) {
+        x = Math.round(x);
+        y = Math.round(y);
+        w = Math.round(w);
+        h = Math.round(h);
+
+        if(!flip)
+            flip = 0;
+
+        this.ctx.save();
+        let width = 1;
+        if (flip) {
+            this.ctx.scale(-1, 1);
+            width = -1;
+        }
+        this.ctx.imageSmoothingEnabled = 0;
+        this.ctx.drawImage(texture, width*(x + w * flip - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+        this.ctx.restore();
+    }
+
+    rect(x, y, w, h, color) {
+        x = Math.round(x);
+        y = Math.round(y);
+        w = Math.round(w);
+        h = Math.round(h);
+
+        this.ctx.imageSmoothingEnabled = 0;
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect((x - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+    }
+
+    draw(game) {
+
+        // Focusing camera
+        this.cam = game.player.pos;
+        this.center = new Vec2(64, 64);
+
+        // Filling background
+        this.ctx.fillStyle = "black";
+        this.ctx.fillRect(0, 0, 10000, 10000);
+
+        this.ySorted = [];
+
+        // Grid
+        for (let x = 0; x < SIZE_X; x++) {
+            for (let y = 0; y < SIZE_Y; y++) {
+                if(game.grid[x][y].light <= 0 && game.player.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4)) > DIST_LIGHT * 2) // We don't see this cell
+                   continue;
+                let cell = game.grid[x][y];
+
+
+                if (cell.ground) {
+                    this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                }
+                if (cell.covering) {
+                    this.ySorted.push([IMGS_COVERING[cell.covering - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, -4]);
+                }
+
+                if (cell.gates) {
+                    if (game.gates_state === 1)
+                        this.ySorted.push([IMGS_GATES[+cell.gates - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                    continue;
+                }
+
+                if (cell.grave) {
+                    if (cell.grave > 0) {
+                        this.ySorted.push([IMGS_GRAVE[+cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                    } else { // Spec grave
+                        this.ySorted.push([IMGS_SPEC_GRAVE[-cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                    }
+                }
+            }
+        }
+
+        // Player
+        let cur_texture = game.player.get_frame();
+        this.ySorted.push([cur_texture, game.player.pos.x - CELL_SIZE / 2, game.player.pos.y - 2 * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, game.player.right === 0, game.player.pos.y]);
+
+        // Monsters
+        for (let i = 0; i < game.monsters.length; i++) {
+            let monster = game.monsters[i];
+            let frame = monster.get_frame();
+            this.ySorted.push([frame, monster.pos.x - CELL_SIZE / 2, monster.pos.y - CELL_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE * 2, monster.right === 0, monster.pos.y]);
+        }
+
+        // Subjects
+        for (let i = 0; i < game.subjects.length; i++) {
+            let subject = game.subjects[i];
+            if (!subject || !subject.type) // Corrupted
+                continue;
+            this.ySorted.push([IMGS_SUBJECT[subject.type - 1], subject.pos.x - CELL_SIZE / 2, subject.pos.y - CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE , 0, subject.pos.y]);
+        }
+
+        // Sprite animations
+        for (let i = 0; i < game.animations.length; i++) {
+            let animation = game.animations[i];
+            if (animation.interface_bind) {
+                continue;
+            }
+            let img = animation.getFrame();
+            this.ySorted.push([img, animation.pos.x - CELL_SIZE / 2, animation.pos.y, animation.box.x, animation.box.y , 0, 1000]);
+        }
+
+        // Sorting objects by Y-pos
+        this.ySorted.sort(function(a, b) {
+            return a[6] - b[6];
+        });
+
+        // Drawing sorted objects
+        for (let x = 0; x < this.ySorted.length; x++) {
+            let a = this.ySorted[x];
+            this.image(a[0], a[1], a[2], a[3], a[4], a[5]);
+        }
+
+        // Gradient light
+        let pixelSize = 2; // Size of cell of light grid
+        for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1 += pixelSize) {
+            for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1+= pixelSize) {
+                let val = 0; // Light value
+                let sum = 0; // Dist sum
+                let pos = new Vec2(x1, y1);
+                let cellPos = game.getCell(pos);
+
+                // Neighbor cells
+                for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
+                    for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
+                        let dist = pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
+                        if (game.checkCell(new Vec2(x, y)) || dist >= 16)
+                            continue;
+                        val += game.getLight(new Vec2(x, y)) * (18 - dist);
+                        sum += 18 - dist;
+                    }
+                }
+
+                val /= sum;
+
+                let alpha = (1 - (val / DIST_LIGHT));
+                this.rect(x1, y1, pixelSize, pixelSize, "rgba(0,0,0," + alpha + ")");
+            }
+        }
+
+        //// Interface ////
+        this.cam = new Vec2(0, 0);
+        this.center = new Vec2(0, 0);
+        this.image(IMG_INTERFACE, 0, 0, 64 * 2, 64 * 2);
+
+        // Mind
+        this.rect(53 * 2, 55 * 2, game.player.mind * 10 / LIMIT_MIND * 2, 2, "rgb(0,100,200)");
+        // Hp
+        this.rect(18 * 2, 63 * 2, 2 * 2, - game.player.hp * 6 / LIMIT_HP * 2, "rgb(194, 29, 40)");
+        // Oil
+        this.rect(8 * 2, 63 * 2, 2 * 2, - game.player.oil * 6 / LIMIT_OIL * 2, "rgb(148, 133, 46)");
+        // Matches
+        for (let i = 0; i < game.player.matches; i++) {
+            this.image(IMG_MATCH, (22 + i * 2)  * 2, 58 * 2, 2, 5 * 2);
+        }
+        // Ammo
+        this.rect(2, 55 * 2, game.player.weapon.ammo * 10 / 5 * 2, 2, "rgb(0, 143, 39)");
+        // Cooldown
+        this.rect(2, 54 * 2, game.player.weapon.timeToCooldown * 10 / game.player.weapon.cooldownTime * 2 , 2, "rgb(0, 0, 0)");
+
+        if (game.mentalDanger) {
+            this.image(IMG_MENTAL_DANGER, 53 * 2, 49 * 2, 10 * 2, 5 * 2);
+        }
+
+        // Subjects
+        for (let j = 0; j < 2; j++) {
+            if (!game.player.subjects[j] || !game.player.subjects[j].type) // Empty slot
+                continue;
+
+            this.image(IMGS_SUBJECT[game.player.subjects[j].type - 1], (28 + j * 7)  * 2, 56 * 2, 8 * 2, 8 * 2)
+        }
+
+        // Spec Graves
+        for (let i = 0; i < game.spec_graves_visited.length; i++) {
+            if (game.spec_graves_visited[i] === 2) {
+                this.image(IMGS_SPEC_MINI_GRAVE[i], (52 + 4 * i) * 2, 57 * 2, 3 * 2, 6 * 2);
+            }
+        }
+
+        // Overlay
+        this.image(IMG_INTERFACE_OVERLAY, 0, 0, 64 * 2, 64 * 2);
+
+        // Animations
+        for (let i = 0; i < game.animations.length; i++) {
+            let animation = game.animations[i];
+            if (!animation.interface_bind) {
+                continue;
+            }
+            let img = animation.getFrame();
+            this.image(img, animation.pos.x * 2, animation.pos.y * 2, animation.box.x * 2, animation.box.y * 2 , 0);
+        }
+
+        // Gameover screen
+        if (game.player.status === 1) {
+            this.image(IMG_DEAD, 0, 0, 64 * 2, 64 * 2);
+        }
+        if (game.player.status === 2) {
+            this.image(IMG_DELIRIOUS, 0, 0, 64 * 2, 64 * 2);
+        }
+        if (game.player.status === 3) {
+            this.image(IMG_WIN, 0, 0, 64 * 2, 64 * 2);
+        }
+        if (game.player.status === 4) {
+            this.image(IMG_START_SCREEN, 0, 0, 64 * 2, 64 * 2);
+        }
+    }
+}
+
+module.exports = Draw
+},{"./vec2":14}],6:[function(require,module,exports){
+
+
+const Weapon = require("./weapon")
+const Vec2 = require("./vec2")
+
+// Player | monster
+class Entity {
+    constructor() {
+        this.pos = new Vec2(0, 0); // Position
+        this.gridPos = new Vec2(0, 0); // Position
+        this.dir = 0; // Direction
+
+        this.lamp = 1; // 1 - on, 0 - off
+        this.distLight = DIST_LIGHT;
+
+        this.hp = LIMIT_HP;
+        this.oil = LIMIT_OIL;
+        this.mind = LIMIT_MIND;
+        this.matches = LIMIT_MATCHES;
+
+        this.status = 0; // 0 - alive, 1 - dead, 2 - delirious, 3 - win
+
+        this.protectionTime = 1; // Invulnerability after taking damage (parameter)
+        this.protectionTimer = 0; // Invulnerability after taking damage (Timer)
+        this.subjects = [undefined, undefined];
+
+        this.weapon = new Weapon();
+
+        // animation
+        this.right = 1;
+        this.animationType = -1; // 0 - standing, 1 - walking up, 2 - walking down, 3 - walking right, 4 - left
+        this.animationFrame = 0; // from 0 to skol'ko est'
+        this.animationTime = 0.3; // time per 1 animation frame
+        this.animationTimer = 0; // timer
+
+        // For monster
+        this.monsterType = 0;
+        this.horror = 0; // -mind per second
+
+        this.attackRange = 5;
+        this.damage = 1;
+
+        this.grid_pos = null
+    }
+
+    set_animations(standing, walking) { // standing - [], walking - [[up], [down], [right]]
+        this.animations = [standing, walking[0], walking[1], walking[2], walking[2]];
+        this.cur_animation = this.animations[0];
+    }
+
+// Cooldowns, timers, etc
+    step(dt) {
+
+        // Protection timer
+        this.protectionTimer -= dt;
+        if (this.protectionTimer < 0) {
+            this.protectionTimer = 0;
+        }
+
+        if (this.animationType < 0) {
+            return;
+        }
+
+        // animation timer
+        this.cur_animation = this.animations[this.animationType];
+        this.animationTimer += dt;
+        if (this.animationTimer >= this.cur_animation.frame_time) {
+            this.animationTimer = 0;
+            this.cur_animation.frame = (this.cur_animation.frame + 1) % this.cur_animation.frames_cnt;
+        }
+    }
+
+    get_frame() {
+        return this.cur_animation.frames[this.cur_animation.frame];
+    }
+
+// mind += delta
+    change_mind(delta) {
+        this.mind += delta;
+
+        if (this.mind < EPS) {
+            this.mind = 0;
+            this.status = 2; // Delirium
+        }
+        if (this.mind > LIMIT_MIND) {
+            this.mind = LIMIT_MIND;
+        }
+    }
+
+// hp += delta
+    change_hp(delta) {
+        this.hp += delta;
+
+        if (this.hp < EPS) {
+            this.hp = 0;
+            this.status = 1; // Death
+        }
+        if (this.hp > LIMIT_HP) {
+            this.hp = LIMIT_HP;
+        }
+    }
+
+// hp += delta
+    hurt(damage) {
+        if (this.protectionTimer === 0) { // protection after attacks
+            this.change_hp(-damage);
+            this.protect();
+        }
+    }
+
+// oil += delta
+    change_oil(delta) {
+        this.oil += delta;
+
+        if (this.oil < 0) {
+            this.oil = 0;
+            this.lamp = 0;
+        }
+        if (this.oil > LIMIT_OIL) {
+            this.oil = LIMIT_OIL;
+        }
+    }
+
+// Protection after attacks
+    protect() {
+        this.protectionTimer = this.protectionTime;
+    }
+}
+
+module.exports = Entity
+},{"./vec2":14,"./weapon":15}],7:[function(require,module,exports){
 
 const Animation = require("./animation.js")
 const Anime = require("./anime.js")
@@ -1065,3 +1533,615 @@ class Game {
 }
 
 module.exports = Game
+},{"./animation.js":1,"./anime.js":2,"./cell.js":3,"./deque.js":4,"./entity.js":6,"./lightSource.js":8,"./random":11,"./subject":12,"./temporalLightSource.js":13,"./vec2.js":14}],8:[function(require,module,exports){
+// Light source
+class LightSource {
+    constructor(pos, power) {
+        if (pos)
+            this.pos = pos.clone();
+        else
+            this.pos = new Vec2(0, 0);
+        if (power)
+            this.power = power;
+        else
+            this.power = 0;
+    }
+}
+
+module.exports = LightSource
+},{}],9:[function(require,module,exports){
+
+const Parameters = require("./parameters")
+const Game = require("./game.js")
+const Draw = require("./draw.js")
+const Vec2 = require("./vec2.js")
+
+window.addEventListener("load", function() {
+    let game = new Game();
+    let draw = new Draw(CTX);
+
+    game.initialGeneration();
+    game.generate();
+    game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
+    game.player.status = 4;
+
+    // let myAudio = new Audio('music/main_theme.mp3');
+    //
+    // myAudio.addEventListener('ended', function() {
+    //     this.currentTime = 0;
+    //     this.play();
+    // }, false);
+    //
+    // myAudio.play();
+
+    function step() {
+        window.game = game; // For checking from console
+
+        // myAudio.volume = VOLUME;
+        // myAudio.play();
+        game.step();
+        draw.draw(game);
+
+        if (KEY_MINUS) {
+            VOLUME = Math.max(0, VOLUME - 0.1);
+        }
+        if (KEY_PLUS) {
+            VOLUME = Math.min(1, VOLUME + 0.1);
+        }
+
+        // Previous keys
+        KEY_W_PREV = KEY_W;
+        KEY_A_PREV = KEY_A;
+        KEY_S_PREV = KEY_S;
+        KEY_D_PREV = KEY_D;
+        KEY_X_PREV = KEY_X;
+        KEY_F_PREV = KEY_F;
+        KEY_1_PREV = KEY_1;
+        KEY_2_PREV = KEY_2;
+        KEY_UP_PREV = KEY_UP;
+        KEY_DOWN_PREV = KEY_DOWN;
+        KEY_LEFT_PREV = KEY_LEFT;
+        KEY_RIGHT_PREV = KEY_RIGHT;
+
+        if (game.RELOAD === 1) {
+            game = new Game();
+            game.initialGeneration();
+            game.generate();
+            game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
+        }
+    }
+
+    var interval = setInterval(step, DT * 1000);
+})
+},{"./draw.js":5,"./game.js":7,"./parameters":10,"./vec2.js":14}],10:[function(require,module,exports){
+'use strict'
+
+
+//// CONSTANTS ////
+// Directions
+window.NONE = 0
+window.RIGHT = 3;
+window.DOWN = 2;
+window.LEFT = 4;
+window.UP = 1;
+
+// Subjects' types
+window.SBJ_HEAL = 1;
+window.SBJ_OIL = 2;
+window.SBJ_WHISKEY = 3;
+window.SBJ_MATCHBOX = 4;
+window.SBJ_AMMO = 5;
+
+// Monsters' names
+
+window.MNS_ZOMBIE = 1;
+window.MNS_GHOST = 2;
+window.MNS_TENTACLE = 3;
+
+//// GAME PREFERENCES ////
+window.DT = 0.050; // Tick time in seconds
+window.CELL_SIZE = 8;
+window.TEXTURE_SIZE = 8;
+
+window.EPS = 0.0001;
+
+// Limitations for player
+window.LIMIT_HP = 3;
+window.LIMIT_OIL = 10;
+window.LIMIT_MIND = 10;
+window.LIMIT_MATCHES = 3;
+
+window.OIL_CONSUMPTION = 0.2;
+window.DIST_LIGHT = 7;
+window.DIST_LOAD = 12;
+
+window.MONSTER_LIMIT = 4; // Maximum number of monsters
+window.MONSTER_PERIOD = 7; // Time between monsters spawn
+
+window.SUBJECT_LIMIT = 5.5; // Maximum number of subjects
+window.SUBJECT_PERIOD = 1.65; // Time between subjects spawn
+
+// Map parameters
+window.MARGIN = 3; // Cells on map's sides, that are not changing
+window.SIZE_X = 20 + MARGIN * 2;
+window.SIZE_Y = 20 + MARGIN * 2;
+
+// Music
+window.VOLUME = 1;
+
+// Generation
+window.SPEC_GRAVE_RADIUS = 10;
+window.HARDNESS = 0;
+
+// consts
+window.LIFE_ETERNAL = -12222;
+
+
+//// DRAW PREFERENCES ////
+window.SCALE = 10; // 1 Cell in px
+while (64 * SCALE <= Math.min(window.innerHeight, window.innerWidth)) {
+    SCALE += 1;
+}
+SCALE = 7;
+
+// Canvas
+window.SCREEN = document.getElementById("screen");
+SCREEN.width = SCREEN.height = 128 * SCALE;
+window.CTX = SCREEN.getContext("2d");
+
+// Images
+function getImg(src) { // Load images
+    let img = new Image();
+    img.src = src;
+    return img;
+}
+
+// Loading current imgs
+window.IMGS_GROUND = [
+    getImg("textures/grounds/ground1.png"),
+    getImg("textures/grounds/ground2.png")
+];
+
+window.IMGS_COVERING = [
+    getImg("textures/coverings/covering1.png"),
+    getImg("textures/coverings/covering2.png"),
+    getImg("textures/coverings/covering3.png"),
+    getImg("textures/coverings/covering4.png"),
+    getImg("textures/coverings/covering5.png"),
+    getImg("textures/coverings/covering6.png"),
+    getImg("textures/coverings/covering7.png"),
+    getImg("textures/coverings/covering8.png")
+];
+
+window.IMGS_SPEC_GRAVE = [
+    getImg("textures/spec_graves/spec_grave1.png"),
+    getImg("textures/spec_graves/spec_grave2.png"),
+    getImg("textures/spec_graves/spec_grave3.png")
+];
+
+window.IMGS_SPEC_MINI_GRAVE = [
+    getImg("textures/spec_graves/spec_mini_grave1.png"),
+    getImg("textures/spec_graves/spec_mini_grave2.png"),
+    getImg("textures/spec_graves/spec_mini_grave3.png")
+];
+
+window.IMGS_GRAVE = [
+    getImg("textures/graves/grave1.png"),
+    getImg("textures/graves/grave2.png"),
+    getImg("textures/graves/grave3.png"),
+    getImg("textures/graves/grave4.png"),
+    getImg("textures/graves/grave5.png"),
+    getImg("textures/graves/grave6.png"),
+    getImg("textures/graves/grave7.png"),
+    getImg("textures/graves/grave8.png"),
+    getImg("textures/graves/grave9.png"),
+    getImg("textures/graves/grave10.png"),
+    getImg("textures/graves/grave11.png"),
+];
+
+window.IMGS_GATES = [
+    getImg("textures/gates1.png"),
+    getImg("textures/gates2.png")
+];
+
+window.IMGS_MONSTER = [
+    getImg("textures/monsters/monster1.png"),
+    getImg("textures/monsters/monster2.png"),
+    getImg("textures/monsters/monster3.png")
+];
+
+window.IMGS_SUBJECT = [
+    getImg("textures/subjects/heal.png"),
+    getImg("textures/subjects/oil.png"),
+    getImg("textures/subjects/whiskey.png"),
+    getImg("textures/subjects/matchbox.png"),
+    getImg("textures/subjects/ammo.png")
+];
+
+// Player animation
+window.ANM_PLAYER_STANDING = [
+    getImg("textures/player/player_standing_0.png"),
+    getImg("textures/player/player_standing_1.png")
+];
+
+window.ANM_PLAYER_MOVING_RIGHT = [
+    getImg("textures/player/player_moving_right_0.png"),
+    getImg("textures/player/player_moving_right_1.png")
+];
+
+window.ANM_PLAYER_MOVING_UP = [
+    getImg("textures/player/player_moving_up_0.png"),
+    getImg("textures/player/player_moving_up_1.png")
+];
+
+window.ANM_PLAYER_MOVING_DOWN = [
+    getImg("textures/player/player_moving_down_0.png"),
+    getImg("textures/player/player_moving_down_1.png")
+];
+
+// MONSTERS
+
+window.ANM_ZOMBIE_STANDING = [
+    getImg("textures/monsters/zombie_standing_0.png"),
+    getImg("textures/monsters/zombie_standing_1.png")
+];
+
+window.ANM_ZOMBIE_MOVING_UP = [
+    getImg("textures/monsters/zombie_moving_up_0.png"),
+    getImg("textures/monsters/zombie_moving_up_1.png")
+];
+
+window.ANM_ZOMBIE_MOVING_DOWN = [
+    getImg("textures/monsters/zombie_moving_down_0.png"),
+    getImg("textures/monsters/zombie_moving_down_1.png")
+];
+
+window.ANM_ZOMBIE_MOVING_RIGHT = [
+    getImg("textures/monsters/zombie_moving_right_0.png"),
+    getImg("textures/monsters/zombie_moving_right_1.png")
+];
+
+// GATES
+window.ANM_GATES = [
+    getImg("textures/particles/gates/gates0.png"),
+    getImg("textures/particles/gates/gates1.png"),
+    getImg("textures/particles/gates/gates2.png"),
+    getImg("textures/particles/gates/gates3.png")
+];
+
+window.ANM_GHOST_STANDING = [
+    getImg("textures/monsters/ghost_standing_0.png"),
+    getImg("textures/monsters/ghost_standing_1.png")
+];
+
+window.ANM_GHOST_MOVING_UP = [
+    getImg("textures/monsters/ghost_moving_up_0.png"),
+    getImg("textures/monsters/ghost_moving_up_1.png"),
+    getImg("textures/monsters/ghost_moving_up_2.png"),
+    getImg("textures/monsters/ghost_moving_up_3.png")
+
+];
+
+window.ANM_GHOST_MOVING_DOWN = [
+    getImg("textures/monsters/ghost_moving_down_0.png"),
+    getImg("textures/monsters/ghost_moving_down_1.png"),
+    getImg("textures/monsters/ghost_moving_down_2.png"),
+    getImg("textures/monsters/ghost_moving_down_3.png")
+];
+
+window.ANM_GHOST_MOVING_RIGHT = [
+    getImg("textures/monsters/ghost_moving_right_0.png"),
+    getImg("textures/monsters/ghost_moving_right_1.png"),
+    getImg("textures/monsters/ghost_moving_right_2.png"),
+    getImg("textures/monsters/ghost_moving_right_3.png"),
+];
+
+window.ANM_WORM_STANDING = [
+    getImg("textures/monsters/worm_standing_0.png"),
+    getImg("textures/monsters/worm_standing_1.png"),
+    getImg("textures/monsters/worm_standing_2.png"),
+    getImg("textures/monsters/worm_standing_3.png")
+]
+
+// ===================
+
+window.IMG_MONSTER0 = getImg("textures/monsters/zombie_standing_0.png");
+window.IMG_SHADOW = getImg("textures/shadow.png");
+window.IMG_INTERFACE = getImg("textures/interface/interface.png");
+window.IMG_INTERFACE_OVERLAY = getImg("textures/interface/interfaceOverlay.png");
+window.IMG_MATCH = getImg("textures/interface/match.png");
+window.IMG_MENTAL_DANGER = getImg("textures/interface/mental_danger.png");
+
+// Endgame screens
+window.IMG_DEAD = getImg("textures/interface/deathscreen.png");
+window.IMG_DELIRIOUS = getImg("textures/interface/deliriumscreen.png");
+window.IMG_WIN = getImg("textures/interface/winscreen.png");
+window.IMG_START_SCREEN = getImg("textures/interface/startscreen.png");
+
+// Sprite animations
+window.ANM_BLOOD = [
+    getImg("textures/particles/blood/blood0.png"),
+    getImg("textures/particles/blood/blood1.png"),
+    getImg("textures/particles/blood/blood2.png")
+];
+
+window.ANM_IGNITION_RED = [
+    getImg("textures/particles/ignition/ignition_red_0.png"),
+    getImg("textures/particles/ignition/ignition_red_1.png"),
+    getImg("textures/particles/ignition/ignition_red_2.png"),
+    getImg("textures/particles/ignition/ignition_red_3.png"),
+    getImg("textures/particles/ignition/ignition_red_4.png"),
+    getImg("textures/particles/ignition/ignition_red_5.png"),
+];
+
+window.ANM_IGNITION_GREEN = [
+    getImg("textures/particles/ignition/ignition_green_0.png"),
+    getImg("textures/particles/ignition/ignition_green_1.png"),
+    getImg("textures/particles/ignition/ignition_green_2.png"),
+    getImg("textures/particles/ignition/ignition_green_3.png"),
+    getImg("textures/particles/ignition/ignition_green_4.png"),
+    getImg("textures/particles/ignition/ignition_green_5.png"),
+];
+
+window.ANM_IGNITION_BLUE = [
+    getImg("textures/particles/ignition/ignition_blue_0.png"),
+    getImg("textures/particles/ignition/ignition_blue_1.png"),
+    getImg("textures/particles/ignition/ignition_blue_2.png"),
+    getImg("textures/particles/ignition/ignition_blue_3.png"),
+    getImg("textures/particles/ignition/ignition_blue_4.png"),
+    getImg("textures/particles/ignition/ignition_blue_5.png"),
+];
+
+window.ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
+
+window.ANM_MATCH = [
+    getImg("textures/particles/match/match0.png"),
+    getImg("textures/particles/match/match1.png"),
+    getImg("textures/particles/match/match2.png")
+];
+
+window.ANM_MATCH_BURNING = [
+    getImg("textures/particles/match_burn/match_burn_0.png"),
+    getImg("textures/particles/match_burn/match_burn_1.png"),
+    getImg("textures/particles/match_burn/match_burn_2.png"),
+    getImg("textures/particles/match_burn/match_burn_3.png"),
+    getImg("textures/particles/match_burn/match_burn_4.png")
+];
+
+window.ANM_ACTIVE_GRAVE = [
+    getImg("textures/particles/active_grave/active_grave_0.png"),
+    getImg("textures/particles/active_grave/active_grave_1.png"),
+    getImg("textures/particles/active_grave/active_grave_2.png"),
+    getImg("textures/particles/active_grave/active_grave_3.png"),
+    getImg("textures/particles/active_grave/active_grave_4.png")
+];
+
+window.ANM_PISTOL_SHOT = [
+    getImg("textures/interface/pistol_shot/pistol_0.png"),
+    getImg("textures/interface/pistol_shot/pistol_1.png"),
+    getImg("textures/interface/pistol_shot/pistol_2.png"),
+    getImg("textures/interface/pistol_shot/pistol_3.png"),
+    getImg("textures/interface/pistol_shot/pistol_4.png")
+];
+
+window.ANM_TRACER_LEFT = [
+    getImg("textures/particles/tracer/tracer_left.png")
+];
+window.ANM_TRACER_RIGHT = [
+    getImg("textures/particles/tracer/tracer_right.png")
+];
+window.ANM_TRACER_UP = [
+    getImg("textures/particles/tracer/tracer_up.png")
+];
+window.ANM_TRACER_DOWN = [
+    getImg("textures/particles/tracer/tracer_down.png")
+];
+
+// Damage animation
+window.ANM_DAMAGE = [
+    getImg("textures/particles/damage/damage0.png"),
+    getImg("textures/particles/damage/damage1.png"),
+    getImg("textures/particles/damage/damage2.png"),
+    getImg("textures/particles/damage/damage3.png")
+];
+
+//// KEY CONFIG ////
+// Keys (0 - released, 1 - pressed)
+window.KEY_W = 0; window.KEY_W_PREV = 0;
+window.KEY_A = 0; window.KEY_A_PREV = 0;
+window.KEY_S = 0; window.KEY_S_PREV = 0;
+window.KEY_D = 0; window.KEY_D_PREV = 0;
+window.KEY_X = 0; window.KEY_X_PREV = 0;
+window.KEY_F = 0; window.KEY_F_PREV = 0;
+window.KEY_1 = 0; window.KEY_1_PREV = 0;
+window.KEY_2 = 0; window.KEY_2_PREV = 0;
+window.KEY_UP = 0; window.KEY_UP_PREV = 0;
+window.KEY_DOWN = 0; window.KEY_DOWN_PREV = 0;
+window.KEY_LEFT = 0; window.KEY_LEFT_PREV = 0;
+window.KEY_RIGHT = 0; window.KEY_RIGHT_PREV = 0;
+window.KEY_ENTER = 0; window.KEY_ENTER_PREV = 0;
+window.KEY_PLUS = 0; window.KEY_PLUS_PREV = 0;
+window.KEY_MINUS = 0; window.KEY_MINUS_PREV = 0;
+
+function checkKey(e, t) {
+    if(e.keyCode == 87)
+        KEY_W = t;	
+    if(e.keyCode == 65)
+        KEY_A = t;  
+    if(e.keyCode == 83)
+        KEY_S = t;
+    if(e.keyCode == 68)
+        KEY_D = t;
+    if(e.keyCode == 88)
+        KEY_X = t;
+    if(e.keyCode == 70)
+        KEY_F = t;
+    if(e.keyCode == 49)
+        KEY_1 = t;
+    if(e.keyCode == 50)
+        KEY_2 = t;
+    if(e.keyCode == 37)
+        KEY_LEFT = t;
+    if(e.keyCode == 38)
+        KEY_UP = t;
+    if(e.keyCode == 39)
+        KEY_RIGHT = t;
+    if(e.keyCode == 40)
+        KEY_DOWN = t;
+    if (e.keyCode == 13)
+        KEY_ENTER = t;
+    if (e.keyCode == 189)
+        KEY_MINUS = t;
+    if (e.keyCode == 187)
+        KEY_PLUS = t;
+    
+}
+
+window.addEventListener('keydown', checkDown,false);
+function checkDown(e) {
+   
+    // Checking for buttons pressed
+    checkKey(e, 1);
+    if (e.keyCode >= 37 && e.keyCode <= 40) {
+        e.preventDefault();
+    }
+}
+
+window.addEventListener('keyup', checkUp,false);
+function checkUp(e) {
+   
+    // Checking for buttons pressed
+    checkKey(e, 0);
+}
+},{}],11:[function(require,module,exports){
+
+//// RANDOM ////
+
+class Random {
+    static random(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    static random_float(min, max) {
+        return (Math.random() * (max - min) + min);
+    }
+
+    static normalDistribution(min, max, iterations) {
+        let sum = 0;
+        for (let i = 0; i < iterations; i++)
+            sum += this.random(min, max);
+        return Math.round(sum / iterations);
+    }
+
+    static normalRoll(min, max, iterations) { // gives value from min to max with normal distribution
+        let roll = this.normalDistribution(-max + min, +max - min, iterations);
+        return Math.abs(roll) + min;
+    }
+}
+
+module.exports = Random
+},{}],12:[function(require,module,exports){
+
+const Vec2 = require("./vec2")
+
+class Subject {
+    constructor(pos) {
+        this.type = 0; // See types in parameters.js
+        if (pos)
+            this.pos = pos;
+        else
+            this.pos = new Vec2(0, 0);
+    }
+}
+
+module.exports = Subject
+},{"./vec2":14}],13:[function(require,module,exports){
+
+const Vec2 = require("./vec2")
+
+class TemporalLightSource {
+    constructor(pos, power, lifespan) {
+            if (pos)
+                this.pos = pos.clone();
+            else
+                this.pos = new Vec2(0, 0);
+            if (power)
+                this.power = power;
+            else
+                this.power = 0;
+            if (lifespan) {
+                this.lifespan = lifespan;
+                this.life = this.lifespan;
+                this.initialPower = this.power;
+            } else {
+                this.life = 0;
+                this.alive = 0;
+            }
+
+            this.alive = 1;
+    }
+
+    // Fading
+    step(dt) {
+        this.life -= dt;
+        if (this.life <= 0) {
+            this.life = 0;
+            this.alive = 0;
+        }
+
+        this.power = Math.floor(this.initialPower * this.life / this.lifespan)
+    }
+}
+
+module.exports = TemporalLightSource
+},{"./vec2":14}],14:[function(require,module,exports){
+//// 2D vector ////
+class Vec2 {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    plus(a) {
+        return new Vec2(this.x + a.x, this.y + a.y);
+    }
+
+    minus(a) {
+        return new Vec2(this.x - a.x, this.y - a.y);
+    }
+
+    mult(a) {
+        return new Vec2(this.x * a.x, this.y * a.y);
+    }
+
+    div(a) {
+        return new Vec2(this.x / a.x, this.y / a.y);
+    }
+
+    dist(a) {
+        let x = this.x - a.x;
+        let y = this.y - a.y;
+        return Math.abs(x) + Math.abs(y);
+    }
+
+    clone() {
+        return new Vec2(this.x, this.y)
+    }
+}
+
+module.exports = Vec2
+},{}],15:[function(require,module,exports){
+// Weapon
+class Weapon {
+    constructor() {
+        this.damage = 1;
+        // Ammo
+        this.ammoMax = 5;
+        this.ammo = this.ammoMax;
+        // Cooldown
+        this.cooldownTime = 1;
+        this.timeToCooldown = this.cooldownTime;
+    }
+}
+
+module.exports = Weapon
+},{}]},{},[9]);

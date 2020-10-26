@@ -23,6 +23,8 @@ window.addEventListener("load", function() {
     // myAudio.play();
 
     function step() {
+        window.game = game; // For checking from console
+
         // myAudio.volume = VOLUME;
         // myAudio.play();
         game.step();

@@ -1,6 +1,7 @@
 
 const Vec2 = require("./vec2")
 
+// Sprite
 class Animation {
     constructor(frames, pos, box, t, interface_bind, repeating) {
         this.frames = frames; // Images

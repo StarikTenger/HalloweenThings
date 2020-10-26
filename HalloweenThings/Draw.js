@@ -124,11 +124,12 @@ Draw.prototype.draw = function(game) {
     }
 
     // Gradient light
-    for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1++) {
-        for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1++) {
+    let pixelSize = 2; // Size of cell of light grid
+    for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1 += pixelSize) {
+        for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1+= pixelSize) {
             let val = 0; // Light value
             let sum = 0; // Dist sum
-            let pos = new Vec2(x1, y1)
+            let pos = new Vec2(x1, y1);
             let cellPos = game.getCell(pos);
 
             // Neighbor cells
@@ -145,7 +146,7 @@ Draw.prototype.draw = function(game) {
             val /= sum;
            
             let alpha = (1 - (val / DIST_LIGHT));
-            this.rect(x1, y1, 1, 1, "rgba(0,0,0," + alpha + ")");
+            this.rect(x1, y1, pixelSize, pixelSize, "rgba(0,0,0," + alpha + ")");
         }
     }
 
@@ -170,7 +171,7 @@ Draw.prototype.draw = function(game) {
     this.rect(1 * 2, 54 * 2, game.player.weapon.timeToCooldown * 10 / game.player.weapon.cooldownTime * 2 , 1 * 2, "rgb(0, 0, 0)");
 
     if (game.mentalDanger) {
-        this.image(IMG_MENTAL_DANGER, 53, 49, 10, 5);
+        this.image(IMG_MENTAL_DANGER, 53 * 2, 49 * 2, 10 * 2, 5 * 2);
     }
 
     // Subjects
@@ -203,15 +204,15 @@ Draw.prototype.draw = function(game) {
 
     // Gameover screen
     if (game.player.status == 1) {
-        this.image(IMG_DEAD, 0, 0, 64, 64);
+        this.image(IMG_DEAD, 0, 0, 64 * 2, 64 * 2);
     }
     if (game.player.status == 2) {
-        this.image(IMG_DELIRIOUS, 0, 0, 64, 64);
+        this.image(IMG_DELIRIOUS, 0, 0, 64 * 2, 64 * 2);
     }
     if (game.player.status == 3) {
-        this.image(IMG_WIN, 0, 0, 64, 64);
+        this.image(IMG_WIN, 0, 0, 64 * 2, 64 * 2);
     }
     if (game.player.status == 4) {
-        this.image(IMG_START_SCREEN, 0, 0, 64, 64);
+        this.image(IMG_START_SCREEN, 0, 0, 64 * 2, 64 * 2);
     }
 };

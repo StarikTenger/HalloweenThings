@@ -926,11 +926,11 @@ Game.prototype.cooldowns = function() {
         this.flickeringDelta = Math.min(Math.max(this.flickeringDelta, -this.flickeringMaxDelta), this.flickeringMaxDelta);
     }
 };
-// Pathfinding, DA HARDKOD NO VY VOOBSHE ETOT EBANYI PROEKT VIDELI, TUT V ODNOM ETOM FAILE 1000 STROK NAHUI
 
+// Pathfinding, DA HARDKOD NO VY VOOBSHE ETOT EBANYI PROEKT VIDELI, TUT V ODNOM ETOM FAILE 1000 STROK NAHUI
 Game.prototype.pathfinding = function() {
     // ZOMBIE
-    // Clearing
+    // Clearing navigating map
     for (let x = 0; x < SIZE_X; x++) {
         for (let y = 0; y < SIZE_Y; y++) {
             this.grid[x][y].zombieNav = 0;

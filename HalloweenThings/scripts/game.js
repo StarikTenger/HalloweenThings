@@ -680,8 +680,9 @@ class Game {
                 dir = new Vec2(-1, 0);
             if (KEY_RIGHT)
                 dir = new Vec2(1, 0);
-            if (KEY_ENTER)
+            if (KEY_ENTER) {
                 this.RELOAD = 1;
+            }
 
             if (this.player.weapon.timeToCooldown <= 0 && this.player.weapon.ammo > 0) { // Are we able to shoot
                 // Stupid collision check

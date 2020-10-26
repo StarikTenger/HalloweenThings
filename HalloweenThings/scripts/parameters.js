@@ -381,7 +381,7 @@ function checkKey(e, t) {
     
 }
 
-window.addEventListener('keydown',this.checkDown,false);
+window.addEventListener('keydown', checkDown,false);
 function checkDown(e) {
    
     // Checking for buttons pressed
@@ -391,7 +391,7 @@ function checkDown(e) {
     }
 }
 
-window.addEventListener('keyup',this.checkUp,false);
+window.addEventListener('keyup', checkUp,false);
 function checkUp(e) {
    
     // Checking for buttons pressed

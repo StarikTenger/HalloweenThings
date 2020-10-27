@@ -3277,7 +3277,7 @@ class Animation {
 }
 
 module.exports = Animation
-},{"./vec2":15}],3:[function(require,module,exports){
+},{"./vec2":16}],3:[function(require,module,exports){
 class Anime {
     constructor(frame_time, frames) {
         this.frame_time = frame_time;
@@ -3563,7 +3563,7 @@ class Draw {
 }
 
 module.exports = Draw
-},{"./vec2":15}],7:[function(require,module,exports){
+},{"./vec2":16}],7:[function(require,module,exports){
 
 
 const Weapon = require("./weapon")
@@ -3698,7 +3698,7 @@ class Entity {
 }
 
 module.exports = Entity
-},{"./vec2":15,"./weapon":16}],8:[function(require,module,exports){
+},{"./vec2":16,"./weapon":17}],8:[function(require,module,exports){
 
 const Animation = require("./animation.js")
 const Anime = require("./anime.js")
@@ -3710,6 +3710,7 @@ const TemporalLightSource = require("./temporalLightSource.js")
 const Vec2 = require("./vec2.js")
 const Subject = require("./subject")
 const Random = require("./random")
+const Maze = require("./maze")
 
 
 // Main class that controls everything
@@ -3945,7 +3946,6 @@ class Game {
     // Generates the map
     generate() {
         // Initial graves (in each cell with some chance)
-
         let specGravesNum = 0;
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
@@ -4028,21 +4028,46 @@ class Game {
             }
         }
 
+        // Apply maze
+        let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));
+        for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
+            for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
+                let cell = this.grid[x][y];
+                if (cell.light > 0) // Forbidden zone
+                    continue;
+                if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) { // Grave
+                    cell.grave = this.random_grave_type();
+                    cell.obstacle = 1;
+                    cell.covering = 0;
+                } else {
+                    cell.grave = 0;
+                    cell.obstacle = 0;
+                }
+            }
+        }
+
         // Spec grave
         let spec_sum = this.spec_graves_visited[0] * this.spec_graves_visited[1] * this.spec_graves_visited[2];
 
         if (this.level < 3 && specGravesNum <= this.spec_graves_visited_count + 1 && spec_sum === 0) {
-            let x = Random.random(MARGIN, SIZE_X - MARGIN - 1);
-            let y = Random.random(MARGIN, SIZE_Y - MARGIN - 1);
-            let cell = this.grid[x][y];
+            let x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
+            let y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
+            let cell = this.grid[x0][y0];
 
             for(let i = 0; i < 1000 && cell.light > 0; i++) {
-                x = Random.random(MARGIN, SIZE_X - MARGIN - 1);
-                y = Random.random(MARGIN, SIZE_Y - MARGIN - 1);
-                cell = this.grid[x][y];
+                x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
+                y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
+                cell = this.grid[x0][y0];
             }
 
             if (1) { // Spec grave!!!
+                for (let x = x0 - 1; x <= x0 + 1; x++) {
+                    for (let y = y0 - 1; y <= y0 + 1; y++) {
+                        this.grid[x][y].obstacle = 0;
+                        this.grid[x][y].grave = 0;
+                    }
+                }
+
                 cell.grave = -this.level - 1;
                 this.spec_graves_visited[-cell.grave - 1] = 1; // 1 - generated, 2 - visited
                 cell.obstacle = 1;
@@ -4784,7 +4809,7 @@ class Game {
 }
 
 module.exports = Game
-},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./deque.js":5,"./entity.js":7,"./lightSource.js":9,"./random":12,"./subject":13,"./temporalLightSource.js":14,"./vec2.js":15}],9:[function(require,module,exports){
+},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./deque.js":5,"./entity.js":7,"./lightSource.js":9,"./maze":11,"./random":13,"./subject":14,"./temporalLightSource.js":15,"./vec2.js":16}],9:[function(require,module,exports){
 // Light source
 class LightSource {
     constructor(pos, power) {
@@ -4859,7 +4884,84 @@ window.addEventListener("load", function() {
 
     var interval = setInterval(step, DT * 1000);
 })
-},{"./draw.js":6,"./game.js":8,"./parameters":11,"./vec2.js":15}],11:[function(require,module,exports){
+},{"./draw.js":6,"./game.js":8,"./parameters":12,"./vec2.js":16}],11:[function(require,module,exports){
+const Vec2 = require("./vec2.js")
+const Random = require("./random.js")
+
+class Maze {
+    // Generates maze width current size
+    static generate(size) {
+        let field = [];
+        let walls = [];
+        let counter = 0;
+
+        // Generating grid
+        for (let x = 0; x < size.x; x++) {
+            field.push([]);
+            for (let y = 0; y < size.y; y++) {
+                let cell = { wall: 0, id: 0 };
+
+                if (x === 0 || y === 0 || x === size.x - 1 || y === size.y - 1)
+                    cell.wall = 1;
+                else if ((x + 1) % 2 === 0 && (y + 1) % 2 === 0) {
+                    cell.id = counter;
+                    counter++;
+                } else if (x % 2 === 0 && y % 2 !== 0 || y % 2 === 0 && x % 2 !== 0) {
+                    cell.wall = 1;
+                    walls.push(new Vec2(x, y));
+                } else {
+                    cell.wall = 1;
+                }
+
+                field[x].push(cell);
+            }
+        }
+
+        // Shuffle walls
+        for(let i = 0; i < walls.length; i++) {
+            let place = walls[i];
+            let n = Random.random(0, walls.length-1);
+            walls[i] = walls[n];
+            walls[n] = place;
+        }
+
+        // Deleting walls
+        for (let i = 0; i < walls.length; i++) {
+            let wall = walls[i];
+            let id1, id2;
+            if (wall.x % 2) {
+                id1 = field[wall.x][wall.y - 1].id;
+                id2 = field[wall.x][wall.y + 1].id;
+            } else {
+                id1 = field[wall.x - 1][wall.y].id;
+                id2 = field[wall.x + 1][wall.y].id;
+            }
+
+            if (id1 === id2)
+                continue;
+
+            field[wall.x][wall.y].wall = 0;
+
+            // Naive reindexation
+            for (let x = 0; x < size.x; x++)
+                for (let y = 0; y < size.y; y++)
+                    if (field[x][y].id === id2)
+                        field[x][y].id = id1;
+        }
+
+        // Deleting random walls
+        for (let i = 0; i < walls.length; i++) {
+            let wall = walls[i];
+            if (Random.random(0, 99) < 20) // 20% chance
+                field[wall.x][wall.y].wall = 0;
+        }
+
+        return field;
+    }
+};
+
+module.exports = Maze
+},{"./random.js":13,"./vec2.js":16}],12:[function(require,module,exports){
 'use strict'
 const {Howl, Howler} = require('howler');
 
@@ -5278,7 +5380,7 @@ function checkUp(e) {
     // Checking for buttons pressed
     checkKey(e, 0);
 }
-},{"howler":1}],12:[function(require,module,exports){
+},{"howler":1}],13:[function(require,module,exports){
 
 //// RANDOM ////
 
@@ -5304,7 +5406,7 @@ class Random {
 }
 
 module.exports = Random
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -5319,7 +5421,7 @@ class Subject {
 }
 
 module.exports = Subject
-},{"./vec2":15}],14:[function(require,module,exports){
+},{"./vec2":16}],15:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -5358,7 +5460,7 @@ class TemporalLightSource {
 }
 
 module.exports = TemporalLightSource
-},{"./vec2":15}],15:[function(require,module,exports){
+},{"./vec2":16}],16:[function(require,module,exports){
 //// 2D vector ////
 class Vec2 {
     constructor(x, y) {
@@ -5394,7 +5496,7 @@ class Vec2 {
 }
 
 module.exports = Vec2
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 // Weapon
 class Weapon {
     constructor() {

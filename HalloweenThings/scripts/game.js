@@ -9,6 +9,7 @@ const TemporalLightSource = require("./temporalLightSource.js")
 const Vec2 = require("./vec2.js")
 const Subject = require("./subject")
 const Random = require("./random")
+const Maze = require("./maze")
 
 
 // Main class that controls everything
@@ -244,7 +245,6 @@ class Game {
     // Generates the map
     generate() {
         // Initial graves (in each cell with some chance)
-
         let specGravesNum = 0;
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
@@ -327,21 +327,46 @@ class Game {
             }
         }
 
+        // Apply maze
+        let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));
+        for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
+            for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
+                let cell = this.grid[x][y];
+                if (cell.light > 0) // Forbidden zone
+                    continue;
+                if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) { // Grave
+                    cell.grave = this.random_grave_type();
+                    cell.obstacle = 1;
+                    cell.covering = 0;
+                } else {
+                    cell.grave = 0;
+                    cell.obstacle = 0;
+                }
+            }
+        }
+
         // Spec grave
         let spec_sum = this.spec_graves_visited[0] * this.spec_graves_visited[1] * this.spec_graves_visited[2];
 
         if (this.level < 3 && specGravesNum <= this.spec_graves_visited_count + 1 && spec_sum === 0) {
-            let x = Random.random(MARGIN, SIZE_X - MARGIN - 1);
-            let y = Random.random(MARGIN, SIZE_Y - MARGIN - 1);
-            let cell = this.grid[x][y];
+            let x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
+            let y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
+            let cell = this.grid[x0][y0];
 
             for(let i = 0; i < 1000 && cell.light > 0; i++) {
-                x = Random.random(MARGIN, SIZE_X - MARGIN - 1);
-                y = Random.random(MARGIN, SIZE_Y - MARGIN - 1);
-                cell = this.grid[x][y];
+                x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
+                y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
+                cell = this.grid[x0][y0];
             }
 
             if (1) { // Spec grave!!!
+                for (let x = x0 - 1; x <= x0 + 1; x++) {
+                    for (let y = y0 - 1; y <= y0 + 1; y++) {
+                        this.grid[x][y].obstacle = 0;
+                        this.grid[x][y].grave = 0;
+                    }
+                }
+
                 cell.grave = -this.level - 1;
                 this.spec_graves_visited[-cell.grave - 1] = 1; // 1 - generated, 2 - visited
                 cell.obstacle = 1;

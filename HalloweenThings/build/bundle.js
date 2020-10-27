@@ -3399,7 +3399,7 @@ class Draw {
         // Grid
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
-                if(game.grid[x][y].light <= 0 && game.player.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4)) > DIST_LIGHT * 2) // We don't see this cell
+                if(game.grid[x][y].light <= 0 && game.player.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4)) > DIST_LIGHT * 2 * 8) // We don't see this cell
                    continue;
                 let cell = game.grid[x][y];
 
@@ -3820,8 +3820,8 @@ class Game {
 
     // Choose random grave texture
     random_grave_type() {
-        let graves_cnt = IMGS_GRAVE.length;
-        return Random.normalRoll(2, graves_cnt, 10);
+        let graves_cnt = 7;
+        return Random.normalRoll(2, graves_cnt, 10 - this.level * 3);
     }
 
     // Choose random ground texture
@@ -4492,7 +4492,8 @@ class Game {
             let y1 = monster.pos.y;
 
             // Cooldowns
-            if (monster.monsterType === MNS_ZOMBIE) { // ZOMBIE
+            // ZOMBIE
+            if (monster.monsterType === MNS_ZOMBIE) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -4513,7 +4514,8 @@ class Game {
                 let vel = 0.5;
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
             }
-            else if (monster.monsterType === MNS_GHOST) { // GHOST
+            // GHOST
+            else if (monster.monsterType === MNS_GHOST) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -4648,7 +4650,7 @@ class Game {
 
             let deltaLight = 1;
             if (this.grid[pos.x][pos.y].obstacle)
-                deltaLight = 3;
+                deltaLight = 10;
             for (let i = 0; i < 4; i++) {
                 let pos1 = pos.plus(neighbors[i]);
                 if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].light > this.grid[pos.x][pos.y].light - deltaLight)
@@ -4889,6 +4891,25 @@ const Vec2 = require("./vec2.js")
 const Random = require("./random.js")
 
 class Maze {
+    // Generates room
+    static room(field, pos, size) {
+        // Empty room with walls
+        for (let x = pos.x; x < pos.x + size.x; x++) {
+            for (let y = pos.y; y < pos.y + size.y; y++) {
+                if (x === pos.x || y === pos.y || x === pos.x + size.x - 1 || y === pos.y + size.y - 1)
+                    field[x][y].wall = 1;
+                else
+                    field[x][y].wall = 0;
+            }
+        }
+
+        // Doors
+        field[pos.x][pos.y + Math.floor(size.y / 2)].wall = 0;
+        field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].wall = 0;
+        field[pos.x + Math.floor(size.x / 2)][pos.y].wall = 0;
+        field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].wall = 0;
+    }
+
     // Generates maze width current size
     static generate(size) {
         let field = [];
@@ -4956,6 +4977,16 @@ class Maze {
                 field[wall.x][wall.y].wall = 0;
         }
 
+        // Rooms
+        let roomsNumber = 4;
+        for (let i = 0; i < roomsNumber; i++) {
+            let roomSize = new Vec2(7, 7);
+            this.room(field, new Vec2(
+                Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,
+                Random.random(1, Math.floor((size.y - roomSize.y) / 2)) * 2,
+                  ), roomSize);
+        }
+
         return field;
     }
 };
@@ -5011,8 +5042,8 @@ window.SUBJECT_PERIOD = 1.65; // Time between subjects spawn
 
 // Map parameters
 window.MARGIN = 3; // Cells on map's sides, that are not changing
-window.SIZE_X = 20 + MARGIN * 2;
-window.SIZE_Y = 20 + MARGIN * 2;
+window.SIZE_X = 17 + MARGIN * 2;
+window.SIZE_Y = 17 + MARGIN * 2;
 
 // Music
 window.VOLUME = 1;

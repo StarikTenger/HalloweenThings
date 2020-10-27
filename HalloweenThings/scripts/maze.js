@@ -2,6 +2,25 @@ const Vec2 = require("./vec2.js")
 const Random = require("./random.js")
 
 class Maze {
+    // Generates room
+    static room(field, pos, size) {
+        // Empty room with walls
+        for (let x = pos.x; x < pos.x + size.x; x++) {
+            for (let y = pos.y; y < pos.y + size.y; y++) {
+                if (x === pos.x || y === pos.y || x === pos.x + size.x - 1 || y === pos.y + size.y - 1)
+                    field[x][y].wall = 1;
+                else
+                    field[x][y].wall = 0;
+            }
+        }
+
+        // Doors
+        field[pos.x][pos.y + Math.floor(size.y / 2)].wall = 0;
+        field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].wall = 0;
+        field[pos.x + Math.floor(size.x / 2)][pos.y].wall = 0;
+        field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].wall = 0;
+    }
+
     // Generates maze width current size
     static generate(size) {
         let field = [];
@@ -67,6 +86,16 @@ class Maze {
             let wall = walls[i];
             if (Random.random(0, 99) < 20) // 20% chance
                 field[wall.x][wall.y].wall = 0;
+        }
+
+        // Rooms
+        let roomsNumber = 4;
+        for (let i = 0; i < roomsNumber; i++) {
+            let roomSize = new Vec2(7, 7);
+            this.room(field, new Vec2(
+                Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,
+                Random.random(1, Math.floor((size.y - roomSize.y) / 2)) * 2,
+                  ), roomSize);
         }
 
         return field;

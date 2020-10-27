@@ -119,8 +119,8 @@ class Game {
 
     // Choose random grave texture
     random_grave_type() {
-        let graves_cnt = IMGS_GRAVE.length;
-        return Random.normalRoll(2, graves_cnt, 10);
+        let graves_cnt = 7;
+        return Random.normalRoll(2, graves_cnt, 10 - this.level * 3);
     }
 
     // Choose random ground texture
@@ -791,7 +791,8 @@ class Game {
             let y1 = monster.pos.y;
 
             // Cooldowns
-            if (monster.monsterType === MNS_ZOMBIE) { // ZOMBIE
+            // ZOMBIE
+            if (monster.monsterType === MNS_ZOMBIE) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -812,7 +813,8 @@ class Game {
                 let vel = 0.5;
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
             }
-            else if (monster.monsterType === MNS_GHOST) { // GHOST
+            // GHOST
+            else if (monster.monsterType === MNS_GHOST) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -947,7 +949,7 @@ class Game {
 
             let deltaLight = 1;
             if (this.grid[pos.x][pos.y].obstacle)
-                deltaLight = 3;
+                deltaLight = 10;
             for (let i = 0; i < 4; i++) {
                 let pos1 = pos.plus(neighbors[i]);
                 if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].light > this.grid[pos.x][pos.y].light - deltaLight)

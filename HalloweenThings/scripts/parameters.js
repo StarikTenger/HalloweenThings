@@ -47,8 +47,8 @@ window.SUBJECT_PERIOD = 1.65; // Time between subjects spawn
 
 // Map parameters
 window.MARGIN = 3; // Cells on map's sides, that are not changing
-window.SIZE_X = 20 + MARGIN * 2;
-window.SIZE_Y = 20 + MARGIN * 2;
+window.SIZE_X = 17 + MARGIN * 2;
+window.SIZE_Y = 17 + MARGIN * 2;
 
 // Music
 window.VOLUME = 1;

@@ -541,7 +541,7 @@ class Game {
             this.mentalDanger = 1;
         }
 
-        //// Active subjects ////
+        //// Active subjects (pick up items) ////
         // Get subjects
         for (let i = 0; i < this.subjects.length; i++) {
             let subject = this.subjects[i];
@@ -553,6 +553,7 @@ class Game {
                 if (this.player.subjects[j] && this.player.subjects[j].type) // There is another subject in the slot
                     continue;
 
+                window.SOUND_PICKUP.play();
                 this.player.subjects[j] = new Subject();
                 this.player.subjects[j].type = subject.type;
 
@@ -575,21 +576,26 @@ class Game {
             let subject = this.player.subjects[i];
 
             // Checking for subject type
-            if (subject.type === SBJ_HEAL){
+            if (subject.type === SBJ_HEAL) {
+                window.SOUND_DRINK.play();
                 this.player.change_hp(1);
             }
-            if (subject.type === SBJ_OIL){
+            if (subject.type === SBJ_OIL) {
+                window.SOUND_OIL.play();
                 this.player.change_oil(7);
             }
             if (subject.type === SBJ_WHISKEY){
+                window.SOUND_DRINK.play();
                 this.player.change_mind(6);
             }
             if (subject.type === SBJ_MATCHBOX){
+                window.SOUND_MATCHBOX.play();
                 this.player.matches += 2;
                 this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
             }
-            if (subject.type === SBJ_AMMO){
-                this.player.weapon.ammo += 2;
+            if (subject.type === SBJ_AMMO) {
+                window.SOUND_AMMO.play();
+                this.player.weapon.ammo += 5;
                 this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
             }
 

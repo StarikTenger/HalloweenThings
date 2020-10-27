@@ -64,7 +64,13 @@ window.SOUND_STEPS = new Howl({
     loop: true});
 // Single
 window.SOUND_SHOOT = new Howl({src: ['sounds/shoot.wav'],});
-window.SOUND_MATCH= new Howl({src: ['sounds/match.wav'],});
+window.SOUND_MATCH = new Howl({src: ['sounds/match.wav'],});
+window.SOUND_PICKUP = new Howl({src: ['sounds/pickup.wav'],});
+window.SOUND_DRINK = new Howl({src: ['sounds/drink.wav'],});
+window.SOUND_OIL = new Howl({src: ['sounds/oil.wav'],});
+window.SOUND_MATCHBOX = new Howl({src: ['sounds/match_item.wav'],});
+window.SOUND_AMMO = new Howl({src: ['sounds/ammo.wav'],});
+window.SOUND_DEATH = new Howl({src: ['sounds/death.wav'],});
 
 // Generation
 window.SPEC_GRAVE_RADIUS = 10;

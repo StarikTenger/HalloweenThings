@@ -167,7 +167,7 @@ class Draw {
             this.image(IMG_MATCH, (22 + i * 2)  * 2, 58 * 2, 2, 5 * 2);
         }
         // Ammo
-        this.rect(2, 55 * 2, game.player.weapon.ammo * 10 / 5 * 2, 2, "rgb(0, 143, 39)");
+        this.rect(2, 55 * 2, game.player.weapon.ammo * 5 / 5 * 2, 2, "rgb(0, 143, 39)");
         // Cooldown
         this.rect(2, 54 * 2, game.player.weapon.timeToCooldown * 10 / game.player.weapon.cooldownTime * 2 , 2, "rgb(0, 0, 0)");
 

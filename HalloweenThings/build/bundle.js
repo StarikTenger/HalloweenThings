@@ -3510,7 +3510,7 @@ class Draw {
             this.image(IMG_MATCH, (22 + i * 2)  * 2, 58 * 2, 2, 5 * 2);
         }
         // Ammo
-        this.rect(2, 55 * 2, game.player.weapon.ammo * 10 / 5 * 2, 2, "rgb(0, 143, 39)");
+        this.rect(2, 55 * 2, game.player.weapon.ammo * 5 / 5 * 2, 2, "rgb(0, 143, 39)");
         // Cooldown
         this.rect(2, 54 * 2, game.player.weapon.timeToCooldown * 10 / game.player.weapon.cooldownTime * 2 , 2, "rgb(0, 0, 0)");
 
@@ -3569,7 +3569,7 @@ module.exports = Draw
 const Weapon = require("./weapon")
 const Vec2 = require("./vec2")
 
-// Player | monster
+    // Player | monster
 class Entity {
     constructor() {
         this.pos = new Vec2(0, 0); // Position
@@ -3586,7 +3586,7 @@ class Entity {
 
         this.status = 0; // 0 - alive, 1 - dead, 2 - delirious, 3 - win
 
-        this.protectionTime = 1; // Invulnerability after taking damage (parameter)
+        this.protectionTime = 0.5; // Invulnerability after taking damage (parameter)
         this.protectionTimer = 0; // Invulnerability after taking damage (Timer)
         this.subjects = [undefined, undefined];
 
@@ -3614,7 +3614,7 @@ class Entity {
         this.cur_animation = this.animations[0];
     }
 
-// Cooldowns, timers, etc
+    // Cooldowns, timers, etc
     step(dt) {
 
         // Protection timer
@@ -3640,33 +3640,37 @@ class Entity {
         return this.cur_animation.frames[this.cur_animation.frame];
     }
 
-// mind += delta
+    // mind += delta
     change_mind(delta) {
         this.mind += delta;
 
         if (this.mind < EPS) {
             this.mind = 0;
             this.status = 2; // Delirium
+            if (!this.monsterType)
+                window.SOUND_DEATH.play();
         }
         if (this.mind > LIMIT_MIND) {
             this.mind = LIMIT_MIND;
         }
     }
 
-// hp += delta
+    // hp += delta
     change_hp(delta) {
         this.hp += delta;
 
         if (this.hp < EPS) {
             this.hp = 0;
             this.status = 1; // Death
+            if (!this.monsterType)
+                window.SOUND_DEATH.play();
         }
         if (this.hp > LIMIT_HP) {
             this.hp = LIMIT_HP;
         }
     }
 
-// hp += delta
+    // hp += delta
     hurt(damage) {
         if (this.protectionTimer === 0) { // protection after attacks
             this.change_hp(-damage);
@@ -3674,7 +3678,7 @@ class Entity {
         }
     }
 
-// oil += delta
+    // oil += delta
     change_oil(delta) {
         this.oil += delta;
 
@@ -3687,7 +3691,7 @@ class Entity {
         }
     }
 
-// Protection after attacks
+    // Protection after attacks
     protect() {
         this.protectionTimer = this.protectionTime;
     }
@@ -4238,7 +4242,7 @@ class Game {
             this.mentalDanger = 1;
         }
 
-        //// Active subjects ////
+        //// Active subjects (pick up items) ////
         // Get subjects
         for (let i = 0; i < this.subjects.length; i++) {
             let subject = this.subjects[i];
@@ -4250,6 +4254,7 @@ class Game {
                 if (this.player.subjects[j] && this.player.subjects[j].type) // There is another subject in the slot
                     continue;
 
+                window.SOUND_PICKUP.play();
                 this.player.subjects[j] = new Subject();
                 this.player.subjects[j].type = subject.type;
 
@@ -4272,21 +4277,26 @@ class Game {
             let subject = this.player.subjects[i];
 
             // Checking for subject type
-            if (subject.type === SBJ_HEAL){
+            if (subject.type === SBJ_HEAL) {
+                window.SOUND_DRINK.play();
                 this.player.change_hp(1);
             }
-            if (subject.type === SBJ_OIL){
+            if (subject.type === SBJ_OIL) {
+                window.SOUND_OIL.play();
                 this.player.change_oil(7);
             }
             if (subject.type === SBJ_WHISKEY){
+                window.SOUND_DRINK.play();
                 this.player.change_mind(6);
             }
             if (subject.type === SBJ_MATCHBOX){
+                window.SOUND_MATCHBOX.play();
                 this.player.matches += 2;
                 this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
             }
-            if (subject.type === SBJ_AMMO){
-                this.player.weapon.ammo += 2;
+            if (subject.type === SBJ_AMMO) {
+                window.SOUND_AMMO.play();
+                this.player.weapon.ammo += 5;
                 this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
             }
 
@@ -4916,7 +4926,13 @@ window.SOUND_STEPS = new Howl({
     loop: true});
 // Single
 window.SOUND_SHOOT = new Howl({src: ['sounds/shoot.wav'],});
-window.SOUND_MATCH= new Howl({src: ['sounds/match.wav'],});
+window.SOUND_MATCH = new Howl({src: ['sounds/match.wav'],});
+window.SOUND_PICKUP = new Howl({src: ['sounds/pickup.wav'],});
+window.SOUND_DRINK = new Howl({src: ['sounds/drink.wav'],});
+window.SOUND_OIL = new Howl({src: ['sounds/oil.wav'],});
+window.SOUND_MATCHBOX = new Howl({src: ['sounds/match_item.wav'],});
+window.SOUND_AMMO = new Howl({src: ['sounds/ammo.wav'],});
+window.SOUND_DEATH = new Howl({src: ['sounds/death.wav'],});
 
 // Generation
 window.SPEC_GRAVE_RADIUS = 10;
@@ -5384,10 +5400,10 @@ class Weapon {
     constructor() {
         this.damage = 1;
         // Ammo
-        this.ammoMax = 5;
+        this.ammoMax = 10;
         this.ammo = this.ammoMax;
         // Cooldown
-        this.cooldownTime = 1;
+        this.cooldownTime = 0.75;
         this.timeToCooldown = this.cooldownTime;
     }
 }

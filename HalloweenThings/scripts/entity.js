@@ -3,7 +3,7 @@
 const Weapon = require("./weapon")
 const Vec2 = require("./vec2")
 
-// Player | monster
+    // Player | monster
 class Entity {
     constructor() {
         this.pos = new Vec2(0, 0); // Position
@@ -20,7 +20,7 @@ class Entity {
 
         this.status = 0; // 0 - alive, 1 - dead, 2 - delirious, 3 - win
 
-        this.protectionTime = 1; // Invulnerability after taking damage (parameter)
+        this.protectionTime = 0.5; // Invulnerability after taking damage (parameter)
         this.protectionTimer = 0; // Invulnerability after taking damage (Timer)
         this.subjects = [undefined, undefined];
 
@@ -48,7 +48,7 @@ class Entity {
         this.cur_animation = this.animations[0];
     }
 
-// Cooldowns, timers, etc
+    // Cooldowns, timers, etc
     step(dt) {
 
         // Protection timer
@@ -74,33 +74,37 @@ class Entity {
         return this.cur_animation.frames[this.cur_animation.frame];
     }
 
-// mind += delta
+    // mind += delta
     change_mind(delta) {
         this.mind += delta;
 
         if (this.mind < EPS) {
             this.mind = 0;
             this.status = 2; // Delirium
+            if (!this.monsterType)
+                window.SOUND_DEATH.play();
         }
         if (this.mind > LIMIT_MIND) {
             this.mind = LIMIT_MIND;
         }
     }
 
-// hp += delta
+    // hp += delta
     change_hp(delta) {
         this.hp += delta;
 
         if (this.hp < EPS) {
             this.hp = 0;
             this.status = 1; // Death
+            if (!this.monsterType)
+                window.SOUND_DEATH.play();
         }
         if (this.hp > LIMIT_HP) {
             this.hp = LIMIT_HP;
         }
     }
 
-// hp += delta
+    // hp += delta
     hurt(damage) {
         if (this.protectionTimer === 0) { // protection after attacks
             this.change_hp(-damage);
@@ -108,7 +112,7 @@ class Entity {
         }
     }
 
-// oil += delta
+    // oil += delta
     change_oil(delta) {
         this.oil += delta;
 
@@ -121,7 +125,7 @@ class Entity {
         }
     }
 
-// Protection after attacks
+    // Protection after attacks
     protect() {
         this.protectionTimer = this.protectionTime;
     }

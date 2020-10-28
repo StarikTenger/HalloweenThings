@@ -3,7 +3,7 @@ const Random = require("./random.js")
 
 class Maze {
     // Generates room
-    static room(field, pos, size) {
+    static room(field, pos, size, index) {
         // Empty room with walls
         for (let x = pos.x; x < pos.x + size.x; x++) {
             for (let y = pos.y; y < pos.y + size.y; y++) {
@@ -11,6 +11,7 @@ class Maze {
                     field[x][y].wall = 1;
                 else
                     field[x][y].wall = 0;
+                field[x][y].roomId = index;
             }
         }
 
@@ -19,6 +20,11 @@ class Maze {
         field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].wall = 0;
         field[pos.x + Math.floor(size.x / 2)][pos.y].wall = 0;
         field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].wall = 0;
+
+        field[pos.x][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
+        field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
+        field[pos.x + Math.floor(size.x / 2)][pos.y].roomEnter = 1;
+        field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].roomEnter = 1;
     }
 
     // Generates maze width current size
@@ -95,7 +101,7 @@ class Maze {
             this.room(field, new Vec2(
                 Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,
                 Random.random(1, Math.floor((size.y - roomSize.y) / 2)) * 2,
-                  ), roomSize);
+                  ), roomSize, i);
         }
 
         return field;

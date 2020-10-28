@@ -309,43 +309,6 @@ class Game {
             new Vec2(1, -1),
             new Vec2(-1, -1)
         ];
-        for (let i = 0; i < (SIZE_X * SIZE_Y); i++) {
-            // Generate random point
-            let pos = new Vec2(Random.random(MARGIN, SIZE_X - 1 - MARGIN), Random.random(MARGIN, SIZE_Y - 1 - MARGIN));
-
-            // Number of neighbors
-            let neighborsCount = 0;
-            let neighborsDiagonalCount = 0;
-
-            if (this.grid[pos.x][pos.y].light > 0) // Forbidden zone
-                continue;
-
-            // Check for neighbors
-            // Close neighbors
-            for (let j = 0; j < 4; j++) {
-                let pos1 = pos.plus(neighbors[j]); // In this cell we check neighbor
-                if (this.checkMargin(pos1)) // Cell out of borders or in margin
-                    continue;
-                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
-                    neighborsCount++;
-            }
-            // Diagonal neighbors
-            for (let j = 0; j < 4; j++) {
-                let pos1 = pos.plus(neighborsDiagonal[j]); // In this cell we check neighbor
-                if (this.checkMargin(pos1)) // Cell out of borders or in margin
-                    continue;
-                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
-                    neighborsDiagonalCount++;
-            }
-
-            // If cell has neighbors we generate a grave
-            if (neighborsCount === 1 && neighborsDiagonalCount <= 1 && this.grid[pos.x][pos.y].grave >= 0) {
-                let cell = this.grid[pos.x][pos.y];
-                cell.grave = this.random_grave_type();
-                cell.obstacle = 1;
-                cell.covering = 0;
-            }
-        }
 
         // Apply maze
         let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));

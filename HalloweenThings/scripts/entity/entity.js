@@ -1,6 +1,6 @@
 
 
-const Vec2 = require("./vec2")
+const Vec2 = require("../vec2")
 
 /**
  * Entity or monster
@@ -64,14 +64,6 @@ class Entity {
         this.animationTime = 0.3; // time per 1 animation frame
         this.animationTimer = 0; // timer
 
-        // TODO: вынести в класс Monster
-        // For monster
-        this.monsterType = 0;
-        this.horror = 0; // -mind per second
-
-        this.attackRange = 5;
-        this.damage = 1;
-
         this.grid_pos = null
     }
 
@@ -102,7 +94,7 @@ class Entity {
         }
     }
 
-    get_frame() {
+    getFrame() {
         return this.cur_animation.frames[this.cur_animation.frame];
     }
 

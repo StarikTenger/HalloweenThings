@@ -18,10 +18,10 @@ window.SBJ_AMMO = 5;
 
 // Monsters' names
 
-window.MNS_ZOMBIE = 1;
-window.MNS_GHOST = 2;
-window.MNS_TENTACLE = 3;
-window.MNS_SKELETON = 4;
+
+
+
+
 
 //// GAME PREFERENCES ////
 window.DT = 0.050; // Tick time in seconds

@@ -4500,7 +4500,7 @@ class Game {
 
             // Chosing direction for skeleton patrolling
             if (monster.monsterType === MNS_SKELETON) {
-                monster.dir = window.LEFT;
+                monster.dir = LEFT;
             }
 
             // Adding monster to array
@@ -4569,16 +4569,16 @@ class Game {
                 let gridPosLeft = this.getCell(monster.pos.plus(new Vec2(-1, 0)));
                 let gridPosRight = this.getCell(monster.pos.plus(new Vec2(+1, 0)));
 
-                if (monster.dir === window.LEFT && this.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-                    monster.dir = window.RIGHT;
+                if (monster.dir === LEFT && this.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+                    monster.dir = RIGHT;
                     console.log('l');
                 }
-                if (monster.dir === window.RIGHT && this.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-                    monster.dir = window.LEFT;
+                if (monster.dir === RIGHT && this.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+                    monster.dir = LEFT;
                     console.log('r');
                 }
 
-                if (monster.dir === window.LEFT) {
+                if (monster.dir === LEFT) {
                     deltaPos.x = -1;
                 }
                 else {

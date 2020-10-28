@@ -96,7 +96,7 @@ class Maze {
 
         // Rooms
         let roomsNumber = 4;
-        for (let i = 0; i < roomsNumber; i++) {
+        for (let i = 1; i <= roomsNumber; i++) {
             let roomSize = new Vec2(7, 7);
             this.room(field, new Vec2(
                 Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,

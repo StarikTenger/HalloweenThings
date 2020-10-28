@@ -3843,6 +3843,16 @@ class Draw {
                    continue;
                 let cell = game.grid[x][y];
 
+                if (cell.roomId) {
+                    if (cell.ground) {
+                        this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                    }
+                    if (cell.grave) {
+                        this.ySorted.push([ROOM_GRAVE_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                    }
+                    continue;
+                }
+
 
                 if (cell.ground) {
                     this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
@@ -4517,6 +4527,7 @@ class Game {
         for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
             for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
                 let cell = this.grid[x][y];
+                cell.roomId = mazeField[x - MARGIN + 1][y - MARGIN + 1].roomId; // FIX IT
                 if (cell.light > 0) // Forbidden zone
                     continue;
                 if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) { // Grave
@@ -5341,7 +5352,7 @@ class Maze {
 
         // Rooms
         let roomsNumber = 4;
-        for (let i = 0; i < roomsNumber; i++) {
+        for (let i = 1; i <= roomsNumber; i++) {
             let roomSize = new Vec2(7, 7);
             this.room(field, new Vec2(
                 Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,
@@ -5461,6 +5472,11 @@ function getImg(src) { // Load images
 window.IMGS_GROUND = [
     getImg("textures/grounds/ground1.png"),
     getImg("textures/grounds/ground2.png")
+];
+
+window.ROOM_IMGS_GROUND = [
+    getImg("textures/grounds/room_ground_1.png"),
+    getImg("textures/grounds/room_ground_2.png")
 ];
 
 window.IMGS_COVERING = [

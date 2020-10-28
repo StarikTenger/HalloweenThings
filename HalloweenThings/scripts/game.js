@@ -315,6 +315,7 @@ class Game {
         for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
             for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
                 let cell = this.grid[x][y];
+                cell.roomId = mazeField[x - MARGIN + 1][y - MARGIN + 1].roomId; // FIX IT
                 if (cell.light > 0) // Forbidden zone
                     continue;
                 if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) { // Grave

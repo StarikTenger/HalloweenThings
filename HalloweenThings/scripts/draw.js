@@ -60,6 +60,16 @@ class Draw {
                    continue;
                 let cell = game.grid[x][y];
 
+                if (cell.roomId) { // esli komnata epta FIX IT
+                    if (cell.ground) {
+                        this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                    }
+                    if (cell.grave) {
+                        this.ySorted.push([ROOM_GRAVE_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                    }
+                    continue;
+                }
+
 
                 if (cell.ground) {
                     this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);

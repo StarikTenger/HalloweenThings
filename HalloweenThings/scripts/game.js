@@ -104,7 +104,7 @@ class Game {
     hurt(target, value) {
         if (target.protectionTimer === 0) {
             this.animations.push(new Animation(ANM_BLOOD, target.pos.plus(new Vec2(0, -8)), new Vec2(8, 8), 0.1));
-            if (!target.monsterType) {
+            if (target instanceof Player) {
                 this.animations.push(new Animation(ANM_DAMAGE, new Vec2(0, 0), new Vec2(64, 64), 0.3, 1));
             }
         }
@@ -151,8 +151,8 @@ class Game {
 
     // Choose random grave texture
     random_grave_type() {
-        let graves_cnt = window.IMGS_GRAVE.length;
-        return Random.normalRoll(2, graves_cnt, 10 - this.level * 3);
+        let graves_cnt = window.IMGS_WALL.length;
+        return Random.normalRoll(1, graves_cnt, 10 - this.level * 3);
     }
 
     // Choose random ground texture

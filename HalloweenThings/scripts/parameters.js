@@ -134,13 +134,14 @@ window.IMGS_SPEC_MINI_GRAVE = [
     getImg("textures/spec_graves/spec_mini_grave3.png")
 ];
 
-// [vertical, left, right]
-window.IMGS_GRAVE = [
-    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
-    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
-    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
-    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
-    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")]
+// [column, column_top, wall, wall_top]
+window.COLUMN_WIDTH = 2;
+window.COLUMN_HEIGHT = 8;
+window.IMGS_WALL = [
+    [getImg("textures/walls/column.png"),
+        getImg("textures/walls/column_top.png"),
+        getImg("textures/walls/wall.png"),
+        getImg("textures/walls/wall_top.png")]
 ];
 
 window.IMGS_GATES = [

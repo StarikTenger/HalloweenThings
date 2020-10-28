@@ -79,14 +79,57 @@ class Draw {
                     continue;
                 }
 
+                // Drawing wall (yes, it's called grave, but it's a wall)
                 if (cell.grave) {
                     if (cell.grave > 0) {
-                        if (1 || !(game.grid[x - 1][y].grave > 0 && game.grid[x + 1][y].grave > 0))
-                            this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][0], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
-                        if (game.grid[x - 1][y].grave > 0)
-                            this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
-                        if (game.grid[x + 1][y].grave > 0)
-                            this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][2], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                        let column = IMGS_WALL[+cell.grave - 1][0];
+                        let column_top = IMGS_WALL[+cell.grave - 1][1];
+                        let wall = IMGS_WALL[+cell.grave - 1][2];
+                        let wall_top = IMGS_WALL[+cell.grave - 1][3];
+
+                        // Column top
+                        this.ySorted.push([column_top,
+                            x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
+                            y  * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                            COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
+                        // Wall top
+                        if (game.grid[x + 1][y].grave > 0) {
+                            this.ySorted.push([wall_top,
+                                x * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2,
+                                y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                                CELL_SIZE - COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
+                            this.ySorted.push([wall,
+                                x * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2,
+                                y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                                CELL_SIZE - COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
+                        }
+                        if (game.grid[x - 1][y].grave > 0) {
+                            this.ySorted.push([wall_top,
+                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH),
+                                y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                                CELL_SIZE - COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
+                            this.ySorted.push([wall,
+                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH),
+                                y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                                CELL_SIZE - COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
+                        }
+                        if (game.grid[x][y + 1].grave > 0)
+                            this.ySorted.push([wall_top,
+                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
+                                y  * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                                COLUMN_WIDTH, CELL_SIZE - COLUMN_WIDTH, 0, (y + 1) * 8]);
+                        if (game.grid[x][y - 1].grave > 0)
+                            this.ySorted.push([wall_top,
+                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
+                                y  * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH) -  COLUMN_HEIGHT,
+                                COLUMN_WIDTH, CELL_SIZE - COLUMN_WIDTH, 0, (y + 1) * 8]);
+
+                        // Columns
+                        if (!(game.grid[x][y + 1].grave > 0))
+                            this.ySorted.push([column,
+                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
+                                y  * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
+                                COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
                     } else { // Spec grave
                         this.ySorted.push([IMGS_SPEC_GRAVE[-cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
                     }

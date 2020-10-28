@@ -39,16 +39,16 @@ window.OIL_CONSUMPTION = 0.2;
 window.DIST_LIGHT = 7;
 window.DIST_LOAD = 12;
 
-window.MONSTER_LIMIT = 4; // Maximum number of monsters
-window.MONSTER_PERIOD = 7; // Time between monsters spawn
+window.MONSTER_LIMIT = 16; // Maximum number of monsters
+window.MONSTER_PERIOD = 1; // Time between monsters spawn
 
-window.SUBJECT_LIMIT = 5.5; // Maximum number of subjects
-window.SUBJECT_PERIOD = 1.65; // Time between subjects spawn
+window.SUBJECT_LIMIT = 10; // Maximum number of subjects
+window.SUBJECT_PERIOD = 1; // Time between subjects spawn
 
 // Map parameters
 window.MARGIN = 3; // Cells on map's sides, that are not changing
-window.SIZE_X = 17 + MARGIN * 2;
-window.SIZE_Y = 17 + MARGIN * 2;
+window.SIZE_X = 27 + MARGIN * 2;
+window.SIZE_Y = 27 + MARGIN * 2;
 
 // Music
 window.VOLUME = 1;
@@ -128,18 +128,13 @@ window.IMGS_SPEC_MINI_GRAVE = [
     getImg("textures/spec_graves/spec_mini_grave3.png")
 ];
 
+// [vertical, left, right]
 window.IMGS_GRAVE = [
-    getImg("textures/graves/grave1.png"),
-    getImg("textures/graves/grave2.png"),
-    getImg("textures/graves/grave3.png"),
-    getImg("textures/graves/grave4.png"),
-    getImg("textures/graves/grave5.png"),
-    getImg("textures/graves/grave6.png"),
-    getImg("textures/graves/grave7.png"),
-    getImg("textures/graves/grave8.png"),
-    getImg("textures/graves/grave9.png"),
-    getImg("textures/graves/grave10.png"),
-    getImg("textures/graves/grave11.png"),
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")]
 ];
 
 window.IMGS_GATES = [

@@ -84,7 +84,7 @@ class Maze {
         // Deleting random walls
         for (let i = 0; i < walls.length; i++) {
             let wall = walls[i];
-            if (Random.random(0, 99) < 20) // 20% chance
+            if (Random.random(0, 99) < 5) // 5% chance
                 field[wall.x][wall.y].wall = 0;
         }
 

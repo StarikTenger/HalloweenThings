@@ -3419,7 +3419,12 @@ class Draw {
 
                 if (cell.grave) {
                     if (cell.grave > 0) {
-                        this.ySorted.push([IMGS_GRAVE[+cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                        if (!(game.grid[x - 1][y].grave > 0 && game.grid[x + 1][y].grave > 0))
+                            this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][0], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                        if (game.grid[x - 1][y].grave > 0)
+                            this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+                        if (game.grid[x + 1][y].grave > 0)
+                            this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][2], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
                     } else { // Spec grave
                         this.ySorted.push([IMGS_SPEC_GRAVE[-cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
                     }
@@ -3820,7 +3825,7 @@ class Game {
 
     // Choose random grave texture
     random_grave_type() {
-        let graves_cnt = 7;
+        let graves_cnt = window.IMGS_GRAVE.length;
         return Random.normalRoll(2, graves_cnt, 10 - this.level * 3);
     }
 
@@ -3848,6 +3853,7 @@ class Game {
         let water_cnt = 2;
         let blood_cnt = 1;
         let sum = 0;
+        return 0;
         if (roll < 90) { // Grass
             return Random.normalRoll(sum + 1, grass_cnt, 3);
         } else {
@@ -4099,9 +4105,17 @@ class Game {
         // Spawning new subjects
         for (let i = 0; i < 10; i++) { // We try to spawn subject for 10 times
             // Generate random point
-            let pos = new Vec2(Random.random(0, SIZE_X - 1), Random.random(0, SIZE_Y - 1));
+            let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1));
+
+            let neighbors = 0;
+            neighbors += (this.grid[pos.x + 1][pos.y].grave > 0);
+            neighbors += (this.grid[pos.x - 1][pos.y].grave > 0);
+            neighbors += (this.grid[pos.x][pos.y + 1].grave > 0);
+            neighbors += (this.grid[pos.x][pos.y - 1].grave > 0);
 
             // Checking for limitations
+            if (neighbors !== 3) // We place sunbjects in the dead ends
+                break;
             if (this.subjects.length >= SUBJECT_LIMIT) // Too much subjects
                 break;
             if (this.subjectTimer > 0) // We can't spawn subjects to often
@@ -4206,6 +4220,11 @@ class Game {
                 this.player.lamp = 0;
         }
 
+        if (this.player.lamp)
+            this.player.distLight = DIST_LIGHT;
+        else
+            this.player.distLight = 3;
+
         //// Match using (interacting) ////
         if (KEY_F && !KEY_F_PREV) {
             if (this.player.matches > 0) {
@@ -4255,11 +4274,6 @@ class Game {
                 }
             }
         }
-
-        if (this.player.lamp)
-            this.player.distLight = DIST_LIGHT;
-        else
-            this.player.distLight = 1;
 
         // Horror
         if (!this.player.lamp) {
@@ -4353,8 +4367,8 @@ class Game {
                 window.SOUND_SHOOT.play();
                 // Stupid collision check
                 let pos = new Vec2(this.player.pos.x, this.player.pos.y);
-                dir = dir.mult(new Vec2(2, 2));
-                for (let i = 0; i < 30; i++) {
+                dir = dir.mult(new Vec2(1, 1));
+                for (let i = 0; i < 100; i++) {
                     let hit = 0;
                     for (let j = 0; j < this.monsters.length; j++) {
                         // Current monster
@@ -4491,50 +4505,51 @@ class Game {
             let x1 = monster.pos.x;
             let y1 = monster.pos.y;
 
-            // Cooldowns
-            // ZOMBIE
-            if (monster.monsterType === MNS_ZOMBIE) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                // Check neighbor cells to find
-                let neighbors = [
-                    new Vec2(1, 0),
-                    new Vec2(-1, 0),
-                    new Vec2(0, 1),
-                    new Vec2(0, -1)
-                ];
-                for (let j = 0; j < 4; j ++) {
-                    let pos1 = monster.gridPos.plus(neighbors[j]);
-                    if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
-                        continue;
-                    if (this.grid[pos1.x][pos1.y].zombieNav > this.grid[monster.gridPos.x][monster.gridPos.y].zombieNav)
-                        deltaPos = deltaPos.plus(neighbors[j]);
-                }
+            // Movement
+            if (this.grid[monster.gridPos.x][monster.gridPos.y].light > 0)
+                // ZOMBIE
+                if (monster.monsterType === MNS_ZOMBIE) {
+                    // Movement
+                    let deltaPos = new Vec2(0, 0);
+                    // Check neighbor cells to find
+                    let neighbors = [
+                        new Vec2(1, 0),
+                        new Vec2(-1, 0),
+                        new Vec2(0, 1),
+                        new Vec2(0, -1)
+                    ];
+                    for (let j = 0; j < 4; j ++) {
+                        let pos1 = monster.gridPos.plus(neighbors[j]);
+                        if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
+                            continue;
+                        if (this.grid[pos1.x][pos1.y].zombieNav > this.grid[monster.gridPos.x][monster.gridPos.y].zombieNav)
+                            deltaPos = deltaPos.plus(neighbors[j]);
+                    }
 
-                let vel = 0.5;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
-            }
-            // GHOST
-            else if (monster.monsterType === MNS_GHOST) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                // Check neighbor cells to find
-                let neighbors = [
-                    new Vec2(1, 0),
-                    new Vec2(-1, 0),
-                    new Vec2(0, 1),
-                    new Vec2(0, -1)
-                ];
-                for(let j = 0; j < 4; j++) {
-                    let pos1 = monster.gridPos.plus(neighbors[j]);
-                    if (this.checkCell(pos1))
-                        continue;
-                    if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
-                        deltaPos = deltaPos.plus(neighbors[j]);
+                    let vel = 0.5;
+                    this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
                 }
-                let vel = 0.3;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
-            }
+                // GHOST
+                else if (monster.monsterType === MNS_GHOST) {
+                    // Movement
+                    let deltaPos = new Vec2(0, 0);
+                    // Check neighbor cells to find
+                    let neighbors = [
+                        new Vec2(1, 0),
+                        new Vec2(-1, 0),
+                        new Vec2(0, 1),
+                        new Vec2(0, -1)
+                    ];
+                    for(let j = 0; j < 4; j++) {
+                        let pos1 = monster.gridPos.plus(neighbors[j]);
+                        if (this.checkCell(pos1))
+                            continue;
+                        if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
+                            deltaPos = deltaPos.plus(neighbors[j]);
+                    }
+                    let vel = 0.3;
+                    this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
+                }
 
             let x2 = monster.pos.x;
             let y2 = monster.pos.y;
@@ -4578,7 +4593,7 @@ class Game {
         // Add player pos to light source
         this.lightSources.push(new LightSource(this.player.pos, this.player.distLight + this.flickeringDelta));
 
-        // Turning off light
+        // Turning light off
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
                 this.grid[x][y].light = 0;
@@ -4736,7 +4751,7 @@ class Game {
             }
         }
 
-        // Ghost
+        // GHOST
 
         // Clearing
         for (let x = 0; x < SIZE_X; x++) {
@@ -4973,7 +4988,7 @@ class Maze {
         // Deleting random walls
         for (let i = 0; i < walls.length; i++) {
             let wall = walls[i];
-            if (Random.random(0, 99) < 20) // 20% chance
+            if (Random.random(0, 99) < 5) // 5% chance
                 field[wall.x][wall.y].wall = 0;
         }
 
@@ -5034,16 +5049,16 @@ window.OIL_CONSUMPTION = 0.2;
 window.DIST_LIGHT = 7;
 window.DIST_LOAD = 12;
 
-window.MONSTER_LIMIT = 4; // Maximum number of monsters
-window.MONSTER_PERIOD = 7; // Time between monsters spawn
+window.MONSTER_LIMIT = 16; // Maximum number of monsters
+window.MONSTER_PERIOD = 1; // Time between monsters spawn
 
-window.SUBJECT_LIMIT = 5.5; // Maximum number of subjects
-window.SUBJECT_PERIOD = 1.65; // Time between subjects spawn
+window.SUBJECT_LIMIT = 10; // Maximum number of subjects
+window.SUBJECT_PERIOD = 1; // Time between subjects spawn
 
 // Map parameters
 window.MARGIN = 3; // Cells on map's sides, that are not changing
-window.SIZE_X = 17 + MARGIN * 2;
-window.SIZE_Y = 17 + MARGIN * 2;
+window.SIZE_X = 27 + MARGIN * 2;
+window.SIZE_Y = 27 + MARGIN * 2;
 
 // Music
 window.VOLUME = 1;
@@ -5124,17 +5139,11 @@ window.IMGS_SPEC_MINI_GRAVE = [
 ];
 
 window.IMGS_GRAVE = [
-    getImg("textures/graves/grave1.png"),
-    getImg("textures/graves/grave2.png"),
-    getImg("textures/graves/grave3.png"),
-    getImg("textures/graves/grave4.png"),
-    getImg("textures/graves/grave5.png"),
-    getImg("textures/graves/grave6.png"),
-    getImg("textures/graves/grave7.png"),
-    getImg("textures/graves/grave8.png"),
-    getImg("textures/graves/grave9.png"),
-    getImg("textures/graves/grave10.png"),
-    getImg("textures/graves/grave11.png"),
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")],
+    [getImg("textures/graves/grave2_s.png"), getImg("textures/graves/grave2_l.png"), getImg("textures/graves/grave2_r.png")]
 ];
 
 window.IMGS_GATES = [

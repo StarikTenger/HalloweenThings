@@ -60,6 +60,11 @@ class Draw {
                    continue;
                 let cell = game.grid[x][y];
 
+                if (cell.roomId) { // esli komnata epta FIX IT
+                    this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                    continue;
+                }
+
 
                 if (cell.ground) {
                     this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
@@ -76,7 +81,7 @@ class Draw {
 
                 if (cell.grave) {
                     if (cell.grave > 0) {
-                        if (!(game.grid[x - 1][y].grave > 0 && game.grid[x + 1][y].grave > 0))
+                        if (1 || !(game.grid[x - 1][y].grave > 0 && game.grid[x + 1][y].grave > 0))
                             this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][0], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
                         if (game.grid[x - 1][y].grave > 0)
                             this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);

@@ -3843,6 +3843,13 @@ class Draw {
                    continue;
                 let cell = game.grid[x][y];
 
+                if (cell.roomId) { // esli komnata epta FIX IT
+                    if (cell.ground) {
+                        this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+                    }
+                    continue;
+                }
+
 
                 if (cell.ground) {
                     this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
@@ -3859,7 +3866,7 @@ class Draw {
 
                 if (cell.grave) {
                     if (cell.grave > 0) {
-                        if (!(game.grid[x - 1][y].grave > 0 && game.grid[x + 1][y].grave > 0))
+                        if (1 || !(game.grid[x - 1][y].grave > 0 && game.grid[x + 1][y].grave > 0))
                             this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][0], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
                         if (game.grid[x - 1][y].grave > 0)
                             this.ySorted.push([IMGS_GRAVE[+cell.grave - 1][1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
@@ -5002,49 +5009,13 @@ class Game {
             new Vec2(1, -1),
             new Vec2(-1, -1)
         ];
-        for (let i = 0; i < (SIZE_X * SIZE_Y); i++) {
-            // Generate random point
-            let pos = new Vec2(Random.random(MARGIN, SIZE_X - 1 - MARGIN), Random.random(MARGIN, SIZE_Y - 1 - MARGIN));
-
-            // Number of neighbors
-            let neighborsCount = 0;
-            let neighborsDiagonalCount = 0;
-
-            if (this.grid[pos.x][pos.y].light > 0) // Forbidden zone
-                continue;
-
-            // Check for neighbors
-            // Close neighbors
-            for (let j = 0; j < 4; j++) {
-                let pos1 = pos.plus(neighbors[j]); // In this cell we check neighbor
-                if (this.checkMargin(pos1)) // Cell out of borders or in margin
-                    continue;
-                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
-                    neighborsCount++;
-            }
-            // Diagonal neighbors
-            for (let j = 0; j < 4; j++) {
-                let pos1 = pos.plus(neighborsDiagonal[j]); // In this cell we check neighbor
-                if (this.checkMargin(pos1)) // Cell out of borders or in margin
-                    continue;
-                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
-                    neighborsDiagonalCount++;
-            }
-
-            // If cell has neighbors we generate a grave
-            if (neighborsCount === 1 && neighborsDiagonalCount <= 1 && this.grid[pos.x][pos.y].grave >= 0) {
-                let cell = this.grid[pos.x][pos.y];
-                cell.grave = this.random_grave_type();
-                cell.obstacle = 1;
-                cell.covering = 0;
-            }
-        }
 
         // Apply maze
         let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));
         for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
             for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
                 let cell = this.grid[x][y];
+                cell.roomId = mazeField[x - MARGIN + 1][y - MARGIN + 1].roomId; // FIX IT
                 if (cell.light > 0) // Forbidden zone
                     continue;
                 if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) { // Grave
@@ -5669,7 +5640,7 @@ const Random = require("./random.js")
 
 class Maze {
     // Generates room
-    static room(field, pos, size) {
+    static room(field, pos, size, index) {
         // Empty room with walls
         for (let x = pos.x; x < pos.x + size.x; x++) {
             for (let y = pos.y; y < pos.y + size.y; y++) {
@@ -5677,6 +5648,7 @@ class Maze {
                     field[x][y].wall = 1;
                 else
                     field[x][y].wall = 0;
+                field[x][y].roomId = index;
             }
         }
 
@@ -5685,6 +5657,11 @@ class Maze {
         field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].wall = 0;
         field[pos.x + Math.floor(size.x / 2)][pos.y].wall = 0;
         field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].wall = 0;
+
+        field[pos.x][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
+        field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
+        field[pos.x + Math.floor(size.x / 2)][pos.y].roomEnter = 1;
+        field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].roomEnter = 1;
     }
 
     // Generates maze width current size
@@ -5756,12 +5733,12 @@ class Maze {
 
         // Rooms
         let roomsNumber = 4;
-        for (let i = 0; i < roomsNumber; i++) {
+        for (let i = 1; i <= roomsNumber; i++) {
             let roomSize = new Vec2(7, 7);
             this.room(field, new Vec2(
                 Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,
                 Random.random(1, Math.floor((size.y - roomSize.y) / 2)) * 2,
-                  ), roomSize);
+                  ), roomSize, i);
         }
 
         return field;
@@ -5876,6 +5853,11 @@ function getImg(src) { // Load images
 window.IMGS_GROUND = [
     getImg("textures/grounds/ground1.png"),
     getImg("textures/grounds/ground2.png")
+];
+
+window.ROOM_IMGS_GROUND = [
+    getImg("textures/grounds/room_ground_1.png"),
+    getImg("textures/grounds/room_ground_2.png")
 ];
 
 window.IMGS_COVERING = [
@@ -6232,10 +6214,6 @@ module.exports = EventEmitter
  */
 
 class Vec2 {
-
-    x = 0
-    y = 0
-
     constructor(x, y) {
         this.x = x;
         this.y = y;

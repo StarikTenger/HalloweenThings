@@ -106,6 +106,11 @@ window.IMGS_GROUND = [
     getImg("textures/grounds/ground2.png")
 ];
 
+window.ROOM_IMGS_GROUND = [
+    getImg("textures/grounds/room_ground_1.png"),
+    getImg("textures/grounds/room_ground_2.png")
+];
+
 window.IMGS_COVERING = [
     getImg("textures/coverings/covering1.png"),
     getImg("textures/coverings/covering2.png"),

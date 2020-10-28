@@ -17,6 +17,7 @@ window.addEventListener("load", function() {
     window.game = game; // For checking from console
 
     function step() {
+        Vec2.counter = 0
 
         game.step();
         draw.draw(game);
@@ -37,6 +38,10 @@ window.addEventListener("load", function() {
             game.generate();
             game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
         }
+
+        // Рубрика эээкспериментыыы
+        // console.log(Vec2.counter);
+        Vec2.counter = 0
     }
 
     var interval = setInterval(step, DT * 1000);

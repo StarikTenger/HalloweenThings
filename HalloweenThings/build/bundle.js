@@ -3277,7 +3277,7 @@ class Animation {
 }
 
 module.exports = Animation
-},{"./vec2":28}],3:[function(require,module,exports){
+},{"./vec2":33}],3:[function(require,module,exports){
 class Anime {
     constructor(frame_time, frames) {
         this.frame_time = frame_time;
@@ -3458,7 +3458,7 @@ class CharacterControls {
 }
 
 module.exports = CharacterControls
-},{"../vec2":28,"./axle":5}],8:[function(require,module,exports){
+},{"../vec2":33,"./axle":5}],8:[function(require,module,exports){
 
 const DocumentEventHandler = require("../events/documenteventhandler")
 const GamepadAxle = require("./gamepadaxle")
@@ -3527,7 +3527,7 @@ class GamepadController extends DocumentEventHandler {
 }
 
 module.exports = GamepadController
-},{"../events/documenteventhandler":17,"./gamepadaxle":9,"./gamepadbutton":10}],9:[function(require,module,exports){
+},{"../events/documenteventhandler":23,"./gamepadaxle":9,"./gamepadbutton":10}],9:[function(require,module,exports){
 
 const Axle = require("./axle")
 
@@ -3675,7 +3675,7 @@ class KeyboardController extends DocumentEventHandler {
 }
 
 module.exports = KeyboardController
-},{"../events/documenteventhandler":17,"./keyaxle":11}],13:[function(require,module,exports){
+},{"../events/documenteventhandler":23,"./keyaxle":11}],13:[function(require,module,exports){
 
 const Axle = require("./axle")
 const EventEmitter = require("../utils/event-emitter")
@@ -3746,7 +3746,7 @@ class UserControls extends EventEmitter {
 }
 
 module.exports = UserControls
-},{"../utils/event-emitter":27,"./axle":5}],14:[function(require,module,exports){
+},{"../utils/event-emitter":32,"./axle":5}],14:[function(require,module,exports){
 class Deque {
     constructor() {
         this.front = this.back = undefined;
@@ -3839,7 +3839,7 @@ class Draw {
         // Grid
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
-                if(game.grid[x][y].light <= 0 && game.player.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4)) > DIST_LIGHT * 2 * 8) // We don't see this cell
+                if(game.grid[x][y].light <= 0 && game.player.pos.distToPosition(x * 8 + 4, y * 8 + 4) > DIST_LIGHT * 2 * 8) // We don't see this cell
                    continue;
                 let cell = game.grid[x][y];
 
@@ -3873,13 +3873,13 @@ class Draw {
         }
 
         // Player
-        let cur_texture = game.player.get_frame();
+        let cur_texture = game.player.getFrame();
         this.ySorted.push([cur_texture, game.player.pos.x - CELL_SIZE / 2, game.player.pos.y - 2 * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, game.player.right === 0, game.player.pos.y]);
 
         // Monsters
         for (let i = 0; i < game.monsters.length; i++) {
             let monster = game.monsters[i];
-            let frame = monster.get_frame();
+            let frame = monster.getFrame();
             this.ySorted.push([frame, monster.pos.x - CELL_SIZE / 2, monster.pos.y - CELL_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE * 2, monster.right === 0, monster.pos.y]);
         }
 
@@ -3914,20 +3914,23 @@ class Draw {
 
         // Gradient light
         let pixelSize = 2; // Size of cell of light grid
+        let vector = new Vec2(0, 0)
         for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1 += pixelSize) {
             for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1+= pixelSize) {
                 let val = 0; // Light value
                 let sum = 0; // Dist sum
-                let pos = new Vec2(x1, y1);
-                let cellPos = game.getCell(pos);
+                vector.x = x1
+                vector.y = y1
+                let cellX = Math.floor(x1 / 8)
+                let cellY = Math.floor(y1 / 8)
 
                 // Neighbor cells
-                for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
-                    for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
-                        let dist = pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
-                        if (game.checkCell(new Vec2(x, y)) || dist >= 16)
+                for (let x = cellX - 1; x <= cellX + 1; x++) {
+                    for (let y = cellY - 1; y <= cellY + 1; y++) {
+                        let dist = vector.distToPosition(x * 8 + 4, y * 8 + 4);
+                        if (game.checkCellPosition(x, y) || dist >= 16)
                             continue;
-                        val += game.getLight(new Vec2(x, y)) * (18 - dist);
+                        val += game.getLightPosition(x, y) * (18 - dist);
                         sum += 18 - dist;
                     }
                 }
@@ -4008,10 +4011,10 @@ class Draw {
 }
 
 module.exports = Draw
-},{"./vec2":28}],16:[function(require,module,exports){
+},{"./vec2":33}],16:[function(require,module,exports){
 
 
-const Vec2 = require("./vec2")
+const Vec2 = require("../vec2")
 
 /**
  * Entity or monster
@@ -4075,14 +4078,6 @@ class Entity {
         this.animationTime = 0.3; // time per 1 animation frame
         this.animationTimer = 0; // timer
 
-        // TODO: вынести в класс Monster
-        // For monster
-        this.monsterType = 0;
-        this.horror = 0; // -mind per second
-
-        this.attackRange = 5;
-        this.damage = 1;
-
         this.grid_pos = null
     }
 
@@ -4113,7 +4108,7 @@ class Entity {
         }
     }
 
-    get_frame() {
+    getFrame() {
         return this.cur_animation.frames[this.cur_animation.frame];
     }
 
@@ -4147,7 +4142,487 @@ class Entity {
 }
 
 module.exports = Entity
-},{"./vec2":28}],17:[function(require,module,exports){
+},{"../vec2":33}],17:[function(require,module,exports){
+
+const Entity = require("./entity")
+
+class Monster extends Entity {
+
+    /**
+     * crutch
+     * @type {number}
+     */
+    monsterType = 0
+
+    /**
+     * Sanity consumption per second
+     * @type {number}
+     */
+    horror = 0
+
+    /**
+     * Maximum distance to attack
+     * @type {number}
+     */
+    attackRange = 5
+
+    /**
+     * Monster damage
+     * @type {number}
+     */
+    damage = 1
+
+    constructor(config) {
+        super(config);
+    }
+
+    static getRandomMonster(game) {
+        let classIndex = Math.floor(Math.random() * Monster.classes.length)
+        let Clazz = Monster.classes[classIndex]
+
+        return new Clazz({
+            game:game
+        })
+    }
+}
+
+module.exports = Monster
+
+// Trailing monster loader
+// TODO: use my browserify module for this
+
+Monster.classes = [
+    require("./monsters/zombie"),
+    require("./monsters/skeleton"),
+    require("./monsters/tentaсle"),
+    require("./monsters/ghost")
+]
+
+
+},{"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
+
+const Monster = require("../monster")
+const Random = require("../../random")
+const Anime = require("../../anime")
+
+class Ghost extends Monster {
+    constructor(config) {
+        super(config);
+
+        this.hp = Random.random(1, 3);
+        this.horror = 0.3
+
+        let standing_animation = new Anime(0.5, ANM_GHOST_STANDING);
+        let moving_up_animation = new Anime(0.3, ANM_GHOST_MOVING_UP);
+        let moving_down_animation = new Anime(0.3, ANM_GHOST_MOVING_DOWN);
+        let moving_right_animation = new Anime(0.3, ANM_GHOST_MOVING_RIGHT);
+
+        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    }
+}
+
+module.exports = Ghost
+},{"../../anime":3,"../../random":29,"../monster":17}],19:[function(require,module,exports){
+
+const Monster = require("../monster")
+const Random = require("../../random")
+const Anime = require("../../anime")
+
+class Skeleton extends Monster {
+    constructor(config) {
+        super(config);
+
+        this.hp = Random.random(2, 3);
+        this.horror = 0.1
+
+        // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
+        // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
+        // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
+        // let moving_right_animation = new Anime(0.3, ANM_SKELETON_MOVING_RIGHT);
+
+        let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
+        let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
+        let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
+        let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+
+        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    }
+}
+
+module.exports = Skeleton
+},{"../../anime":3,"../../random":29,"../monster":17}],20:[function(require,module,exports){
+
+const Monster = require("../monster")
+const Random = require("../../random")
+const Anime = require("../../anime")
+
+class Tentacle extends Monster {
+    constructor(config) {
+        super(config);
+
+        this.hp = Random.random(3, 4);
+        this.horror = 0.5
+
+        let standing_animation = new Anime(0.5, ANM_WORM_STANDING);
+        let moving_up_animation = new Anime(0.3, ANM_WORM_STANDING);
+        let moving_down_animation = new Anime(0.3, ANM_WORM_STANDING);
+        let moving_right_animation = new Anime(0.3, ANM_WORM_STANDING);
+
+        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    }
+}
+
+module.exports = Tentacle
+},{"../../anime":3,"../../random":29,"../monster":17}],21:[function(require,module,exports){
+
+const Monster = require("../monster")
+const Random = require("../../random")
+const Anime = require("../../anime")
+
+class Zombie extends Monster {
+    constructor(config) {
+        super(config);
+
+        this.horror = 0.2
+        this.hp = Random.random(2, 3);
+
+        let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
+        let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
+        let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
+        let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+
+        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    }
+}
+
+module.exports = Zombie
+},{"../../anime":3,"../../random":29,"../monster":17}],22:[function(require,module,exports){
+
+const Entity = require("./entity")
+const CharacterControls = require("../controls/character-controls")
+const TemporalLightSource = require("../temporal-light-source.js")
+const LightSource = require("../light-source")
+const Animation = require("../animation")
+const Weapon = require("../weapon")
+const Vec2 = require("../vec2")
+const Subject = require("../subject")
+
+class Player extends Entity {
+
+    /**
+     * Lamp oil amount
+     * @type {number}
+     */
+    oil = LIMIT_OIL;
+
+    /**
+     * Sanity factor
+     * @type {number}
+     */
+    mind = LIMIT_MIND;
+
+    /**
+     * Lamp status
+     * @type {boolean}
+     */
+    lamp = true
+
+    /**
+     * Light distance
+     * @type {number}
+     */
+    distLight = DIST_LIGHT;
+
+    /**
+     * Items
+     * @type Array<Subject|null>
+     */
+    subjects = [null, null];
+
+    /**
+     * Matches amount
+     * @type {number}
+     */
+    matches = LIMIT_MATCHES
+
+    /**
+     * Player weapon
+     * @type {Weapon}
+     */
+    weapon = new Weapon();
+
+    constructor(config) {
+        super(config);
+
+        this.controls = new CharacterControls()
+    }
+
+    step(dt) {
+        super.step(dt)
+
+        this.dir = NONE;
+
+        let movement = this.controls.getMovement()
+        if (movement.lengthSquared() > 0.01) { // <=> length() > 0.1
+
+            this.game.move(this, movement)
+
+            if (window.SOUND_STEPS.isPlaying !== 1) {
+                window.SOUND_STEPS.play();
+                window.SOUND_STEPS.isPlaying = 1;
+            }
+
+            if (movement.y < -0.1) this.dir = UP;
+            else if (movement.y > 0.1) this.dir = DOWN;
+            else if (movement.x < -0.1) {
+                this.dir = LEFT;
+                this.right = 0;
+            }
+            else if (movement.x > 0.1) {
+                this.dir = RIGHT;
+                this.right = 1;
+            }
+        }
+        else {
+            window.SOUND_STEPS.pause();
+            window.SOUND_STEPS.isPlaying = 0;
+        }
+
+        this.animationType = this.dir;
+
+        // Turning lamp off
+        if (this.game.keyboard.keyPressedOnce("KeyX")) {
+            this.lampOff()
+        }
+
+        if (this.lamp)
+            this.changeOil(-OIL_CONSUMPTION * DT);
+
+        // Horror
+        if (!this.lamp) {
+            this.changeMind(-0.35 * DT);
+            this.game.mentalDanger = 1;
+        }
+
+        if (this.game.keyboard.keyPressedOnce("KeyF")) {
+            this.useMatch();
+        }
+
+        this.tickWeapon();
+        this.pickUpSubjects();
+        this.useSubjects();
+    }
+
+    tickWeapon() {
+        this.weapon.timeToCooldown -= DT;
+
+        this.controls.updateShootingDirection()
+
+        if (!this.controls.shootDirection.isZero()) {
+            let dir = this.controls.shootDirection
+
+            if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) { // Are we able to shoot
+                window.SOUND_SHOOT.play();
+                // Stupid collision check
+                let pos = new Vec2(this.pos.x, this.pos.y);
+
+                for (let i = 0; i < 30; i++) {
+                    let hit = 0;
+                    for (let j = 0; j < this.game.monsters.length; j++) {
+                        // Current monster
+                        let monster = this.game.monsters[j];
+                        // Shift
+                        pos = pos.plus(dir);
+                        // Collision check
+                        if (pos.dist(monster.pos) < 8) {
+                            this.game.hurt(monster, this.weapon.damage);
+                        }
+                    }
+                    if (hit)
+                        break;
+                }
+
+                // Animation
+                let curAnm = ANM_TRACER_UP; // Current animation
+                if (dir.y < 0) curAnm = ANM_TRACER_UP;
+                else if (dir.y > 0)  curAnm = ANM_TRACER_DOWN;
+                else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;
+                else if (dir.x > 0)  curAnm = ANM_TRACER_RIGHT;
+
+                this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
+                this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
+
+                // Modify cooldown & ammo
+                this.weapon.timeToCooldown =  this.weapon.cooldownTime;
+                this.weapon.ammo--;
+            }
+        }
+    }
+
+    pickUpSubjects() {
+        for (let i = 0; i < this.game.subjects.length; i++) {
+            let subject = this.game.subjects[i];
+
+            if (subject.pos.dist(this.pos) > 8) // Not close enough
+                continue;
+
+
+            let freeSlot = this.getFreeSubjectSlot()
+
+            if(freeSlot === null) continue;
+
+            window.SOUND_PICKUP.play();
+            this.subjects[freeSlot] = new Subject();
+            this.subjects[freeSlot].type = subject.type;
+
+            subject.type = undefined;
+        }
+    }
+
+    getFreeSubjectSlot() {
+        for (let i = 0; i < 2; i++) {
+            if (!this.subjects[i] || !this.subjects[i].type)
+                return i
+        }
+
+        return null
+    }
+
+    useSubjects() {
+        // // Use subjects
+        if(this.game.keyboard.keyPressedOnce("Digit1")) {
+            this.consumeSubject(0);
+        }
+        if(this.game.keyboard.keyPressedOnce("Digit2")) {
+            this.consumeSubject(1)
+        }
+    }
+
+    consumeSubject(index) {
+        if(!this.subjects[index] || !this.subjects[index].type) // Slot is empty
+            return
+
+        // Current subject
+        let subject = this.player.subjects[index];
+
+        // Checking for subject type
+        if (subject.type === SBJ_HEAL) {
+            window.SOUND_DRINK.play();
+            this.changeHp(1);
+        }
+        if (subject.type === SBJ_OIL) {
+            window.SOUND_OIL.play();
+            this.changeOil(7);
+        }
+        if (subject.type === SBJ_WHISKEY){
+            window.SOUND_DRINK.play();
+            this.changeMind(6);
+        }
+        if (subject.type === SBJ_MATCHBOX){
+            window.SOUND_MATCHBOX.play();
+            this.player.matches += 2;
+            this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
+        }
+        if (subject.type === SBJ_AMMO) {
+            window.SOUND_AMMO.play();
+            this.player.weapon.ammo += 5;
+            this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
+        }
+
+        // Remove subject
+        this.player.subjects[index] = undefined;
+    }
+
+    useMatch() {
+        if (this.matches > 0) {
+            window.SOUND_MATCH.play();
+            this.lampOn()
+            this.matches--;
+            this.game.temporalLightSources.push(new TemporalLightSource(this.pos, 5, 2));
+            this.game.animations.push(new Animation(ANM_MATCH, this.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
+            this.game.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
+
+            // Lighting spec graves
+            let pos = this.grid_pos;
+            for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
+                for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
+                    let cell = this.game.grid[x][y];
+                    if (cell.grave < 0 && this.game.spec_graves_visited[-cell.grave - 1] === 1) { // spec grave
+
+                        this.game.specGraveTimer = this.game.specGraveCooldown;
+                        this.game.spec_graves_visited[-cell.grave - 1] = 2;
+                        this.game.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
+                        this.game.spec_graves_visited_count += 1;
+                        this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
+                        this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
+                        this.game.level++;
+                        this.game.generate();
+                    }
+                }
+            }
+
+            // Open gates
+            for (let x = 0; x < SIZE_X; x++) {
+                for (let y = 0; y < SIZE_Y; y++) {
+                    if (this.game.spec_graves_visited_count < 3) // Gates are not ready
+                        break;
+
+                    // Check for player
+                    if (this.game.gates_state === 1 && this.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
+                        this.game.gates_state = 2; // Gates opened
+                        this.game.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
+                    }
+
+                    // Clean obstacles
+                    if (this.game.gates_state === 2 && this.grid[x][y].gates) {
+                        this.game.grid[x][y].obstacle = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    // mind += delta
+    changeMind(delta) {
+        this.mind += delta;
+
+        if (this.mind < EPS) {
+            this.mind = 0;
+            this.status = 2; // Delirium
+            if (!this.monsterType)
+                window.SOUND_DEATH.play();
+        }
+        if (this.mind > LIMIT_MIND) {
+            this.mind = LIMIT_MIND;
+        }
+    }
+
+    // oil += delta
+    changeOil(delta) {
+        this.oil += delta;
+
+        if (this.oil < 0) {
+            this.oil = 0;
+            this.lampOff()
+        }
+        if (this.oil > LIMIT_OIL) {
+            this.oil = LIMIT_OIL;
+        }
+    }
+
+    lampOff() {
+        this.lamp = false
+        this.distLight = 1
+    }
+
+    lampOn() {
+        this.lamp = true
+        this.distLight = DIST_LIGHT
+    }
+}
+
+module.exports = Player
+},{"../animation":2,"../controls/character-controls":7,"../light-source":25,"../subject":30,"../temporal-light-source.js":31,"../vec2":33,"../weapon":34,"./entity":16}],23:[function(require,module,exports){
 
 const EventEmitter = require("../utils/event-emitter")
 
@@ -4199,14 +4674,13 @@ class DocumentEventHandler extends EventEmitter {
 }
 
 module.exports = DocumentEventHandler
-},{"../utils/event-emitter":27}],18:[function(require,module,exports){
+},{"../utils/event-emitter":32}],24:[function(require,module,exports){
 const Animation = require("./animation.js")
 const Anime = require("./anime.js")
 const Cell = require("./cell.js")
 const Deque = require("./deque.js")
-const Entity = require("./entity.js")
+const Entity = require("./entity/entity.js")
 const LightSource = require("./light-source.js")
-const TemporalLightSource = require("./temporal-light-source.js")
 const Vec2 = require("./vec2.js")
 const Subject = require("./subject")
 const Random = require("./random")
@@ -4214,7 +4688,14 @@ const Maze = require("./maze")
 const UserControls = require("./controls/user-controls")
 const KeyboardController = require("./controls/keyboardcontroller")
 const GamepadController = require("./controls/gamepad-controller")
-const Player = require("./player")
+const Player = require("./entity/player")
+
+const Monster = require("./entity/monster")
+
+const Zombie = require("./entity/monsters/zombie")
+const Skeleton = require("./entity/monsters/skeleton")
+const Tentacle = require("./entity/monsters/tentaсle")
+const Ghost = require("./entity/monsters/ghost")
 
 /**
  * Main class that controls everything
@@ -4309,7 +4790,11 @@ class Game {
 
     // Checks is the cell is in bounds
     checkCell(pos) {
-        if (pos.x < 0 || pos.y < 0 || pos.x >= SIZE_X || pos.y >= SIZE_Y)
+        return this.checkCellPosition(pos.x, pos.y)
+    }
+
+    checkCellPosition(x, y) {
+        if (x < 0 || y < 0 || x >= SIZE_X || y >= SIZE_Y)
             return 1;
         return 0;
     }
@@ -4331,9 +4816,13 @@ class Game {
 
     // Gets visible light value for current cell
     getLight(pos) {
+        return this.getLightPosition(pos.x, pos.y)
+    }
+
+    getLightPosition(x, y) {
         let val = 0;
-        if (!this.checkCell(pos))
-            val = Math.max(this.grid[pos.x][pos.y].light + DIST_LIGHT - DIST_LOAD, 0);
+        if (!this.checkCellPosition(x, y))
+            val = Math.max(this.grid[x][y].light + DIST_LIGHT - DIST_LOAD, 0);
         return val;
     }
 
@@ -4363,27 +4852,29 @@ class Game {
     }
 
     clever_covering_type() {
-        let roll = Random.random(1, 100);
-        let grass_cnt = 5;
-        let water_cnt = 2;
-        let blood_cnt = 1;
-        let sum = 0;
         return 0;
-        if (roll < 90) { // Grass
-            return Random.normalRoll(sum + 1, grass_cnt, 3);
-        } else {
-            sum += grass_cnt;
-        }
 
-        if (roll < 98) { // Water
-            return Random.normalRoll(sum + 1, sum + water_cnt, 3);
-        } else {
-            sum += water_cnt;
-        }
-
-        if (roll < 100) {
-            return Random.normalRoll(sum + 1, sum + blood_cnt, 3);
-        }
+        // let roll = Random.random(1, 100);
+        // let grass_cnt = 5;
+        // let water_cnt = 2;
+        // let blood_cnt = 1;
+        // let sum = 0;
+        //
+        // if (roll < 90) { // Grass
+        //     return Random.normalRoll(sum + 1, grass_cnt, 3);
+        // } else {
+        //     sum += grass_cnt;
+        // }
+        //
+        // if (roll < 98) { // Water
+        //     return Random.normalRoll(sum + 1, sum + water_cnt, 3);
+        // } else {
+        //     sum += water_cnt;
+        // }
+        //
+        // if (roll < 100) {
+        //     return Random.normalRoll(sum + 1, sum + blood_cnt, 3);
+        // }
     }
 
     subject_type() {
@@ -4689,68 +5180,6 @@ class Game {
 
         this.player.step(DT)
 
-        //// Active subjects (pick up items) ////
-        // Get subjects
-        for (let i = 0; i < this.subjects.length; i++) {
-            let subject = this.subjects[i];
-            if (subject.pos.dist(this.player.pos) > 8) // Not close enough
-                continue;
-
-            // Checking slots
-            for (let j = 0; j < 2; j++) {
-                if (this.player.subjects[j] && this.player.subjects[j].type) // There is another subject in the slot
-                    continue;
-
-                window.SOUND_PICKUP.play();
-                this.player.subjects[j] = new Subject();
-                this.player.subjects[j].type = subject.type;
-
-                subject.type = undefined;
-            }
-        }
-        //
-        // // Use subjects
-        let keys = [
-            this.keyboard.keyPressedOnce("Digit1"),
-            this.keyboard.keyPressedOnce("Digit2")
-        ];
-        for (let i = 0; i < 2; i++) {
-            if (!this.player.subjects[i] || !this.player.subjects[i].type) // Slot is empty
-                continue;
-            if (!keys[i]) // No command
-                continue;
-
-            // Current subject
-            let subject = this.player.subjects[i];
-
-            // Checking for subject type
-            if (subject.type === SBJ_HEAL) {
-                window.SOUND_DRINK.play();
-                this.player.changeHp(1);
-            }
-            if (subject.type === SBJ_OIL) {
-                window.SOUND_OIL.play();
-                this.player.changeOil(7);
-            }
-            if (subject.type === SBJ_WHISKEY){
-                window.SOUND_DRINK.play();
-                this.player.change_mind(6);
-            }
-            if (subject.type === SBJ_MATCHBOX){
-                window.SOUND_MATCHBOX.play();
-                this.player.matches += 2;
-                this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
-            }
-            if (subject.type === SBJ_AMMO) {
-                window.SOUND_AMMO.play();
-                this.player.weapon.ammo += 5;
-                this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
-            }
-
-            // Remove subject
-            this.player.subjects[i] = undefined;
-        }
-
         if (this.keyboard.keyPressedOnce("Enter")) {
             this.RELOAD = 1;
         }
@@ -4799,60 +5228,11 @@ class Game {
                 continue;
 
             // Making a monster
-            let monster = new Entity({
-                game: this
-            });
+            let monster = Monster.getRandomMonster(this)
             monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
-            monster.monsterType = this.random_monster_type();
-
-            // Choosing animations
-            let standing = [];
-            let moving_up = [];
-            let moving_down = [];
-            let moving_right = [];
-            if (monster.monsterType === MNS_ZOMBIE) {
-                monster.horror = 0.2;
-                monster.hp = Random.random(2, 3);
-                standing = new Anime(0.5, ANM_ZOMBIE_STANDING);
-                moving_up = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-                moving_down = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-                moving_right = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
-            }
-            if (monster.monsterType === MNS_GHOST) {
-                monster.horror = 0.3;
-                monster.hp = Random.random(1, 3);
-                standing = new Anime(0.5, ANM_GHOST_STANDING);
-                moving_up = new Anime(0.3, ANM_GHOST_MOVING_UP);
-                moving_down = new Anime(0.3, ANM_GHOST_MOVING_DOWN);
-                moving_right = new Anime(0.3, ANM_GHOST_MOVING_RIGHT);
-            }
-            if (monster.monsterType === MNS_TENTACLE) {
-                monster.horror = 0.7;
-                monster.hp = Random.random(3, 4);
-                standing = new Anime(0.5, ANM_WORM_STANDING);
-                moving_up = new Anime(0.3, ANM_WORM_STANDING);
-                moving_down = new Anime(0.3, ANM_WORM_STANDING);
-                moving_right = new Anime(0.3, ANM_WORM_STANDING);
-            }
-            if (monster.monsterType === MNS_SKELETON) {
-                monster.horror = 0.1;
-                monster.hp = Random.random(2, 3);
-                standing = new Anime(0.5, ANM_ZOMBIE_STANDING);
-                moving_up = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-                moving_down = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-                moving_right = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
-            }
-
-            monster.set_animations(standing, [moving_up, moving_down, moving_right]);
-
-
-            if (monster.monsterType === MNS_TENTACLE)
-                monster.horror = 0.5;
-            else
-                monster.horror = 0.2;
 
             // Chosing direction for skeleton patrolling
-            if (monster.monsterType === MNS_SKELETON) {
+            if (monster.monsterType instanceof Skeleton) {
                 monster.dir = LEFT;
             }
 
@@ -4873,7 +5253,7 @@ class Game {
 
             // Movement
             // ZOMBIE
-            if (monster.monsterType === MNS_ZOMBIE && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
+            if (monster instanceof Zombie && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -4895,7 +5275,7 @@ class Game {
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
             }
             // GHOST
-            else if (monster.monsterType === MNS_GHOST && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
+            else if (monster instanceof Ghost && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -4916,7 +5296,7 @@ class Game {
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
             }
             // SKELETON
-            else if (monster.monsterType === MNS_SKELETON) {
+            else if (monster.monsterType instanceof Skeleton) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 let gridPosLeft = this.getCell(monster.pos.plus(new Vec2(-1, 0)));
@@ -4969,7 +5349,7 @@ class Game {
 
             // Horror
             if (this.grid[monster.gridPos.x][monster.gridPos.y].light > DIST_LIGHT - 1) {
-                this.player.change_mind(-monster.horror * DT);
+                this.player.changeMind(-monster.horror * DT);
                 this.mentalDanger = 1;
             }
 
@@ -5109,8 +5489,8 @@ class Game {
         }
         // BFS deque
         let deque = new Deque();
-        let x = this.getCell(this.player.pos).x;
-        let y = this.getCell(this.player.pos).y;
+        let x = Math.floor(this.player.pos.x / 8);
+        let y = Math.floor(this.player.pos.y / 8);
 
         this.grid[x][y].zombieNav = DIST_LOAD + 1;
         deque.addBack(new Vec2(x, y));
@@ -5219,7 +5599,7 @@ class Game {
 }
 
 module.exports = Game
-},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque.js":14,"./entity.js":16,"./light-source.js":19,"./maze":21,"./player":23,"./random":24,"./subject":25,"./temporal-light-source.js":26,"./vec2.js":28}],19:[function(require,module,exports){
+},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque.js":14,"./entity/entity.js":16,"./entity/monster":17,"./entity/monsters/ghost":18,"./entity/monsters/skeleton":19,"./entity/monsters/tentaсle":20,"./entity/monsters/zombie":21,"./entity/player":22,"./light-source.js":25,"./maze":27,"./random":29,"./subject":30,"./vec2.js":33}],25:[function(require,module,exports){
 // Light source
 class LightSource {
     constructor(pos, power) {
@@ -5235,7 +5615,7 @@ class LightSource {
 }
 
 module.exports = LightSource
-},{}],20:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
 const Parameters = require("./parameters")
 const Game = require("./game.js")
@@ -5255,6 +5635,7 @@ window.addEventListener("load", function() {
     window.game = game; // For checking from console
 
     function step() {
+        Vec2.counter = 0
 
         game.step();
         draw.draw(game);
@@ -5275,11 +5656,14 @@ window.addEventListener("load", function() {
             game.generate();
             game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
         }
+
+        console.log(Vec2.counter);
+        Vec2.counter = 0
     }
 
     var interval = setInterval(step, DT * 1000);
 })
-},{"./draw.js":15,"./game.js":18,"./parameters":22,"./vec2.js":28}],21:[function(require,module,exports){
+},{"./draw.js":15,"./game.js":24,"./parameters":28,"./vec2.js":33}],27:[function(require,module,exports){
 const Vec2 = require("./vec2.js")
 const Random = require("./random.js")
 
@@ -5385,7 +5769,7 @@ class Maze {
 }
 
 module.exports = Maze
-},{"./random.js":24,"./vec2.js":28}],22:[function(require,module,exports){
+},{"./random.js":29,"./vec2.js":33}],28:[function(require,module,exports){
 'use strict'
 const Howl = require('howler').Howl;
 
@@ -5406,10 +5790,10 @@ window.SBJ_AMMO = 5;
 
 // Monsters' names
 
-window.MNS_ZOMBIE = 1;
-window.MNS_GHOST = 2;
-window.MNS_TENTACLE = 3;
-window.MNS_SKELETON = 4;
+
+
+
+
 
 //// GAME PREFERENCES ////
 window.DT = 0.050; // Tick time in seconds
@@ -5736,251 +6120,7 @@ window.ANM_DAMAGE = [
     getImg("textures/particles/damage/damage2.png"),
     getImg("textures/particles/damage/damage3.png")
 ];
-},{"howler":1}],23:[function(require,module,exports){
-
-const Entity = require("./entity")
-const CharacterControls = require("./controls/character-controls")
-const TemporalLightSource = require("./temporal-light-source.js")
-const LightSource = require("./light-source")
-const Animation = require("./animation")
-const Weapon = require("./weapon")
-const Vec2 = require("./vec2")
-
-class Player extends Entity {
-
-    /**
-     * Lamp oil amount
-     * @type {number}
-     */
-    oil = LIMIT_OIL;
-
-    /**
-     * Sanity factor
-     * @type {number}
-     */
-    mind = LIMIT_MIND;
-
-    /**
-     * Lamp status
-     * @type {boolean}
-     */
-    lamp = true
-
-    /**
-     * Light distance
-     * @type {number}
-     */
-    distLight = DIST_LIGHT;
-
-    /**
-     * Items
-     * @type Array<Subject|null>
-     */
-    subjects = [null, null];
-
-    /**
-     * Matches amount
-     * @type {number}
-     */
-    matches = LIMIT_MATCHES
-
-    /**
-     * Player weapon
-     * @type {Weapon}
-     */
-    weapon = new Weapon();
-
-    constructor(config) {
-        super(config);
-
-        this.controls = new CharacterControls()
-    }
-
-    step(dt) {
-        super.step(dt)
-
-        this.dir = NONE;
-
-        let movement = this.controls.getMovement()
-        if (movement.lengthSquared() > 0.01) { // <=> length() > 0.1
-
-            this.game.move(this, movement)
-
-            if (window.SOUND_STEPS.isPlaying !== 1) {
-                window.SOUND_STEPS.play();
-                window.SOUND_STEPS.isPlaying = 1;
-            }
-
-            if (movement.y < -0.1) this.dir = UP;
-            else if (movement.y > 0.1) this.dir = DOWN;
-            else if (movement.x < -0.1) {
-                this.dir = LEFT;
-                this.right = 0;
-            }
-            else if (movement.x > 0.1) {
-                this.dir = RIGHT;
-                this.right = 1;
-            }
-        }
-        else {
-            window.SOUND_STEPS.pause();
-            window.SOUND_STEPS.isPlaying = 0;
-        }
-
-        this.animationType = this.dir;
-
-        // Turning lamp off
-        if (this.game.keyboard.keyPressedOnce("KeyX")) {
-            this.lampOff()
-        }
-
-        if (this.lamp)
-            this.changeOil(-OIL_CONSUMPTION * DT);
-
-        // Horror
-        if (!this.lamp) {
-            this.change_mind(-0.35 * DT);
-            this.game.mentalDanger = 1;
-        }
-
-        if (this.game.keyboard.keyPressedOnce("KeyF")) {
-            if (this.matches > 0) {
-                window.SOUND_MATCH.play();
-                this.lampOn()
-                this.matches--;
-                this.game.temporalLightSources.push(new TemporalLightSource(this.pos, 5, 2));
-                this.game.animations.push(new Animation(ANM_MATCH, this.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
-                this.game.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
-
-                // Lighting spec graves
-                let pos = this.grid_pos;
-                for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
-                    for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
-                        let cell = this.game.grid[x][y];
-                        if (cell.grave < 0 && this.game.spec_graves_visited[-cell.grave - 1] === 1) { // spec grave
-
-                            this.game.specGraveTimer = this.game.specGraveCooldown;
-                            this.game.spec_graves_visited[-cell.grave - 1] = 2;
-                            this.game.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
-                            this.game.spec_graves_visited_count += 1;
-                            this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
-                            this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
-                            this.game.level++;
-                            this.game.generate();
-                        }
-                    }
-                }
-
-                // Open gates
-                for (let x = 0; x < SIZE_X; x++) {
-                    for (let y = 0; y < SIZE_Y; y++) {
-                        if (this.game.spec_graves_visited_count < 3) // Gates are not ready
-                            break;
-
-                        // Check for player
-                        if (this.game.gates_state === 1 && this.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
-                            this.game.gates_state = 2; // Gates opened
-                            this.game.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
-                        }
-
-                        // Clean obstacles
-                        if (this.game.gates_state === 2 && this.grid[x][y].gates) {
-                            this.game.grid[x][y].obstacle = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        //// Weapon ////
-        // Cooldown progress
-        this.weapon.timeToCooldown -= DT;
-
-        this.controls.updateShootingDirection()
-
-        if (!this.controls.shootDirection.isZero()) {
-            let dir = this.controls.shootDirection
-
-            if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) { // Are we able to shoot
-                window.SOUND_SHOOT.play();
-                // Stupid collision check
-                let pos = new Vec2(this.pos.x, this.pos.y);
-
-                for (let i = 0; i < 30; i++) {
-                    let hit = 0;
-                    for (let j = 0; j < this.game.monsters.length; j++) {
-                        // Current monster
-                        let monster = this.game.monsters[j];
-                        // Shift
-                        pos = pos.plus(dir);
-                        // Collision check
-                        if (pos.dist(monster.pos) < 8) {
-                            this.game.hurt(monster, this.weapon.damage);
-                        }
-                    }
-                    if (hit)
-                        break;
-                }
-
-                // Animation
-                let curAnm = ANM_TRACER_UP; // Current animation
-                if (dir.y < 0) curAnm = ANM_TRACER_UP;
-                else if (dir.y > 0)  curAnm = ANM_TRACER_DOWN;
-                else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;
-                else if (dir.x > 0)  curAnm = ANM_TRACER_RIGHT;
-
-                this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
-                this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
-
-
-                // Modify cooldown & ammo
-                this.weapon.timeToCooldown =  this.weapon.cooldownTime;
-                this.weapon.ammo--;
-            }
-        }
-    }
-
-    // mind += delta
-    change_mind(delta) {
-        this.mind += delta;
-
-        if (this.mind < EPS) {
-            this.mind = 0;
-            this.status = 2; // Delirium
-            if (!this.monsterType)
-                window.SOUND_DEATH.play();
-        }
-        if (this.mind > LIMIT_MIND) {
-            this.mind = LIMIT_MIND;
-        }
-    }
-
-    // oil += delta
-    changeOil(delta) {
-        this.oil += delta;
-
-        if (this.oil < 0) {
-            this.oil = 0;
-            this.lampOff()
-        }
-        if (this.oil > LIMIT_OIL) {
-            this.oil = LIMIT_OIL;
-        }
-    }
-
-    lampOff() {
-        this.lamp = false
-        this.distLight = 1
-    }
-
-    lampOn() {
-        this.lamp = true
-        this.distLight = DIST_LIGHT
-    }
-}
-
-module.exports = Player
-},{"./animation":2,"./controls/character-controls":7,"./entity":16,"./light-source":19,"./temporal-light-source.js":26,"./vec2":28,"./weapon":29}],24:[function(require,module,exports){
+},{"howler":1}],29:[function(require,module,exports){
 
 //// RANDOM ////
 
@@ -6006,7 +6146,7 @@ class Random {
 }
 
 module.exports = Random
-},{}],25:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -6021,7 +6161,7 @@ class Subject {
 }
 
 module.exports = Subject
-},{"./vec2":28}],26:[function(require,module,exports){
+},{"./vec2":33}],31:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -6060,7 +6200,7 @@ class TemporalLightSource {
 }
 
 module.exports = TemporalLightSource
-},{"./vec2":28}],27:[function(require,module,exports){
+},{"./vec2":33}],32:[function(require,module,exports){
 class EventEmitter {
     constructor() {
         this.events = new Map()
@@ -6085,11 +6225,12 @@ class EventEmitter {
 }
 
 module.exports = EventEmitter
-},{}],28:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /**
  * 2D Vector
  */
+
 class Vec2 {
 
     x = 0
@@ -6098,10 +6239,21 @@ class Vec2 {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        Vec2.counter++
     }
 
     plus(a) {
         return new Vec2(this.x + a.x, this.y + a.y);
+    }
+
+    add(a) {
+        this.x += a.x
+        this.y += a.y
+    }
+
+    addScalars(x, y) {
+        this.x += x
+        this.y += y
     }
 
     minus(a) {
@@ -6119,6 +6271,12 @@ class Vec2 {
     dist(a) {
         let x = this.x - a.x;
         let y = this.y - a.y;
+        return Math.abs(x) + Math.abs(y);
+    }
+
+    distToPosition(x, y) {
+        x = this.x - x;
+        y = this.y - y;
         return Math.abs(x) + Math.abs(y);
     }
 
@@ -6144,8 +6302,10 @@ class Vec2 {
     }
 }
 
+Vec2.counter = 0
+
 module.exports = Vec2
-},{}],29:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 // Weapon
 class Weapon {
 
@@ -6162,4 +6322,4 @@ class Weapon {
 }
 
 module.exports = Weapon
-},{}]},{},[20]);
+},{}]},{},[26]);

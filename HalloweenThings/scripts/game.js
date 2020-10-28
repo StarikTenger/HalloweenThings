@@ -2,9 +2,8 @@ const Animation = require("./animation.js")
 const Anime = require("./anime.js")
 const Cell = require("./cell.js")
 const Deque = require("./deque.js")
-const Entity = require("./entity.js")
+const Entity = require("./entity/entity.js")
 const LightSource = require("./light-source.js")
-const TemporalLightSource = require("./temporal-light-source.js")
 const Vec2 = require("./vec2.js")
 const Subject = require("./subject")
 const Random = require("./random")
@@ -12,7 +11,14 @@ const Maze = require("./maze")
 const UserControls = require("./controls/user-controls")
 const KeyboardController = require("./controls/keyboardcontroller")
 const GamepadController = require("./controls/gamepad-controller")
-const Player = require("./player")
+const Player = require("./entity/player")
+
+const Monster = require("./entity/monster")
+
+const Zombie = require("./entity/monsters/zombie")
+const Skeleton = require("./entity/monsters/skeleton")
+const Tentacle = require("./entity/monsters/tentaсle")
+const Ghost = require("./entity/monsters/ghost")
 
 /**
  * Main class that controls everything
@@ -107,7 +113,11 @@ class Game {
 
     // Checks is the cell is in bounds
     checkCell(pos) {
-        if (pos.x < 0 || pos.y < 0 || pos.x >= SIZE_X || pos.y >= SIZE_Y)
+        return this.checkCellPosition(pos.x, pos.y)
+    }
+
+    checkCellPosition(x, y) {
+        if (x < 0 || y < 0 || x >= SIZE_X || y >= SIZE_Y)
             return 1;
         return 0;
     }
@@ -129,9 +139,13 @@ class Game {
 
     // Gets visible light value for current cell
     getLight(pos) {
+        return this.getLightPosition(pos.x, pos.y)
+    }
+
+    getLightPosition(x, y) {
         let val = 0;
-        if (!this.checkCell(pos))
-            val = Math.max(this.grid[pos.x][pos.y].light + DIST_LIGHT - DIST_LOAD, 0);
+        if (!this.checkCellPosition(x, y))
+            val = Math.max(this.grid[x][y].light + DIST_LIGHT - DIST_LOAD, 0);
         return val;
     }
 
@@ -161,27 +175,29 @@ class Game {
     }
 
     clever_covering_type() {
-        let roll = Random.random(1, 100);
-        let grass_cnt = 5;
-        let water_cnt = 2;
-        let blood_cnt = 1;
-        let sum = 0;
         return 0;
-        if (roll < 90) { // Grass
-            return Random.normalRoll(sum + 1, grass_cnt, 3);
-        } else {
-            sum += grass_cnt;
-        }
 
-        if (roll < 98) { // Water
-            return Random.normalRoll(sum + 1, sum + water_cnt, 3);
-        } else {
-            sum += water_cnt;
-        }
-
-        if (roll < 100) {
-            return Random.normalRoll(sum + 1, sum + blood_cnt, 3);
-        }
+        // let roll = Random.random(1, 100);
+        // let grass_cnt = 5;
+        // let water_cnt = 2;
+        // let blood_cnt = 1;
+        // let sum = 0;
+        //
+        // if (roll < 90) { // Grass
+        //     return Random.normalRoll(sum + 1, grass_cnt, 3);
+        // } else {
+        //     sum += grass_cnt;
+        // }
+        //
+        // if (roll < 98) { // Water
+        //     return Random.normalRoll(sum + 1, sum + water_cnt, 3);
+        // } else {
+        //     sum += water_cnt;
+        // }
+        //
+        // if (roll < 100) {
+        //     return Random.normalRoll(sum + 1, sum + blood_cnt, 3);
+        // }
     }
 
     subject_type() {
@@ -487,68 +503,6 @@ class Game {
 
         this.player.step(DT)
 
-        //// Active subjects (pick up items) ////
-        // Get subjects
-        for (let i = 0; i < this.subjects.length; i++) {
-            let subject = this.subjects[i];
-            if (subject.pos.dist(this.player.pos) > 8) // Not close enough
-                continue;
-
-            // Checking slots
-            for (let j = 0; j < 2; j++) {
-                if (this.player.subjects[j] && this.player.subjects[j].type) // There is another subject in the slot
-                    continue;
-
-                window.SOUND_PICKUP.play();
-                this.player.subjects[j] = new Subject();
-                this.player.subjects[j].type = subject.type;
-
-                subject.type = undefined;
-            }
-        }
-        //
-        // // Use subjects
-        let keys = [
-            this.keyboard.keyPressedOnce("Digit1"),
-            this.keyboard.keyPressedOnce("Digit2")
-        ];
-        for (let i = 0; i < 2; i++) {
-            if (!this.player.subjects[i] || !this.player.subjects[i].type) // Slot is empty
-                continue;
-            if (!keys[i]) // No command
-                continue;
-
-            // Current subject
-            let subject = this.player.subjects[i];
-
-            // Checking for subject type
-            if (subject.type === SBJ_HEAL) {
-                window.SOUND_DRINK.play();
-                this.player.changeHp(1);
-            }
-            if (subject.type === SBJ_OIL) {
-                window.SOUND_OIL.play();
-                this.player.changeOil(7);
-            }
-            if (subject.type === SBJ_WHISKEY){
-                window.SOUND_DRINK.play();
-                this.player.change_mind(6);
-            }
-            if (subject.type === SBJ_MATCHBOX){
-                window.SOUND_MATCHBOX.play();
-                this.player.matches += 2;
-                this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
-            }
-            if (subject.type === SBJ_AMMO) {
-                window.SOUND_AMMO.play();
-                this.player.weapon.ammo += 5;
-                this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
-            }
-
-            // Remove subject
-            this.player.subjects[i] = undefined;
-        }
-
         if (this.keyboard.keyPressedOnce("Enter")) {
             this.RELOAD = 1;
         }
@@ -597,60 +551,11 @@ class Game {
                 continue;
 
             // Making a monster
-            let monster = new Entity({
-                game: this
-            });
+            let monster = Monster.getRandomMonster(this)
             monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
-            monster.monsterType = this.random_monster_type();
-
-            // Choosing animations
-            let standing = [];
-            let moving_up = [];
-            let moving_down = [];
-            let moving_right = [];
-            if (monster.monsterType === MNS_ZOMBIE) {
-                monster.horror = 0.2;
-                monster.hp = Random.random(2, 3);
-                standing = new Anime(0.5, ANM_ZOMBIE_STANDING);
-                moving_up = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-                moving_down = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-                moving_right = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
-            }
-            if (monster.monsterType === MNS_GHOST) {
-                monster.horror = 0.3;
-                monster.hp = Random.random(1, 3);
-                standing = new Anime(0.5, ANM_GHOST_STANDING);
-                moving_up = new Anime(0.3, ANM_GHOST_MOVING_UP);
-                moving_down = new Anime(0.3, ANM_GHOST_MOVING_DOWN);
-                moving_right = new Anime(0.3, ANM_GHOST_MOVING_RIGHT);
-            }
-            if (monster.monsterType === MNS_TENTACLE) {
-                monster.horror = 0.7;
-                monster.hp = Random.random(3, 4);
-                standing = new Anime(0.5, ANM_WORM_STANDING);
-                moving_up = new Anime(0.3, ANM_WORM_STANDING);
-                moving_down = new Anime(0.3, ANM_WORM_STANDING);
-                moving_right = new Anime(0.3, ANM_WORM_STANDING);
-            }
-            if (monster.monsterType === MNS_SKELETON) {
-                monster.horror = 0.1;
-                monster.hp = Random.random(2, 3);
-                standing = new Anime(0.5, ANM_ZOMBIE_STANDING);
-                moving_up = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-                moving_down = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-                moving_right = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
-            }
-
-            monster.set_animations(standing, [moving_up, moving_down, moving_right]);
-
-
-            if (monster.monsterType === MNS_TENTACLE)
-                monster.horror = 0.5;
-            else
-                monster.horror = 0.2;
 
             // Chosing direction for skeleton patrolling
-            if (monster.monsterType === MNS_SKELETON) {
+            if (monster.monsterType instanceof Skeleton) {
                 monster.dir = LEFT;
             }
 
@@ -671,7 +576,7 @@ class Game {
 
             // Movement
             // ZOMBIE
-            if (monster.monsterType === MNS_ZOMBIE && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
+            if (monster instanceof Zombie && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -693,7 +598,7 @@ class Game {
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
             }
             // GHOST
-            else if (monster.monsterType === MNS_GHOST && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
+            else if (monster instanceof Ghost && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -714,7 +619,7 @@ class Game {
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
             }
             // SKELETON
-            else if (monster.monsterType === MNS_SKELETON) {
+            else if (monster.monsterType instanceof Skeleton) {
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 let gridPosLeft = this.getCell(monster.pos.plus(new Vec2(-1, 0)));
@@ -767,7 +672,7 @@ class Game {
 
             // Horror
             if (this.grid[monster.gridPos.x][monster.gridPos.y].light > DIST_LIGHT - 1) {
-                this.player.change_mind(-monster.horror * DT);
+                this.player.changeMind(-monster.horror * DT);
                 this.mentalDanger = 1;
             }
 
@@ -907,8 +812,8 @@ class Game {
         }
         // BFS deque
         let deque = new Deque();
-        let x = this.getCell(this.player.pos).x;
-        let y = this.getCell(this.player.pos).y;
+        let x = Math.floor(this.player.pos.x / 8);
+        let y = Math.floor(this.player.pos.y / 8);
 
         this.grid[x][y].zombieNav = DIST_LOAD + 1;
         deque.addBack(new Vec2(x, y));

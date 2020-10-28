@@ -56,7 +56,7 @@ class Draw {
         // Grid
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
-                if(game.grid[x][y].light <= 0 && game.player.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4)) > DIST_LIGHT * 2 * 8) // We don't see this cell
+                if(game.grid[x][y].light <= 0 && game.player.pos.distToPosition(x * 8 + 4, y * 8 + 4) > DIST_LIGHT * 2 * 8) // We don't see this cell
                    continue;
                 let cell = game.grid[x][y];
 
@@ -90,13 +90,13 @@ class Draw {
         }
 
         // Player
-        let cur_texture = game.player.get_frame();
+        let cur_texture = game.player.getFrame();
         this.ySorted.push([cur_texture, game.player.pos.x - CELL_SIZE / 2, game.player.pos.y - 2 * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, game.player.right === 0, game.player.pos.y]);
 
         // Monsters
         for (let i = 0; i < game.monsters.length; i++) {
             let monster = game.monsters[i];
-            let frame = monster.get_frame();
+            let frame = monster.getFrame();
             this.ySorted.push([frame, monster.pos.x - CELL_SIZE / 2, monster.pos.y - CELL_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE * 2, monster.right === 0, monster.pos.y]);
         }
 
@@ -131,20 +131,23 @@ class Draw {
 
         // Gradient light
         let pixelSize = 2; // Size of cell of light grid
+        let vector = new Vec2(0, 0)
         for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1 += pixelSize) {
             for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1+= pixelSize) {
                 let val = 0; // Light value
                 let sum = 0; // Dist sum
-                let pos = new Vec2(x1, y1);
-                let cellPos = game.getCell(pos);
+                vector.x = x1
+                vector.y = y1
+                let cellX = Math.floor(x1 / 8)
+                let cellY = Math.floor(y1 / 8)
 
                 // Neighbor cells
-                for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
-                    for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
-                        let dist = pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
-                        if (game.checkCell(new Vec2(x, y)) || dist >= 16)
+                for (let x = cellX - 1; x <= cellX + 1; x++) {
+                    for (let y = cellY - 1; y <= cellY + 1; y++) {
+                        let dist = vector.distToPosition(x * 8 + 4, y * 8 + 4);
+                        if (game.checkCellPosition(x, y) || dist >= 16)
                             continue;
-                        val += game.getLight(new Vec2(x, y)) * (18 - dist);
+                        val += game.getLightPosition(x, y) * (18 - dist);
                         sum += 18 - dist;
                     }
                 }

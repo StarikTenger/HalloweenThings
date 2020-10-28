@@ -2,6 +2,7 @@
 /**
  * 2D Vector
  */
+
 class Vec2 {
 
     x = 0
@@ -10,10 +11,21 @@ class Vec2 {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        Vec2.counter++
     }
 
     plus(a) {
         return new Vec2(this.x + a.x, this.y + a.y);
+    }
+
+    add(a) {
+        this.x += a.x
+        this.y += a.y
+    }
+
+    addScalars(x, y) {
+        this.x += x
+        this.y += y
     }
 
     minus(a) {
@@ -31,6 +43,12 @@ class Vec2 {
     dist(a) {
         let x = this.x - a.x;
         let y = this.y - a.y;
+        return Math.abs(x) + Math.abs(y);
+    }
+
+    distToPosition(x, y) {
+        x = this.x - x;
+        y = this.y - y;
         return Math.abs(x) + Math.abs(y);
     }
 
@@ -55,5 +73,7 @@ class Vec2 {
         return new Vec2(this.x, this.y)
     }
 }
+
+Vec2.counter = 0
 
 module.exports = Vec2

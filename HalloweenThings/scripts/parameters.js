@@ -21,6 +21,7 @@ window.SBJ_AMMO = 5;
 window.MNS_ZOMBIE = 1;
 window.MNS_GHOST = 2;
 window.MNS_TENTACLE = 3;
+window.MNS_SKELETON = 4;
 
 //// GAME PREFERENCES ////
 window.DT = 0.050; // Tick time in seconds
@@ -145,7 +146,8 @@ window.IMGS_GATES = [
 window.IMGS_MONSTER = [
     getImg("textures/monsters/monster1.png"),
     getImg("textures/monsters/monster2.png"),
-    getImg("textures/monsters/monster3.png")
+    getImg("textures/monsters/monster3.png"),
+    getImg("textures/monsters/monster2.png")
 ];
 
 window.IMGS_SUBJECT = [
@@ -179,6 +181,8 @@ window.ANM_PLAYER_MOVING_DOWN = [
 
 // MONSTERS
 
+
+// Zombie
 window.ANM_ZOMBIE_STANDING = [
     getImg("textures/monsters/zombie_standing_0.png"),
     getImg("textures/monsters/zombie_standing_1.png")
@@ -199,14 +203,7 @@ window.ANM_ZOMBIE_MOVING_RIGHT = [
     getImg("textures/monsters/zombie_moving_right_1.png")
 ];
 
-// GATES
-window.ANM_GATES = [
-    getImg("textures/particles/gates/gates0.png"),
-    getImg("textures/particles/gates/gates1.png"),
-    getImg("textures/particles/gates/gates2.png"),
-    getImg("textures/particles/gates/gates3.png")
-];
-
+// Ghost
 window.ANM_GHOST_STANDING = [
     getImg("textures/monsters/ghost_standing_0.png"),
     getImg("textures/monsters/ghost_standing_1.png")
@@ -234,12 +231,21 @@ window.ANM_GHOST_MOVING_RIGHT = [
     getImg("textures/monsters/ghost_moving_right_3.png"),
 ];
 
+// Worm
 window.ANM_WORM_STANDING = [
     getImg("textures/monsters/worm_standing_0.png"),
     getImg("textures/monsters/worm_standing_1.png"),
     getImg("textures/monsters/worm_standing_2.png"),
     getImg("textures/monsters/worm_standing_3.png")
 ]
+
+// GATES
+window.ANM_GATES = [
+    getImg("textures/particles/gates/gates0.png"),
+    getImg("textures/particles/gates/gates1.png"),
+    getImg("textures/particles/gates/gates2.png"),
+    getImg("textures/particles/gates/gates3.png")
+];
 
 // ===================
 

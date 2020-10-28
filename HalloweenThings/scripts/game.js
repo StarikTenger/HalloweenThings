@@ -137,6 +137,7 @@ class Game {
 
     // Choose random monster texture
     random_monster_type() {
+        return 4;
         let monster_cnt = IMGS_MONSTER.length;
         return Random.normalRoll(1, monster_cnt, 1);
     }
@@ -726,7 +727,7 @@ class Game {
         // We try to spawn monster for 10 times
         for (let i = 0; i < 10; i++) {
             // Generate random point
-            let pos = new Vec2(Random.random(0, SIZE_X - 1), Random.random(0, SIZE_Y - 1));
+            let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1));
 
             // Checking for limitations
             if(this.monsters.length >= MONSTER_LIMIT) // Too much monsters
@@ -774,7 +775,14 @@ class Game {
                 moving_down = new Anime(0.3, ANM_WORM_STANDING);
                 moving_right = new Anime(0.3, ANM_WORM_STANDING);
             }
-
+            if (monster.monsterType === MNS_SKELETON) {
+                monster.horror = 0.1;
+                monster.hp = Random.random(2, 3);
+                standing = new Anime(0.5, ANM_ZOMBIE_STANDING);
+                moving_up = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
+                moving_down = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
+                moving_right = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+            }
 
             monster.set_animations(standing, [moving_up, moving_down, moving_right]);
 
@@ -783,6 +791,11 @@ class Game {
                 monster.horror = 0.5;
             else
                 monster.horror = 0.2;
+
+            // Chosing direction for skeleton patrolling
+            if (monster.monsterType === MNS_SKELETON) {
+                monster.dir = window.LEFT;
+            }
 
             // Adding monster to array
             this.monsters.push(monster);
@@ -800,50 +813,76 @@ class Game {
             let y1 = monster.pos.y;
 
             // Movement
-            if (this.grid[monster.gridPos.x][monster.gridPos.y].light > 0)
-                // ZOMBIE
-                if (monster.monsterType === MNS_ZOMBIE) {
-                    // Movement
-                    let deltaPos = new Vec2(0, 0);
-                    // Check neighbor cells to find
-                    let neighbors = [
-                        new Vec2(1, 0),
-                        new Vec2(-1, 0),
-                        new Vec2(0, 1),
-                        new Vec2(0, -1)
-                    ];
-                    for (let j = 0; j < 4; j ++) {
-                        let pos1 = monster.gridPos.plus(neighbors[j]);
-                        if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
-                            continue;
-                        if (this.grid[pos1.x][pos1.y].zombieNav > this.grid[monster.gridPos.x][monster.gridPos.y].zombieNav)
-                            deltaPos = deltaPos.plus(neighbors[j]);
-                    }
+            // ZOMBIE
+            if (monster.monsterType === MNS_ZOMBIE && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
+                // Movement
+                let deltaPos = new Vec2(0, 0);
+                // Check neighbor cells to find
+                let neighbors = [
+                    new Vec2(1, 0),
+                    new Vec2(-1, 0),
+                    new Vec2(0, 1),
+                    new Vec2(0, -1)
+                ];
+                for (let j = 0; j < 4; j ++) {
+                    let pos1 = monster.gridPos.plus(neighbors[j]);
+                    if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
+                        continue;
+                    if (this.grid[pos1.x][pos1.y].zombieNav > this.grid[monster.gridPos.x][monster.gridPos.y].zombieNav)
+                        deltaPos = deltaPos.plus(neighbors[j]);
+                }
 
-                    let vel = 0.5;
-                    this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
+                let vel = 0.5;
+                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
+            }
+            // GHOST
+            else if (monster.monsterType === MNS_GHOST && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
+                // Movement
+                let deltaPos = new Vec2(0, 0);
+                // Check neighbor cells to find
+                let neighbors = [
+                    new Vec2(1, 0),
+                    new Vec2(-1, 0),
+                    new Vec2(0, 1),
+                    new Vec2(0, -1)
+                ];
+                for(let j = 0; j < 4; j++) {
+                    let pos1 = monster.gridPos.plus(neighbors[j]);
+                    if (this.checkCell(pos1))
+                        continue;
+                    if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
+                        deltaPos = deltaPos.plus(neighbors[j]);
                 }
-                // GHOST
-                else if (monster.monsterType === MNS_GHOST) {
-                    // Movement
-                    let deltaPos = new Vec2(0, 0);
-                    // Check neighbor cells to find
-                    let neighbors = [
-                        new Vec2(1, 0),
-                        new Vec2(-1, 0),
-                        new Vec2(0, 1),
-                        new Vec2(0, -1)
-                    ];
-                    for(let j = 0; j < 4; j++) {
-                        let pos1 = monster.gridPos.plus(neighbors[j]);
-                        if (this.checkCell(pos1))
-                            continue;
-                        if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
-                            deltaPos = deltaPos.plus(neighbors[j]);
-                    }
-                    let vel = 0.3;
-                    this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
+                let vel = 0.3;
+                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
+            }
+            // SKELETON
+            else if (monster.monsterType === MNS_SKELETON) {
+                // Movement
+                let deltaPos = new Vec2(0, 0);
+                let gridPosLeft = this.getCell(monster.pos.plus(new Vec2(-1, 0)));
+                let gridPosRight = this.getCell(monster.pos.plus(new Vec2(+1, 0)));
+
+                if (monster.dir === window.LEFT && this.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+                    monster.dir = window.RIGHT;
+                    console.log('l');
                 }
+                if (monster.dir === window.RIGHT && this.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+                    monster.dir = window.LEFT;
+                    console.log('r');
+                }
+
+                if (monster.dir === window.LEFT) {
+                    deltaPos.x = -1;
+                }
+                else {
+                    deltaPos.x = 1;
+                }
+
+
+                let vel = 0.5;
+                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
+            }
 
             let x2 = monster.pos.x;
             let y2 = monster.pos.y;

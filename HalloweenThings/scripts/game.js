@@ -1,34 +1,52 @@
-
 const Animation = require("./animation.js")
 const Anime = require("./anime.js")
 const Cell = require("./cell.js")
 const Deque = require("./deque.js")
 const Entity = require("./entity.js")
-const LightSource = require("./lightSource.js")
-const TemporalLightSource = require("./temporalLightSource.js")
+const LightSource = require("./light-source.js")
+const TemporalLightSource = require("./temporal-light-source.js")
 const Vec2 = require("./vec2.js")
 const Subject = require("./subject")
 const Random = require("./random")
 const Maze = require("./maze")
+const UserControls = require("./controls/user-controls")
+const KeyboardController = require("./controls/keyboardcontroller")
+const GamepadController = require("./controls/gamepad-controller")
+const Player = require("./player")
 
-
-// Main class that controls everything
+/**
+ * Main class that controls everything
+ */
 
 class Game {
     constructor() {
         // Filling grid
         this.grid = [];
         for (let x = 0; x < SIZE_X; x++) {
-                this.grid.push([]);
-                for (let y = 0; y < SIZE_Y; y++) {
-                    this.grid[x].push(new Cell);
-                }
+            this.grid.push([]);
+            for (let y = 0; y < SIZE_Y; y++) {
+                this.grid[x].push(new Cell());
+            }
         }
 
         // Setting player
-        this.player = new Entity();
-        this.player.pos = new Vec2(10, 10);
-        this.player.gridPos = new Vec2(0, 0);
+        this.player = new Player({
+            game: this
+        });
+        this.player.pos.set(10, 10);
+        this.player.gridPos.set(0, 0);
+
+        this.playerControls = new UserControls();
+        this.keyboard = new KeyboardController();
+        this.gamepad = new GamepadController();
+
+        this.keyboard.startListening()
+        this.gamepad.startListening()
+
+        this.playerControls.setupKeyboard(this.keyboard)
+        this.playerControls.setupGamepad(this.gamepad)
+
+        this.playerControls.connectCharacterControls(this.player.controls)
 
         // Player's animations
         let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
@@ -89,14 +107,14 @@ class Game {
 
     // Checks is the cell is in bounds
     checkCell(pos) {
-        if(pos.x < 0 || pos.y < 0 || pos.x >= SIZE_X || pos.y >= SIZE_Y)
+        if (pos.x < 0 || pos.y < 0 || pos.x >= SIZE_X || pos.y >= SIZE_Y)
             return 1;
         return 0;
     }
 
     // Checks is the cell is in bounds and in margin
     checkMargin(pos) {
-        if(pos.x < MARGIN || pos.y < MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN)
+        if (pos.x < MARGIN || pos.y < MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN)
             return 1;
         return 0;
     }
@@ -218,7 +236,7 @@ class Game {
         let gatesFound = 0;
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
-                if(this.grid[x][y].gates)
+                if (this.grid[x][y].gates)
                     gatesFound = 1;
             }
         }
@@ -299,24 +317,24 @@ class Game {
             let neighborsCount = 0;
             let neighborsDiagonalCount = 0;
 
-            if(this.grid[pos.x][pos.y].light > 0) // Forbidden zone
+            if (this.grid[pos.x][pos.y].light > 0) // Forbidden zone
                 continue;
 
             // Check for neighbors
             // Close neighbors
             for (let j = 0; j < 4; j++) {
                 let pos1 = pos.plus(neighbors[j]); // In this cell we check neighbor
-                if(this.checkMargin(pos1)) // Cell out of borders or in margin
+                if (this.checkMargin(pos1)) // Cell out of borders or in margin
                     continue;
-                if(this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
+                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
                     neighborsCount++;
             }
             // Diagonal neighbors
             for (let j = 0; j < 4; j++) {
                 let pos1 = pos.plus(neighborsDiagonal[j]); // In this cell we check neighbor
-                if(this.checkMargin(pos1)) // Cell out of borders or in margin
+                if (this.checkMargin(pos1)) // Cell out of borders or in margin
                     continue;
-                if(this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
+                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
                     neighborsDiagonalCount++;
             }
 
@@ -355,7 +373,7 @@ class Game {
             let y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
             let cell = this.grid[x0][y0];
 
-            for(let i = 0; i < 1000 && cell.light > 0; i++) {
+            for (let i = 0; i < 1000 && cell.light > 0; i++) {
                 x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
                 y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
                 cell = this.grid[x0][y0];
@@ -439,18 +457,20 @@ class Game {
     // Moves object (collision)
     move(object, shift, flight) {
         let deltaPos = shift;
-        let newPosX = object.pos.plus(new Vec2(0, 0)); newPosX.x += deltaPos.x;
-        let newPosY = object.pos.plus(new Vec2(0, 0)); newPosY.y += deltaPos.y;
+        let newPosX = object.pos.plus(new Vec2(0, 0));
+        newPosX.x += deltaPos.x;
+        let newPosY = object.pos.plus(new Vec2(0, 0));
+        newPosY.y += deltaPos.y;
         let cellPosX = newPosX.div(new Vec2(8, 8)); // Cell
         let cellPosY = newPosY.div(new Vec2(8, 8)); // Cell
         cellPosX.x = Math.floor(cellPosX.x);
         cellPosX.y = Math.floor(cellPosX.y);
         cellPosY.x = Math.floor(cellPosY.x);
         cellPosY.y = Math.floor(cellPosY.y);
-        if(cellPosX.x < 0 || cellPosX.y < 0 || cellPosX.x >= SIZE_X || cellPosX.y >= SIZE_Y || (!flight && this.grid[cellPosX.x][cellPosX.y].obstacle)){
+        if (cellPosX.x < 0 || cellPosX.y < 0 || cellPosX.x >= SIZE_X || cellPosX.y >= SIZE_Y || (!flight && this.grid[cellPosX.x][cellPosX.y].obstacle)) {
             deltaPos.x = 0;
         }
-        if(cellPosY.x < 0 || cellPosY.y < 0 || cellPosY.x >= SIZE_X || cellPosY.y >= SIZE_Y || (!flight && this.grid[cellPosY.x][cellPosY.y].obstacle)){
+        if (cellPosY.x < 0 || cellPosY.y < 0 || cellPosY.x >= SIZE_X || cellPosY.y >= SIZE_Y || (!flight && this.grid[cellPosY.x][cellPosY.y].obstacle)) {
             deltaPos.y = 0;
         }
         object.pos = object.pos.plus(deltaPos);
@@ -463,118 +483,9 @@ class Game {
     // Player's movement & actions
     playerControl() {
         // Player movement
-        let deltaPos = new Vec2(0, 0); // Shift for this step
         // Check keys
-        this.player.dir = NONE;
-        if (KEY_D) { // Right
-            deltaPos.x += 1;
-            this.player.dir = RIGHT;
-            this.player.right = 1;
-        }
-        if (KEY_A) { // Left
-            deltaPos.x -= 1;
-            this.player.dir = LEFT;
-            this.player.right = 0;
-        }
-        if (KEY_S) { // Down
-            deltaPos.y += 1;
-            this.player.dir = DOWN;
-        }
-        if (KEY_W) { // Up
-            deltaPos.y -= 1;
-            this.player.dir = UP;
-        }
-        this.player.animationType = this.player.dir;
 
-        // Movement
-        this.move(this.player, deltaPos)
-        if ((KEY_D || KEY_A || KEY_S || KEY_W)) {
-            if (window.SOUND_STEPS.isPlaying != 1) {
-                window.SOUND_STEPS.play();
-                window.SOUND_STEPS.isPlaying = 1;
-                console.log('step');
-            }
-        }
-        else {
-            window.SOUND_STEPS.pause();
-            window.SOUND_STEPS.isPlaying = 0;
-            console.log('pause');
-        }
-
-        // Cooldowns
-        this.player.step(DT);
-
-        //// Lamp management ////
-        // Consumption
-        if (this.player.lamp)
-            this.player.change_oil(-OIL_CONSUMPTION * DT);
-
-        // Turning lamp off
-        if (KEY_X && !KEY_X_PREV) {
-            if (this.player.lamp)
-                this.player.lamp = 0;
-        }
-
-        if (this.player.lamp)
-            this.player.distLight = DIST_LIGHT;
-        else
-            this.player.distLight = 3;
-
-        //// Match using (interacting) ////
-        if (KEY_F && !KEY_F_PREV) {
-            if (this.player.matches > 0) {
-                window.SOUND_MATCH.play();
-                this.player.lamp = 1;
-                this.player.matches--;
-                this.temporalLightSources.push(new TemporalLightSource(this.player.pos, 5, 2));
-                this.animations.push(new Animation(ANM_MATCH, this.player.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
-                this.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.player.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
-
-                // Lighting spec graves
-                let pos = this.player.grid_pos;
-                for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
-                    for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
-                        let cell = this.grid[x][y];
-                        if (cell.grave < 0 && this.spec_graves_visited[-cell.grave - 1] === 1) { // spec grave
-
-                            this.specGraveTimer = this.specGraveCooldown;
-                            this.spec_graves_visited[-cell.grave - 1] = 2;
-                            this.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
-                            this.spec_graves_visited_count += 1;
-                            this.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
-                            this.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
-                            this.level++;
-                            this.generate();
-                        }
-                    }
-                }
-
-                // Open gates
-                for (let x = 0; x < SIZE_X; x++) {
-                    for (let y = 0; y < SIZE_Y; y++) {
-                        if (this.spec_graves_visited_count < 3) // Gates are not ready
-                            break;
-
-                        // Check for player
-                        if (this.gates_state === 1 && this.grid[x][y].gates === 1 && this.player.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
-                            this.gates_state = 2; // Gates opened
-                            this.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
-                        }
-
-                        // Clean obstacles
-                        if (this.gates_state === 2 && this.grid[x][y].gates) {
-                            this.grid[x][y].obstacle = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Horror
-        if (!this.player.lamp) {
-            this.player.change_mind(-0.35 * DT);
-            this.mentalDanger = 1;
-        }
+        this.player.step(DT)
 
         //// Active subjects (pick up items) ////
         // Get subjects
@@ -595,11 +506,11 @@ class Game {
                 subject.type = undefined;
             }
         }
-
-        // Use subjects
+        //
+        // // Use subjects
         let keys = [
-            (KEY_1 && !KEY_1_PREV),
-            (KEY_2 && !KEY_2_PREV)
+            this.keyboard.keyPressedOnce("Digit1"),
+            this.keyboard.keyPressedOnce("Digit2")
         ];
         for (let i = 0; i < 2; i++) {
             if (!this.player.subjects[i] || !this.player.subjects[i].type) // Slot is empty
@@ -613,11 +524,11 @@ class Game {
             // Checking for subject type
             if (subject.type === SBJ_HEAL) {
                 window.SOUND_DRINK.play();
-                this.player.change_hp(1);
+                this.player.changeHp(1);
             }
             if (subject.type === SBJ_OIL) {
                 window.SOUND_OIL.play();
-                this.player.change_oil(7);
+                this.player.changeOil(7);
             }
             if (subject.type === SBJ_WHISKEY){
                 window.SOUND_DRINK.play();
@@ -638,70 +549,14 @@ class Game {
             this.player.subjects[i] = undefined;
         }
 
-        //// Weapon ////
-        // Cooldown progress
-        this.player.weapon.timeToCooldown -= DT;
-
-        if (KEY_UP || KEY_DOWN || KEY_LEFT || KEY_RIGHT) {
-            let dir = new Vec2();
-
-            // Get direction
-            if (KEY_UP)
-                dir = new Vec2(0, -1);
-            if (KEY_DOWN)
-                dir = new Vec2(0, 1);
-            if (KEY_LEFT)
-                dir = new Vec2(-1, 0);
-            if (KEY_RIGHT)
-                dir = new Vec2(1, 0);
-            if (KEY_ENTER) {
-                this.RELOAD = 1;
-            }
-
-            if (this.player.weapon.timeToCooldown <= 0 && this.player.weapon.ammo > 0) { // Are we able to shoot
-                window.SOUND_SHOOT.play();
-                // Stupid collision check
-                let pos = new Vec2(this.player.pos.x, this.player.pos.y);
-                dir = dir.mult(new Vec2(1, 1));
-                for (let i = 0; i < 100; i++) {
-                    let hit = 0;
-                    for (let j = 0; j < this.monsters.length; j++) {
-                        // Current monster
-                        let monster = this.monsters[j];
-                        // Shift
-                        pos = pos.plus(dir);
-                        // Collision check
-                        if (pos.dist(monster.pos) < 8) {
-                            this.hurt(monster, this.player.weapon.damage);
-                        }
-                    }
-                    if (hit)
-                        break;
-                }
-
-                // Animation
-                let curAnm = ANM_TRACER_UP; // Current animation
-                if (KEY_UP)
-                    curAnm = ANM_TRACER_UP;
-                if (KEY_DOWN)
-                    curAnm = ANM_TRACER_DOWN;
-                if (KEY_LEFT)
-                    curAnm = ANM_TRACER_LEFT;
-                if (KEY_RIGHT)
-                    curAnm = ANM_TRACER_RIGHT;
-                this.animations.push(new Animation(curAnm, this.player.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
-                this.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
-
-
-                // Modify cooldown & ammo
-                this.player.weapon.timeToCooldown =  this.player.weapon.cooldownTime;
-                this.player.weapon.ammo--;
-            }
+        if (this.keyboard.keyPressedOnce("Enter")) {
+            this.RELOAD = 1;
         }
 
-        //// WIN ////
-        if (this.player.pos.y < MARGIN * 8 - 8)
-            this.player.status = 3;
+        //
+        // //// WIN ////
+        // if (this.player.pos.y < MARGIN * 8 - 8)
+        //     this.player.status = 3;
     }
 
     // Monster management
@@ -730,19 +585,21 @@ class Game {
             let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1));
 
             // Checking for limitations
-            if(this.monsters.length >= MONSTER_LIMIT) // Too much monsters
+            if (this.monsters.length >= MONSTER_LIMIT) // Too much monsters
                 break;
-            if(this.monsterTimer > 0) // We can't spawn monsters too often
+            if (this.monsterTimer > 0) // We can't spawn monsters too often
                 break;
-            if(this.grid[pos.x][pos.y].obstacle) // Cell is not empty
+            if (this.grid[pos.x][pos.y].obstacle) // Cell is not empty
                 continue;
-            if(this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
+            if (this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
                 continue;
             if (pos.x <= MARGIN && pos.y <= MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) // Out of cemetery
                 continue;
 
             // Making a monster
-            let monster = new Entity();
+            let monster = new Entity({
+                game: this
+            });
             monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
             monster.monsterType = this.random_monster_type();
 
@@ -824,7 +681,7 @@ class Game {
                     new Vec2(0, 1),
                     new Vec2(0, -1)
                 ];
-                for (let j = 0; j < 4; j ++) {
+                for (let j = 0; j < 4; j++) {
                     let pos1 = monster.gridPos.plus(neighbors[j]);
                     if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
                         continue;
@@ -846,11 +703,11 @@ class Game {
                     new Vec2(0, 1),
                     new Vec2(0, -1)
                 ];
-                for(let j = 0; j < 4; j++) {
+                for (let j = 0; j < 4; j++) {
                     let pos1 = monster.gridPos.plus(neighbors[j]);
                     if (this.checkCell(pos1))
                         continue;
-                    if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
+                    if (this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
                         deltaPos = deltaPos.plus(neighbors[j]);
                 }
                 let vel = 0.3;
@@ -950,7 +807,7 @@ class Game {
                     let dist = lightSource.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
                     if (this.checkCell(new Vec2(x, y)) || dist > 16)
                         continue;
-                    this.grid[x][y].light = Math.max (this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
+                    this.grid[x][y].light = Math.max(this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
                     deque.addBack(new Vec2(x, y));
                 }
             }
@@ -991,7 +848,7 @@ class Game {
         while (deque.peekFront()) {
             let pos = deque.peekFront().clone();
             deque.removeFront();
-            if(this.grid[pos.x][pos.y].light < 0)
+            if (this.grid[pos.x][pos.y].light < 0)
                 this.grid[pos.x][pos.y].light = 0;
             if (this.grid[pos.x][pos.y].light <= 0)
                 continue;
@@ -1067,7 +924,7 @@ class Game {
         while (deque.peekFront()) {
             let pos = deque.peekFront().clone();
             deque.removeFront();
-            if(this.grid[pos.x][pos.y].zombieNav < 0)
+            if (this.grid[pos.x][pos.y].zombieNav < 0)
                 this.grid[pos.x][pos.y].zombieNav = 0;
             if (this.grid[pos.x][pos.y].zombieNav <= 0)
                 continue;
@@ -1104,7 +961,7 @@ class Game {
         while (deque.peekFront()) {
             let pos = deque.peekFront().clone();
             deque.removeFront();
-            if(this.grid[pos.x][pos.y].ghostNav < 0)
+            if (this.grid[pos.x][pos.y].ghostNav < 0)
                 this.grid[pos.x][pos.y].ghostNav = 0;
             if (this.grid[pos.x][pos.y].ghostNav <= 0)
                 continue;
@@ -1123,6 +980,7 @@ class Game {
 
     // Function called in each iteration
     step() {
+        this.gamepad.refresh()
         if (this.player.status === 0) { // If player is alive
             this.mentalDanger = 0;
             this.pathfinding();
@@ -1134,7 +992,7 @@ class Game {
             this.manageAnimations();
             this.cooldowns();
         }
-        if (KEY_ENTER) {
+        if (this.keyboard.keyPressedOnce("Enter")) {
             this.RELOAD = 1;
         }
     }

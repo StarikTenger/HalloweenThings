@@ -100,6 +100,6 @@ class Maze {
 
         return field;
     }
-};
+}
 
 module.exports = Maze

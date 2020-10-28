@@ -3277,7 +3277,7 @@ class Animation {
 }
 
 module.exports = Animation
-},{"./vec2":16}],3:[function(require,module,exports){
+},{"./vec2":28}],3:[function(require,module,exports){
 class Anime {
     constructor(frame_time, frames) {
         this.frame_time = frame_time;
@@ -3307,6 +3307,446 @@ class Cell {
 
 module.exports = Cell
 },{}],5:[function(require,module,exports){
+
+class Axle {
+    constructor() {
+        this.sources = new Set()
+        this.ownValue = 0
+        this.value = 0
+        this.update = false
+
+        this.destinations = new Set()
+    }
+
+    addSource(source) {
+        this.sources.add(source)
+        source.destinations.add(this)
+        this.setNeedsUpdate()
+        return this
+    }
+
+    removeSource(source) {
+        this.sources.delete(source)
+        source.destinations.delete(this)
+        this.setNeedsUpdate()
+        return this
+    }
+
+    disconnectAll() {
+        for(let destination of this.destinations.values()) {
+            destination.removeSource(this)
+        }
+    }
+
+    connect(destination) {
+        destination.addSource(this)
+    }
+
+    getValue() {
+        if (this.update) {
+            this.update = false
+            let result = this.ownValue
+
+            for (let source of this.sources.values()) result += source.getValue()
+            this.value = result
+            return result
+        } else {
+            return this.value
+        }
+    }
+
+    setValue(value) {
+        this.ownValue = value
+        this.setNeedsUpdate()
+    }
+
+    setNeedsUpdate() {
+        this.update = true
+
+        for(let destination of this.destinations.values())
+            destination.setNeedsUpdate()
+    }
+
+    needsUpdate() {
+        return this.update
+    }
+}
+
+module.exports = Axle
+},{}],6:[function(require,module,exports){
+
+const Axle = require("./axle")
+
+class ButtonAxle extends Axle {
+    constructor(min, max) {
+        super()
+        this.min = min === undefined ? 0 : min
+        this.max = max === undefined ? 1 : max
+
+        this.ownValue = this.min
+        this.pressed = false
+    }
+
+    keyPressed() {
+        this.pressed = true
+        this.setNeedsUpdate()
+    }
+
+    keyReleased() {
+        this.pressed = false
+        this.setNeedsUpdate()
+    }
+
+    reverse() {
+        this.max = -this.max
+        this.min = -this.min
+        return this
+    }
+
+    getValue() {
+        this.ownValue = this.pressed ? this.max : this.min
+        return this.ownValue
+    }
+}
+
+module.exports = ButtonAxle
+},{"./axle":5}],7:[function(require,module,exports){
+
+const Axle = require("./axle")
+const Vec2 = require("../vec2")
+
+class CharacterControls {
+    constructor() {
+        this.movementXAxle = new Axle()
+        this.movementYAxle = new Axle()
+
+        this.shootWestAxle = new Axle()
+        this.shootEastAxle = new Axle()
+        this.shootNorthAxle = new Axle()
+        this.shootSouthAxle = new Axle()
+
+        this.movement = new Vec2(0, 0)
+        this.shootDirection = new Vec2(0, 0)
+    }
+
+    // TODO: make this a bit more effective
+    /**
+     * Updates and returns player movement vector
+     * @return {Vec2}
+     */
+    getMovement() {
+        this.movement.x = this.movementXAxle.getValue()
+        this.movement.y = this.movementYAxle.getValue()
+
+        return this.movement
+    }
+
+    updateShootingDirection() {
+
+        let x = 0, y = 0;
+
+        x -= Math.ceil(this.shootWestAxle.getValue())
+        x += Math.ceil(this.shootEastAxle.getValue())
+        y -= Math.ceil(this.shootNorthAxle.getValue())
+        y += Math.ceil(this.shootSouthAxle.getValue())
+
+        if(y !== 0 && x !== 0) x = 0;
+
+        this.shootDirection.x = x
+        this.shootDirection.y = y
+    }
+}
+
+module.exports = CharacterControls
+},{"../vec2":28,"./axle":5}],8:[function(require,module,exports){
+
+const DocumentEventHandler = require("../events/documenteventhandler")
+const GamepadAxle = require("./gamepadaxle")
+const GamepadButton = require("./gamepadbutton")
+
+navigator.getGamepads = navigator.getGamepads || navigator["webkitGetGamepads"]
+
+class GamepadController extends DocumentEventHandler {
+    constructor() {
+        super();
+
+        this.gamepad = null
+        this.axises = []
+        this.buttons = []
+        this.target = window
+    }
+
+    startListening() {
+        if(navigator.getGamepads) {
+            this.bind("gamepadconnected", this.gamepadConnected)
+            this.bind("gamepaddisconnected", this.gamepadDisconnected)
+        }
+    }
+
+    refresh() {
+        if(this.gamepad === null) return
+
+        for(let [i, button] of navigator.getGamepads()[this.gamepad].buttons.entries()) {
+            let value = typeof button === "number" ? button : button.value
+            if(this.buttons[i] !== value) {
+                this.emit("button", i, value)
+                this.buttons[i] = value
+            }
+        }
+
+        for(let [i, axis] of navigator.getGamepads()[this.gamepad].axes.entries()) {
+            if(this.axises[i] !== axis) {
+                this.emit("axle", i, axis)
+                this.axises[i] = axis
+            }
+        }
+    }
+
+    gamepadConnected(event) {
+        console.log("hey!!!")
+        if(this.gamepad !== null) {
+            return
+        }
+        this.gamepad = event.gamepad.index
+        this.axises = new Array(navigator.getGamepads()[this.gamepad].axes.length)
+    }
+
+    gamepadDisconnected(event) {
+        if(event.gamepad.index === this.gamepad) {
+            this.gamepad = null
+        }
+    }
+
+    getAxle(index) {
+        return new GamepadAxle(this, index)
+    }
+
+    getButton(index) {
+        return new GamepadButton(this, index)
+    }
+}
+
+module.exports = GamepadController
+},{"../events/documenteventhandler":17,"./gamepadaxle":9,"./gamepadbutton":10}],9:[function(require,module,exports){
+
+const Axle = require("./axle")
+
+class GamepadAxle extends Axle {
+    constructor(controller, axle) {
+        super();
+        this.axle = axle
+        this.controller = controller
+        this.value = 0
+        this.power = 1
+        this.inverted = false
+        this.controller.on("axle", (index, value) => {
+            if(index === this.axle) {
+                this.value = Math.pow(value, this.power)
+                this.setNeedsUpdate()
+            }
+        })
+    }
+
+    invert() {
+        this.inverted = !this.inverted
+        return this
+    }
+
+    getValue() {
+        return this.inverted ? -this.value : this.value
+    }
+}
+
+module.exports = GamepadAxle
+},{"./axle":5}],10:[function(require,module,exports){
+
+const ButtonAxle = require("./buttonaxle")
+
+class GamepadButton extends ButtonAxle {
+    constructor(gamepad, button, min, max) {
+        super(max, min);
+
+        this.button = button
+        gamepad.on("button", (index, value) => {
+            if(index === this.button) {
+                this.keyPressed(value)
+            }
+        })
+    }
+}
+
+module.exports = GamepadButton
+},{"./buttonaxle":6}],11:[function(require,module,exports){
+
+const ButtonAxle = require("./buttonaxle")
+
+class KeyAxle extends ButtonAxle {
+    constructor(keyboard, key, min, max) {
+        super(min, max)
+        this.key = key
+
+        keyboard.on("keydown", (event) => {
+            if(event.code === this.key) this.keyPressed()
+        })
+        keyboard.on("keyup", (event) => {
+            if(event.code === this.key) this.keyReleased()
+        })
+    }
+}
+
+module.exports = KeyAxle
+},{"./buttonaxle":6}],12:[function(require,module,exports){
+
+const DocumentEventHandler = require("../events/documenteventhandler")
+const KeyAxle = require("./keyaxle")
+
+class KeyboardController extends DocumentEventHandler {
+    constructor() {
+        super()
+        this.keys = new Set()
+        this.keybindings = []
+        this.isMacOS = navigator.userAgent.indexOf("Mac") !== -1
+    }
+
+    keybinding(name, handler) {
+        let parts = name.split("-")
+        let cmd = parts.indexOf("Cmd") !== -1
+        let shift = parts.indexOf("Shift") !== -1
+        let alt = parts.indexOf("Alt") !== -1
+        let key = parts.pop()
+
+        this.on("keydown", (event) => {
+            let eventCmd = this.isMacOS ? event.metaKey : event.ctrlKey
+            let eventShift = event.shiftKey
+            let eventAlt = event.altKey
+
+            let eventKey = event.code
+            if(eventKey.startsWith("Key")) eventKey = eventKey.substr(3)
+
+            if(eventCmd !== cmd) return;
+            if(eventShift !== shift) return;
+            if(eventAlt !== alt) return;
+            if(eventKey !== key) return;
+
+            event.preventDefault()
+
+            handler(event)
+        })
+    }
+
+    startListening() {
+        this.bind("keyup", this.keyup)
+        this.bind("keydown", this.keydown)
+    }
+
+    keyPressed() {
+        for(let argument of arguments) {
+            if (this.keys.has(argument)) return true
+        }
+        return false
+    }
+
+    keyPressedOnce(key) {
+        if(this.keys.has(key)) {
+            this.keys.delete(key)
+            return true
+        }
+        return false
+    }
+
+    keyup(e) {
+        this.emit("keyup", e)
+        this.keys.delete(e.code)
+    }
+
+    keydown(e) {
+        if(e.repeat) {
+            e.preventDefault()
+            return
+        }
+        this.emit("keydown", e)
+        this.keys.add(e.code)
+    }
+
+    // for future gamepad support
+    getKeyAxle(key, min, max) {
+        return new KeyAxle(this, key, min, max)
+    }
+}
+
+module.exports = KeyboardController
+},{"../events/documenteventhandler":17,"./keyaxle":11}],13:[function(require,module,exports){
+
+const Axle = require("./axle")
+const EventEmitter = require("../utils/event-emitter")
+
+class UserControls extends EventEmitter {
+    constructor() {
+        super()
+
+        this.axles = new Map()
+        this.createAxle("movement-x")
+        this.createAxle("movement-y")
+        this.createAxle("shoot-west")
+        this.createAxle("shoot-east")
+        this.createAxle("shoot-north")
+        this.createAxle("shoot-south")
+
+        this.createAxle("respawn")
+    }
+
+    createAxle(name, dimensions) {
+        this.axles.set(name, new Axle(dimensions))
+    }
+
+    connectCharacterControls(controls) {
+        controls.movementXAxle.addSource(this.axles.get("movement-x"))
+        controls.movementYAxle.addSource(this.axles.get("movement-y"))
+
+        controls.shootWestAxle.addSource(this.axles.get("shoot-west"))
+        controls.shootEastAxle.addSource(this.axles.get("shoot-east"))
+        controls.shootNorthAxle.addSource(this.axles.get("shoot-north"))
+        controls.shootSouthAxle.addSource(this.axles.get("shoot-south"))
+    }
+
+    disconnectCharacterControls() {
+        this.axles.get("movement-x").disconnectAll()
+        this.axles.get("movement-y").disconnectAll()
+
+        this.axles.get("shoot-west") .disconnectAll()
+        this.axles.get("shoot-east") .disconnectAll()
+        this.axles.get("shoot-north").disconnectAll()
+        this.axles.get("shoot-south").disconnectAll()
+    }
+
+    setupGamepad(gamepad) {
+        this.axles.get("movement-x").addSource(gamepad.getAxle(2))
+        this.axles.get("movement-y").addSource(gamepad.getAxle(3))
+
+        this.axles.get("shoot-west") .addSource(gamepad.getButton(14));
+        this.axles.get("shoot-east") .addSource(gamepad.getButton(15));
+        this.axles.get("shoot-north").addSource(gamepad.getButton(12));
+        this.axles.get("shoot-south").addSource(gamepad.getButton(13));
+    }
+
+    setupKeyboard(keyboard) {
+        this.axles.get("movement-y")
+            .addSource(keyboard.getKeyAxle("KeyW").reverse())
+            .addSource(keyboard.getKeyAxle("KeyS"))
+
+        this.axles.get("movement-x")
+            .addSource(keyboard.getKeyAxle("KeyD"))
+            .addSource(keyboard.getKeyAxle("KeyA").reverse())
+
+        this.axles.get("shoot-west").addSource(keyboard.getKeyAxle("ArrowLeft"))
+        this.axles.get("shoot-east").addSource(keyboard.getKeyAxle("ArrowRight"))
+        this.axles.get("shoot-north").addSource(keyboard.getKeyAxle("ArrowUp"))
+        this.axles.get("shoot-south").addSource(keyboard.getKeyAxle("ArrowDown"))
+    }
+}
+
+module.exports = UserControls
+},{"../utils/event-emitter":27,"./axle":5}],14:[function(require,module,exports){
 class Deque {
     constructor() {
         this.front = this.back = undefined;
@@ -3340,7 +3780,7 @@ class Deque {
 }
 
 module.exports = Deque
-},{}],6:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -3563,34 +4003,65 @@ class Draw {
 }
 
 module.exports = Draw
-},{"./vec2":16}],7:[function(require,module,exports){
+},{"./vec2":28}],16:[function(require,module,exports){
 
 
-const Weapon = require("./weapon")
 const Vec2 = require("./vec2")
 
-    // Player | monster
+/**
+ * Entity or monster
+ */
 class Entity {
-    constructor() {
-        this.pos = new Vec2(0, 0); // Position
-        this.gridPos = new Vec2(0, 0); // Position
+
+    // TODO: Напишите внятные доки к gridPos и Pos, я не понимаю что они значат.
+
+    /**
+     * Entity grid position
+     * @type {Vec2}
+     */
+    gridPos = new Vec2(0, 0);
+
+    /**
+     * Entity position
+     * @type {Vec2}
+     */
+    pos = new Vec2(0, 0);
+
+    /**
+     * Damage invulnerability time parameter
+     * @type {Number}
+     */
+    protectionTime = 0.5;
+
+    /**
+     * Damage invulnerability timer
+     * @type {Number}
+     */
+    protectionTimer = 0;
+
+    /**
+     * Entity health
+     */
+    hp = LIMIT_HP;
+
+    /**
+     * Where this entity lives
+     * @type {Game}
+     */
+    game = null
+
+    /**
+     * @param config Entity config
+     * @param config.game Game containing this entity
+     */
+    constructor(config) {
+        if(!config) config = {}
+
+        this.game = config.game
+
         this.dir = 0; // Direction
 
-        this.lamp = 1; // 1 - on, 0 - off
-        this.distLight = DIST_LIGHT;
-
-        this.hp = LIMIT_HP;
-        this.oil = LIMIT_OIL;
-        this.mind = LIMIT_MIND;
-        this.matches = LIMIT_MATCHES;
-
         this.status = 0; // 0 - alive, 1 - dead, 2 - delirious, 3 - win
-
-        this.protectionTime = 0.5; // Invulnerability after taking damage (parameter)
-        this.protectionTimer = 0; // Invulnerability after taking damage (Timer)
-        this.subjects = [undefined, undefined];
-
-        this.weapon = new Weapon();
 
         // animation
         this.right = 1;
@@ -3599,6 +4070,7 @@ class Entity {
         this.animationTime = 0.3; // time per 1 animation frame
         this.animationTimer = 0; // timer
 
+        // TODO: вынести в класс Monster
         // For monster
         this.monsterType = 0;
         this.horror = 0; // -mind per second
@@ -3640,23 +4112,8 @@ class Entity {
         return this.cur_animation.frames[this.cur_animation.frame];
     }
 
-    // mind += delta
-    change_mind(delta) {
-        this.mind += delta;
-
-        if (this.mind < EPS) {
-            this.mind = 0;
-            this.status = 2; // Delirium
-            if (!this.monsterType)
-                window.SOUND_DEATH.play();
-        }
-        if (this.mind > LIMIT_MIND) {
-            this.mind = LIMIT_MIND;
-        }
-    }
-
     // hp += delta
-    change_hp(delta) {
+    changeHp(delta) {
         this.hp += delta;
 
         if (this.hp < EPS) {
@@ -3673,21 +4130,8 @@ class Entity {
     // hp += delta
     hurt(damage) {
         if (this.protectionTimer === 0) { // protection after attacks
-            this.change_hp(-damage);
+            this.changeHp(-damage);
             this.protect();
-        }
-    }
-
-    // oil += delta
-    change_oil(delta) {
-        this.oil += delta;
-
-        if (this.oil < 0) {
-            this.oil = 0;
-            this.lamp = 0;
-        }
-        if (this.oil > LIMIT_OIL) {
-            this.oil = LIMIT_OIL;
         }
     }
 
@@ -3698,38 +4142,108 @@ class Entity {
 }
 
 module.exports = Entity
-},{"./vec2":16,"./weapon":17}],8:[function(require,module,exports){
+},{"./vec2":28}],17:[function(require,module,exports){
 
+const EventEmitter = require("../utils/event-emitter")
+
+class DocumentEventHandler extends EventEmitter {
+    constructor() {
+        super()
+        /** @type Map<string,any> */
+        this.listeners = new Map()
+        this.target = document.body
+    }
+
+    bind(event, handler) {
+        if(this.listeners.has(event)) {
+            this.unbind(event)
+        }
+        const self = this
+        const listener = function(){ handler.apply(self, arguments) }
+
+
+        this.listeners.set(event, listener)
+
+        if(Array.isArray(this.target)) {
+            for (let target of this.target)
+                target.addEventListener(event, listener)
+        } else {
+            this.target.addEventListener(event, listener)
+        }
+    }
+
+    unbind(event) {
+        if(Array.isArray(this.target)) {
+            for (let target of this.target)
+                target.removeEventListener(event, this.listeners.get(event))
+        } else {
+            this.target.removeEventListener(event, this.listeners.get(event))
+        }
+
+        this.listeners.delete(event)
+    }
+
+    startListening() {}
+    stopListening() {
+        for(let event of this.listeners.keys()) {
+            this.unbind(event)
+        }
+        this.keys.clear()
+        this.listeners.clear()
+    }
+}
+
+module.exports = DocumentEventHandler
+},{"../utils/event-emitter":27}],18:[function(require,module,exports){
 const Animation = require("./animation.js")
 const Anime = require("./anime.js")
 const Cell = require("./cell.js")
 const Deque = require("./deque.js")
 const Entity = require("./entity.js")
-const LightSource = require("./lightSource.js")
-const TemporalLightSource = require("./temporalLightSource.js")
+const LightSource = require("./light-source.js")
+const TemporalLightSource = require("./temporal-light-source.js")
 const Vec2 = require("./vec2.js")
 const Subject = require("./subject")
 const Random = require("./random")
 const Maze = require("./maze")
+const UserControls = require("./controls/user-controls")
+const KeyboardController = require("./controls/keyboardcontroller")
+const GamepadController = require("./controls/gamepad-controller")
+const Player = require("./player")
 
-
-// Main class that controls everything
+/**
+ * Main class that controls everything
+ */
 
 class Game {
     constructor() {
         // Filling grid
         this.grid = [];
         for (let x = 0; x < SIZE_X; x++) {
-                this.grid.push([]);
-                for (let y = 0; y < SIZE_Y; y++) {
-                    this.grid[x].push(new Cell);
-                }
+            this.grid.push([]);
+            for (let y = 0; y < SIZE_Y; y++) {
+                this.grid[x].push(new Cell());
+            }
         }
 
         // Setting player
-        this.player = new Entity();
-        this.player.pos = new Vec2(10, 10);
-        this.player.gridPos = new Vec2(0, 0);
+        this.player = new Player({
+            game: this
+        });
+        this.player.pos.set(10, 10);
+        this.player.gridPos.set(0, 0);
+
+        this.playerControls = new UserControls();
+        this.keyboard = new KeyboardController();
+        this.gamepad = new GamepadController();
+
+        this.keyboard.startListening()
+        this.gamepad.startListening()
+
+        this.playerControls.setupKeyboard(this.keyboard)
+        this.playerControls.setupGamepad(this.gamepad)
+
+        this.playerControls.connectCharacterControls(this.player.controls)
 
         // Player's animations
         let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
@@ -3790,14 +4304,14 @@ class Game {
 
     // Checks is the cell is in bounds
     checkCell(pos) {
-        if(pos.x < 0 || pos.y < 0 || pos.x >= SIZE_X || pos.y >= SIZE_Y)
+        if (pos.x < 0 || pos.y < 0 || pos.x >= SIZE_X || pos.y >= SIZE_Y)
             return 1;
         return 0;
     }
 
     // Checks is the cell is in bounds and in margin
     checkMargin(pos) {
-        if(pos.x < MARGIN || pos.y < MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN)
+        if (pos.x < MARGIN || pos.y < MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN)
             return 1;
         return 0;
     }
@@ -3917,7 +4431,7 @@ class Game {
         let gatesFound = 0;
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
-                if(this.grid[x][y].gates)
+                if (this.grid[x][y].gates)
                     gatesFound = 1;
             }
         }
@@ -3998,24 +4512,24 @@ class Game {
             let neighborsCount = 0;
             let neighborsDiagonalCount = 0;
 
-            if(this.grid[pos.x][pos.y].light > 0) // Forbidden zone
+            if (this.grid[pos.x][pos.y].light > 0) // Forbidden zone
                 continue;
 
             // Check for neighbors
             // Close neighbors
             for (let j = 0; j < 4; j++) {
                 let pos1 = pos.plus(neighbors[j]); // In this cell we check neighbor
-                if(this.checkMargin(pos1)) // Cell out of borders or in margin
+                if (this.checkMargin(pos1)) // Cell out of borders or in margin
                     continue;
-                if(this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
+                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
                     neighborsCount++;
             }
             // Diagonal neighbors
             for (let j = 0; j < 4; j++) {
                 let pos1 = pos.plus(neighborsDiagonal[j]); // In this cell we check neighbor
-                if(this.checkMargin(pos1)) // Cell out of borders or in margin
+                if (this.checkMargin(pos1)) // Cell out of borders or in margin
                     continue;
-                if(this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
+                if (this.grid[pos1.x][pos1.y].obstacle) // Neighbor found
                     neighborsDiagonalCount++;
             }
 
@@ -4054,7 +4568,7 @@ class Game {
             let y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
             let cell = this.grid[x0][y0];
 
-            for(let i = 0; i < 1000 && cell.light > 0; i++) {
+            for (let i = 0; i < 1000 && cell.light > 0; i++) {
                 x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
                 y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
                 cell = this.grid[x0][y0];
@@ -4130,18 +4644,20 @@ class Game {
     // Moves object (collision)
     move(object, shift, flight) {
         let deltaPos = shift;
-        let newPosX = object.pos.plus(new Vec2(0, 0)); newPosX.x += deltaPos.x;
-        let newPosY = object.pos.plus(new Vec2(0, 0)); newPosY.y += deltaPos.y;
+        let newPosX = object.pos.plus(new Vec2(0, 0));
+        newPosX.x += deltaPos.x;
+        let newPosY = object.pos.plus(new Vec2(0, 0));
+        newPosY.y += deltaPos.y;
         let cellPosX = newPosX.div(new Vec2(8, 8)); // Cell
         let cellPosY = newPosY.div(new Vec2(8, 8)); // Cell
         cellPosX.x = Math.floor(cellPosX.x);
         cellPosX.y = Math.floor(cellPosX.y);
         cellPosY.x = Math.floor(cellPosY.x);
         cellPosY.y = Math.floor(cellPosY.y);
-        if(cellPosX.x < 0 || cellPosX.y < 0 || cellPosX.x >= SIZE_X || cellPosX.y >= SIZE_Y || (!flight && this.grid[cellPosX.x][cellPosX.y].obstacle)){
+        if (cellPosX.x < 0 || cellPosX.y < 0 || cellPosX.x >= SIZE_X || cellPosX.y >= SIZE_Y || (!flight && this.grid[cellPosX.x][cellPosX.y].obstacle)) {
             deltaPos.x = 0;
         }
-        if(cellPosY.x < 0 || cellPosY.y < 0 || cellPosY.x >= SIZE_X || cellPosY.y >= SIZE_Y || (!flight && this.grid[cellPosY.x][cellPosY.y].obstacle)){
+        if (cellPosY.x < 0 || cellPosY.y < 0 || cellPosY.x >= SIZE_X || cellPosY.y >= SIZE_Y || (!flight && this.grid[cellPosY.x][cellPosY.y].obstacle)) {
             deltaPos.y = 0;
         }
         object.pos = object.pos.plus(deltaPos);
@@ -4154,118 +4670,9 @@ class Game {
     // Player's movement & actions
     playerControl() {
         // Player movement
-        let deltaPos = new Vec2(0, 0); // Shift for this step
         // Check keys
-        this.player.dir = NONE;
-        if (KEY_D) { // Right
-            deltaPos.x += 1;
-            this.player.dir = RIGHT;
-            this.player.right = 1;
-        }
-        if (KEY_A) { // Left
-            deltaPos.x -= 1;
-            this.player.dir = LEFT;
-            this.player.right = 0;
-        }
-        if (KEY_S) { // Down
-            deltaPos.y += 1;
-            this.player.dir = DOWN;
-        }
-        if (KEY_W) { // Up
-            deltaPos.y -= 1;
-            this.player.dir = UP;
-        }
-        this.player.animationType = this.player.dir;
 
-        // Movement
-        this.move(this.player, deltaPos)
-        if ((KEY_D || KEY_A || KEY_S || KEY_W)) {
-            if (window.SOUND_STEPS.isPlaying != 1) {
-                window.SOUND_STEPS.play();
-                window.SOUND_STEPS.isPlaying = 1;
-                console.log('step');
-            }
-        }
-        else {
-            window.SOUND_STEPS.pause();
-            window.SOUND_STEPS.isPlaying = 0;
-            console.log('pause');
-        }
-
-        // Cooldowns
-        this.player.step(DT);
-
-        //// Lamp management ////
-        // Consumption
-        if (this.player.lamp)
-            this.player.change_oil(-OIL_CONSUMPTION * DT);
-
-        // Turning lamp off
-        if (KEY_X && !KEY_X_PREV) {
-            if (this.player.lamp)
-                this.player.lamp = 0;
-        }
-
-        //// Match using (interacting) ////
-        if (KEY_F && !KEY_F_PREV) {
-            if (this.player.matches > 0) {
-                window.SOUND_MATCH.play();
-                this.player.lamp = 1;
-                this.player.matches--;
-                this.temporalLightSources.push(new TemporalLightSource(this.player.pos, 5, 2));
-                this.animations.push(new Animation(ANM_MATCH, this.player.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
-                this.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.player.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
-
-                // Lighting spec graves
-                let pos = this.player.grid_pos;
-                for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
-                    for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
-                        let cell = this.grid[x][y];
-                        if (cell.grave < 0 && this.spec_graves_visited[-cell.grave - 1] === 1) { // spec grave
-
-                            this.specGraveTimer = this.specGraveCooldown;
-                            this.spec_graves_visited[-cell.grave - 1] = 2;
-                            this.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
-                            this.spec_graves_visited_count += 1;
-                            this.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
-                            this.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
-                            this.level++;
-                            this.generate();
-                        }
-                    }
-                }
-
-                // Open gates
-                for (let x = 0; x < SIZE_X; x++) {
-                    for (let y = 0; y < SIZE_Y; y++) {
-                        if (this.spec_graves_visited_count < 3) // Gates are not ready
-                            break;
-
-                        // Check for player
-                        if (this.gates_state === 1 && this.grid[x][y].gates === 1 && this.player.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
-                            this.gates_state = 2; // Gates opened
-                            this.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
-                        }
-
-                        // Clean obstacles
-                        if (this.gates_state === 2 && this.grid[x][y].gates) {
-                            this.grid[x][y].obstacle = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (this.player.lamp)
-            this.player.distLight = DIST_LIGHT;
-        else
-            this.player.distLight = 1;
-
-        // Horror
-        if (!this.player.lamp) {
-            this.player.change_mind(-0.35 * DT);
-            this.mentalDanger = 1;
-        }
+        this.player.step(DT)
 
         //// Active subjects (pick up items) ////
         // Get subjects
@@ -4286,11 +4693,11 @@ class Game {
                 subject.type = undefined;
             }
         }
-
-        // Use subjects
+        //
+        // // Use subjects
         let keys = [
-            (KEY_1 && !KEY_1_PREV),
-            (KEY_2 && !KEY_2_PREV)
+            this.keyboard.keyPressedOnce("Digit1"),
+            this.keyboard.keyPressedOnce("Digit2")
         ];
         for (let i = 0; i < 2; i++) {
             if (!this.player.subjects[i] || !this.player.subjects[i].type) // Slot is empty
@@ -4304,11 +4711,11 @@ class Game {
             // Checking for subject type
             if (subject.type === SBJ_HEAL) {
                 window.SOUND_DRINK.play();
-                this.player.change_hp(1);
+                this.player.changeHp(1);
             }
             if (subject.type === SBJ_OIL) {
                 window.SOUND_OIL.play();
-                this.player.change_oil(7);
+                this.player.changeOil(7);
             }
             if (subject.type === SBJ_WHISKEY){
                 window.SOUND_DRINK.play();
@@ -4329,70 +4736,14 @@ class Game {
             this.player.subjects[i] = undefined;
         }
 
-        //// Weapon ////
-        // Cooldown progress
-        this.player.weapon.timeToCooldown -= DT;
-
-        if (KEY_UP || KEY_DOWN || KEY_LEFT || KEY_RIGHT) {
-            let dir = new Vec2();
-
-            // Get direction
-            if (KEY_UP)
-                dir = new Vec2(0, -1);
-            if (KEY_DOWN)
-                dir = new Vec2(0, 1);
-            if (KEY_LEFT)
-                dir = new Vec2(-1, 0);
-            if (KEY_RIGHT)
-                dir = new Vec2(1, 0);
-            if (KEY_ENTER) {
-                this.RELOAD = 1;
-            }
-
-            if (this.player.weapon.timeToCooldown <= 0 && this.player.weapon.ammo > 0) { // Are we able to shoot
-                window.SOUND_SHOOT.play();
-                // Stupid collision check
-                let pos = new Vec2(this.player.pos.x, this.player.pos.y);
-                dir = dir.mult(new Vec2(2, 2));
-                for (let i = 0; i < 30; i++) {
-                    let hit = 0;
-                    for (let j = 0; j < this.monsters.length; j++) {
-                        // Current monster
-                        let monster = this.monsters[j];
-                        // Shift
-                        pos = pos.plus(dir);
-                        // Collision check
-                        if (pos.dist(monster.pos) < 8) {
-                            this.hurt(monster, this.player.weapon.damage);
-                        }
-                    }
-                    if (hit)
-                        break;
-                }
-
-                // Animation
-                let curAnm = ANM_TRACER_UP; // Current animation
-                if (KEY_UP)
-                    curAnm = ANM_TRACER_UP;
-                if (KEY_DOWN)
-                    curAnm = ANM_TRACER_DOWN;
-                if (KEY_LEFT)
-                    curAnm = ANM_TRACER_LEFT;
-                if (KEY_RIGHT)
-                    curAnm = ANM_TRACER_RIGHT;
-                this.animations.push(new Animation(curAnm, this.player.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
-                this.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
-
-
-                // Modify cooldown & ammo
-                this.player.weapon.timeToCooldown =  this.player.weapon.cooldownTime;
-                this.player.weapon.ammo--;
-            }
+        if (this.keyboard.keyPressedOnce("Enter")) {
+            this.RELOAD = 1;
         }
 
-        //// WIN ////
-        if (this.player.pos.y < MARGIN * 8 - 8)
-            this.player.status = 3;
+        //
+        // //// WIN ////
+        // if (this.player.pos.y < MARGIN * 8 - 8)
+        //     this.player.status = 3;
     }
 
     // Monster management
@@ -4421,19 +4772,21 @@ class Game {
             let pos = new Vec2(Random.random(0, SIZE_X - 1), Random.random(0, SIZE_Y - 1));
 
             // Checking for limitations
-            if(this.monsters.length >= MONSTER_LIMIT) // Too much monsters
+            if (this.monsters.length >= MONSTER_LIMIT) // Too much monsters
                 break;
-            if(this.monsterTimer > 0) // We can't spawn monsters too often
+            if (this.monsterTimer > 0) // We can't spawn monsters too often
                 break;
-            if(this.grid[pos.x][pos.y].obstacle) // Cell is not empty
+            if (this.grid[pos.x][pos.y].obstacle) // Cell is not empty
                 continue;
-            if(this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
+            if (this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
                 continue;
             if (pos.x <= MARGIN && pos.y <= MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) // Out of cemetery
                 continue;
 
             // Making a monster
-            let monster = new Entity();
+            let monster = new Entity({
+                game: this
+            });
             monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
             monster.monsterType = this.random_monster_type();
 
@@ -4502,7 +4855,7 @@ class Game {
                     new Vec2(0, 1),
                     new Vec2(0, -1)
                 ];
-                for (let j = 0; j < 4; j ++) {
+                for (let j = 0; j < 4; j++) {
                     let pos1 = monster.gridPos.plus(neighbors[j]);
                     if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
                         continue;
@@ -4512,8 +4865,7 @@ class Game {
 
                 let vel = 0.5;
                 this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
-            }
-            else if (monster.monsterType === MNS_GHOST) { // GHOST
+            } else if (monster.monsterType === MNS_GHOST) { // GHOST
                 // Movement
                 let deltaPos = new Vec2(0, 0);
                 // Check neighbor cells to find
@@ -4523,11 +4875,11 @@ class Game {
                     new Vec2(0, 1),
                     new Vec2(0, -1)
                 ];
-                for(let j = 0; j < 4; j++) {
+                for (let j = 0; j < 4; j++) {
                     let pos1 = monster.gridPos.plus(neighbors[j]);
                     if (this.checkCell(pos1))
                         continue;
-                    if(this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
+                    if (this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
                         deltaPos = deltaPos.plus(neighbors[j]);
                 }
                 let vel = 0.3;
@@ -4600,7 +4952,7 @@ class Game {
                     let dist = lightSource.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
                     if (this.checkCell(new Vec2(x, y)) || dist > 16)
                         continue;
-                    this.grid[x][y].light = Math.max (this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
+                    this.grid[x][y].light = Math.max(this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
                     deque.addBack(new Vec2(x, y));
                 }
             }
@@ -4641,7 +4993,7 @@ class Game {
         while (deque.peekFront()) {
             let pos = deque.peekFront().clone();
             deque.removeFront();
-            if(this.grid[pos.x][pos.y].light < 0)
+            if (this.grid[pos.x][pos.y].light < 0)
                 this.grid[pos.x][pos.y].light = 0;
             if (this.grid[pos.x][pos.y].light <= 0)
                 continue;
@@ -4717,7 +5069,7 @@ class Game {
         while (deque.peekFront()) {
             let pos = deque.peekFront().clone();
             deque.removeFront();
-            if(this.grid[pos.x][pos.y].zombieNav < 0)
+            if (this.grid[pos.x][pos.y].zombieNav < 0)
                 this.grid[pos.x][pos.y].zombieNav = 0;
             if (this.grid[pos.x][pos.y].zombieNav <= 0)
                 continue;
@@ -4754,7 +5106,7 @@ class Game {
         while (deque.peekFront()) {
             let pos = deque.peekFront().clone();
             deque.removeFront();
-            if(this.grid[pos.x][pos.y].ghostNav < 0)
+            if (this.grid[pos.x][pos.y].ghostNav < 0)
                 this.grid[pos.x][pos.y].ghostNav = 0;
             if (this.grid[pos.x][pos.y].ghostNav <= 0)
                 continue;
@@ -4773,6 +5125,7 @@ class Game {
 
     // Function called in each iteration
     step() {
+        this.gamepad.refresh()
         if (this.player.status === 0) { // If player is alive
             this.mentalDanger = 0;
             this.pathfinding();
@@ -4784,7 +5137,7 @@ class Game {
             this.manageAnimations();
             this.cooldowns();
         }
-        if (KEY_ENTER) {
+        if (this.keyboard.keyPressedOnce("Enter")) {
             this.RELOAD = 1;
         }
     }
@@ -4809,7 +5162,7 @@ class Game {
 }
 
 module.exports = Game
-},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./deque.js":5,"./entity.js":7,"./lightSource.js":9,"./maze":11,"./random":13,"./subject":14,"./temporalLightSource.js":15,"./vec2.js":16}],9:[function(require,module,exports){
+},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque.js":14,"./entity.js":16,"./light-source.js":19,"./maze":21,"./player":23,"./random":24,"./subject":25,"./temporal-light-source.js":26,"./vec2.js":28}],19:[function(require,module,exports){
 // Light source
 class LightSource {
     constructor(pos, power) {
@@ -4825,7 +5178,7 @@ class LightSource {
 }
 
 module.exports = LightSource
-},{}],10:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 const Parameters = require("./parameters")
 const Game = require("./game.js")
@@ -4842,34 +5195,19 @@ window.addEventListener("load", function() {
     game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
     game.player.status = 4;
 
-
+    window.game = game; // For checking from console
 
     function step() {
-        window.game = game; // For checking from console
 
         game.step();
         draw.draw(game);
 
-        if (KEY_MINUS) {
-            VOLUME = Math.max(0, VOLUME - 0.1);
-        }
-        if (KEY_PLUS) {
-            VOLUME = Math.min(1, VOLUME + 0.1);
-        }
-
-        // Previous keys
-        KEY_W_PREV = KEY_W;
-        KEY_A_PREV = KEY_A;
-        KEY_S_PREV = KEY_S;
-        KEY_D_PREV = KEY_D;
-        KEY_X_PREV = KEY_X;
-        KEY_F_PREV = KEY_F;
-        KEY_1_PREV = KEY_1;
-        KEY_2_PREV = KEY_2;
-        KEY_UP_PREV = KEY_UP;
-        KEY_DOWN_PREV = KEY_DOWN;
-        KEY_LEFT_PREV = KEY_LEFT;
-        KEY_RIGHT_PREV = KEY_RIGHT;
+        // if (KEY_MINUS) {
+        //     VOLUME = Math.max(0, VOLUME - 0.1);
+        // }
+        // if (KEY_PLUS) {
+        //     VOLUME = Math.min(1, VOLUME + 0.1);
+        // }
 
         if (game.RELOAD === 1) {
             SOUND_MUSIC.pause();
@@ -4884,7 +5222,7 @@ window.addEventListener("load", function() {
 
     var interval = setInterval(step, DT * 1000);
 })
-},{"./draw.js":6,"./game.js":8,"./parameters":12,"./vec2.js":16}],11:[function(require,module,exports){
+},{"./draw.js":15,"./game.js":18,"./parameters":22,"./vec2.js":28}],21:[function(require,module,exports){
 const Vec2 = require("./vec2.js")
 const Random = require("./random.js")
 
@@ -4958,12 +5296,12 @@ class Maze {
 
         return field;
     }
-};
+}
 
 module.exports = Maze
-},{"./random.js":13,"./vec2.js":16}],12:[function(require,module,exports){
+},{"./random.js":24,"./vec2.js":28}],22:[function(require,module,exports){
 'use strict'
-const {Howl, Howler} = require('howler');
+const Howl = require('howler').Howl;
 
 //// CONSTANTS ////
 // Directions
@@ -5311,76 +5649,251 @@ window.ANM_DAMAGE = [
     getImg("textures/particles/damage/damage2.png"),
     getImg("textures/particles/damage/damage3.png")
 ];
+},{"howler":1}],23:[function(require,module,exports){
 
-//// KEY CONFIG ////
-// Keys (0 - released, 1 - pressed)
-window.KEY_W = 0; window.KEY_W_PREV = 0;
-window.KEY_A = 0; window.KEY_A_PREV = 0;
-window.KEY_S = 0; window.KEY_S_PREV = 0;
-window.KEY_D = 0; window.KEY_D_PREV = 0;
-window.KEY_X = 0; window.KEY_X_PREV = 0;
-window.KEY_F = 0; window.KEY_F_PREV = 0;
-window.KEY_1 = 0; window.KEY_1_PREV = 0;
-window.KEY_2 = 0; window.KEY_2_PREV = 0;
-window.KEY_UP = 0; window.KEY_UP_PREV = 0;
-window.KEY_DOWN = 0; window.KEY_DOWN_PREV = 0;
-window.KEY_LEFT = 0; window.KEY_LEFT_PREV = 0;
-window.KEY_RIGHT = 0; window.KEY_RIGHT_PREV = 0;
-window.KEY_ENTER = 0; window.KEY_ENTER_PREV = 0;
-window.KEY_PLUS = 0; window.KEY_PLUS_PREV = 0;
-window.KEY_MINUS = 0; window.KEY_MINUS_PREV = 0;
+const Entity = require("./entity")
+const CharacterControls = require("./controls/character-controls")
+const TemporalLightSource = require("./temporal-light-source.js")
+const LightSource = require("./light-source")
+const Animation = require("./animation")
+const Weapon = require("./weapon")
+const Vec2 = require("./vec2")
 
-function checkKey(e, t) {
-    if(e.keyCode == 87)
-        KEY_W = t;	
-    if(e.keyCode == 65)
-        KEY_A = t;  
-    if(e.keyCode == 83)
-        KEY_S = t;
-    if(e.keyCode == 68)
-        KEY_D = t;
-    if(e.keyCode == 88)
-        KEY_X = t;
-    if(e.keyCode == 70)
-        KEY_F = t;
-    if(e.keyCode == 49)
-        KEY_1 = t;
-    if(e.keyCode == 50)
-        KEY_2 = t;
-    if(e.keyCode == 37)
-        KEY_LEFT = t;
-    if(e.keyCode == 38)
-        KEY_UP = t;
-    if(e.keyCode == 39)
-        KEY_RIGHT = t;
-    if(e.keyCode == 40)
-        KEY_DOWN = t;
-    if (e.keyCode == 13)
-        KEY_ENTER = t;
-    if (e.keyCode == 189)
-        KEY_MINUS = t;
-    if (e.keyCode == 187)
-        KEY_PLUS = t;
-    
-}
+class Player extends Entity {
 
-window.addEventListener('keydown', checkDown,false);
-function checkDown(e) {
-   
-    // Checking for buttons pressed
-    checkKey(e, 1);
-    if (e.keyCode >= 37 && e.keyCode <= 40) {
-        e.preventDefault();
+    /**
+     * Lamp oil amount
+     * @type {number}
+     */
+    oil = LIMIT_OIL;
+
+    /**
+     * Sanity factor
+     * @type {number}
+     */
+    mind = LIMIT_MIND;
+
+    /**
+     * Lamp status
+     * @type {boolean}
+     */
+    lamp = true
+
+    /**
+     * Light distance
+     * @type {number}
+     */
+    distLight = DIST_LIGHT;
+
+    /**
+     * Items
+     * @type Array<Subject|null>
+     */
+    subjects = [null, null];
+
+    /**
+     * Matches amount
+     * @type {number}
+     */
+    matches = LIMIT_MATCHES
+
+    /**
+     * Player weapon
+     * @type {Weapon}
+     */
+    weapon = new Weapon();
+
+    constructor(config) {
+        super(config);
+
+        this.controls = new CharacterControls()
+    }
+
+    step(dt) {
+        super.step(dt)
+
+        this.dir = NONE;
+
+        let movement = this.controls.getMovement()
+        if (movement.lengthSquared() > 0.01) { // <=> length() > 0.1
+
+            this.game.move(this, movement)
+
+            if (window.SOUND_STEPS.isPlaying !== 1) {
+                window.SOUND_STEPS.play();
+                window.SOUND_STEPS.isPlaying = 1;
+            }
+
+            if (movement.y < -0.1) this.dir = UP;
+            else if (movement.y > 0.1) this.dir = DOWN;
+            else if (movement.x < -0.1) {
+                this.dir = LEFT;
+                this.right = 0;
+            }
+            else if (movement.x > 0.1) {
+                this.dir = RIGHT;
+                this.right = 1;
+            }
+        }
+        else {
+            window.SOUND_STEPS.pause();
+            window.SOUND_STEPS.isPlaying = 0;
+        }
+
+        this.animationType = this.dir;
+
+        // Turning lamp off
+        if (this.game.keyboard.keyPressedOnce("KeyX")) {
+            this.lampOff()
+        }
+
+        if (this.lamp)
+            this.changeOil(-OIL_CONSUMPTION * DT);
+
+        // Horror
+        if (!this.lamp) {
+            this.change_mind(-0.35 * DT);
+            this.game.mentalDanger = 1;
+        }
+
+        if (this.game.keyboard.keyPressedOnce("KeyF")) {
+            if (this.matches > 0) {
+                window.SOUND_MATCH.play();
+                this.lampOn()
+                this.matches--;
+                this.game.temporalLightSources.push(new TemporalLightSource(this.pos, 5, 2));
+                this.game.animations.push(new Animation(ANM_MATCH, this.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
+                this.game.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
+
+                // Lighting spec graves
+                let pos = this.grid_pos;
+                for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
+                    for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
+                        let cell = this.game.grid[x][y];
+                        if (cell.grave < 0 && this.game.spec_graves_visited[-cell.grave - 1] === 1) { // spec grave
+
+                            this.game.specGraveTimer = this.game.specGraveCooldown;
+                            this.game.spec_graves_visited[-cell.grave - 1] = 2;
+                            this.game.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
+                            this.game.spec_graves_visited_count += 1;
+                            this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
+                            this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
+                            this.game.level++;
+                            this.game.generate();
+                        }
+                    }
+                }
+
+                // Open gates
+                for (let x = 0; x < SIZE_X; x++) {
+                    for (let y = 0; y < SIZE_Y; y++) {
+                        if (this.game.spec_graves_visited_count < 3) // Gates are not ready
+                            break;
+
+                        // Check for player
+                        if (this.game.gates_state === 1 && this.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
+                            this.game.gates_state = 2; // Gates opened
+                            this.game.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
+                        }
+
+                        // Clean obstacles
+                        if (this.game.gates_state === 2 && this.grid[x][y].gates) {
+                            this.game.grid[x][y].obstacle = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        //// Weapon ////
+        // Cooldown progress
+        this.weapon.timeToCooldown -= DT;
+
+        this.controls.updateShootingDirection()
+
+        if (!this.controls.shootDirection.isZero()) {
+            let dir = this.controls.shootDirection
+
+            if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) { // Are we able to shoot
+                window.SOUND_SHOOT.play();
+                // Stupid collision check
+                let pos = new Vec2(this.pos.x, this.pos.y);
+
+                for (let i = 0; i < 30; i++) {
+                    let hit = 0;
+                    for (let j = 0; j < this.game.monsters.length; j++) {
+                        // Current monster
+                        let monster = this.game.monsters[j];
+                        // Shift
+                        pos = pos.plus(dir);
+                        // Collision check
+                        if (pos.dist(monster.pos) < 8) {
+                            this.game.hurt(monster, this.weapon.damage);
+                        }
+                    }
+                    if (hit)
+                        break;
+                }
+
+                // Animation
+                let curAnm = ANM_TRACER_UP; // Current animation
+                if (dir.y < 0) curAnm = ANM_TRACER_UP;
+                else if (dir.y > 0)  curAnm = ANM_TRACER_DOWN;
+                else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;
+                else if (dir.x > 0)  curAnm = ANM_TRACER_RIGHT;
+
+                this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
+                this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
+
+
+                // Modify cooldown & ammo
+                this.weapon.timeToCooldown =  this.weapon.cooldownTime;
+                this.weapon.ammo--;
+            }
+        }
+    }
+
+    // mind += delta
+    change_mind(delta) {
+        this.mind += delta;
+
+        if (this.mind < EPS) {
+            this.mind = 0;
+            this.status = 2; // Delirium
+            if (!this.monsterType)
+                window.SOUND_DEATH.play();
+        }
+        if (this.mind > LIMIT_MIND) {
+            this.mind = LIMIT_MIND;
+        }
+    }
+
+    // oil += delta
+    changeOil(delta) {
+        this.oil += delta;
+
+        if (this.oil < 0) {
+            this.oil = 0;
+            this.lampOff()
+        }
+        if (this.oil > LIMIT_OIL) {
+            this.oil = LIMIT_OIL;
+        }
+    }
+
+    lampOff() {
+        this.lamp = false
+        this.distLight = 1
+    }
+
+    lampOn() {
+        this.lamp = true
+        this.distLight = DIST_LIGHT
     }
 }
 
-window.addEventListener('keyup', checkUp,false);
-function checkUp(e) {
-   
-    // Checking for buttons pressed
-    checkKey(e, 0);
-}
-},{"howler":1}],13:[function(require,module,exports){
+module.exports = Player
+},{"./animation":2,"./controls/character-controls":7,"./entity":16,"./light-source":19,"./temporal-light-source.js":26,"./vec2":28,"./weapon":29}],24:[function(require,module,exports){
 
 //// RANDOM ////
 
@@ -5406,7 +5919,7 @@ class Random {
 }
 
 module.exports = Random
-},{}],14:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -5421,7 +5934,7 @@ class Subject {
 }
 
 module.exports = Subject
-},{"./vec2":16}],15:[function(require,module,exports){
+},{"./vec2":28}],26:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -5460,9 +5973,41 @@ class TemporalLightSource {
 }
 
 module.exports = TemporalLightSource
-},{"./vec2":16}],16:[function(require,module,exports){
-//// 2D vector ////
+},{"./vec2":28}],27:[function(require,module,exports){
+class EventEmitter {
+    constructor() {
+        this.events = new Map()
+    }
+
+    emit(event) {
+        if (this.events.has(event)) {
+            let args = Array.prototype.slice.call(arguments, 1)
+            for (let listener of this.events.get(event)) {
+                listener.apply(null, args)
+            }
+        }
+    }
+
+    on(event, handler) {
+        if (this.events.has(event)) {
+            this.events.get(event).push(handler)
+        } else {
+            this.events.set(event, [handler]);
+        }
+    }
+}
+
+module.exports = EventEmitter
+},{}],28:[function(require,module,exports){
+
+/**
+ * 2D Vector
+ */
 class Vec2 {
+
+    x = 0
+    y = 0
+
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -5490,25 +6035,44 @@ class Vec2 {
         return Math.abs(x) + Math.abs(y);
     }
 
+    set(x, y) {
+        this.x = x
+        this.y = y
+    }
+
+    isZero() {
+        return this.x === 0 && this.y === 0
+    }
+
+    lengthSquared() {
+        return this.x ** 2 + this.y ** 2
+    }
+
+    length() {
+        return Math.sqrt(this.lengthSquared())
+    }
+
     clone() {
         return new Vec2(this.x, this.y)
     }
 }
 
 module.exports = Vec2
-},{}],17:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 // Weapon
 class Weapon {
+
+    damage = 1
+    ammoMax = 10
+    ammo = 0
+    cooldownTime = 0.75
+    timeToCooldown = 0
+
     constructor() {
-        this.damage = 1;
-        // Ammo
-        this.ammoMax = 10;
         this.ammo = this.ammoMax;
-        // Cooldown
-        this.cooldownTime = 0.75;
         this.timeToCooldown = this.cooldownTime;
     }
 }
 
 module.exports = Weapon
-},{}]},{},[10]);
+},{}]},{},[20]);

@@ -1,5 +1,12 @@
-//// 2D vector ////
+
+/**
+ * 2D Vector
+ */
 class Vec2 {
+
+    x = 0
+    y = 0
+
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -25,6 +32,23 @@ class Vec2 {
         let x = this.x - a.x;
         let y = this.y - a.y;
         return Math.abs(x) + Math.abs(y);
+    }
+
+    set(x, y) {
+        this.x = x
+        this.y = y
+    }
+
+    isZero() {
+        return this.x === 0 && this.y === 0
+    }
+
+    lengthSquared() {
+        return this.x ** 2 + this.y ** 2
+    }
+
+    length() {
+        return Math.sqrt(this.lengthSquared())
     }
 
     clone() {

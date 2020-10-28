@@ -1,5 +1,5 @@
 'use strict'
-const {Howl, Howler} = require('howler');
+const Howl = require('howler').Howl;
 
 //// CONSTANTS ////
 // Directions
@@ -347,72 +347,3 @@ window.ANM_DAMAGE = [
     getImg("textures/particles/damage/damage2.png"),
     getImg("textures/particles/damage/damage3.png")
 ];
-
-//// KEY CONFIG ////
-// Keys (0 - released, 1 - pressed)
-window.KEY_W = 0; window.KEY_W_PREV = 0;
-window.KEY_A = 0; window.KEY_A_PREV = 0;
-window.KEY_S = 0; window.KEY_S_PREV = 0;
-window.KEY_D = 0; window.KEY_D_PREV = 0;
-window.KEY_X = 0; window.KEY_X_PREV = 0;
-window.KEY_F = 0; window.KEY_F_PREV = 0;
-window.KEY_1 = 0; window.KEY_1_PREV = 0;
-window.KEY_2 = 0; window.KEY_2_PREV = 0;
-window.KEY_UP = 0; window.KEY_UP_PREV = 0;
-window.KEY_DOWN = 0; window.KEY_DOWN_PREV = 0;
-window.KEY_LEFT = 0; window.KEY_LEFT_PREV = 0;
-window.KEY_RIGHT = 0; window.KEY_RIGHT_PREV = 0;
-window.KEY_ENTER = 0; window.KEY_ENTER_PREV = 0;
-window.KEY_PLUS = 0; window.KEY_PLUS_PREV = 0;
-window.KEY_MINUS = 0; window.KEY_MINUS_PREV = 0;
-
-function checkKey(e, t) {
-    if(e.keyCode == 87)
-        KEY_W = t;	
-    if(e.keyCode == 65)
-        KEY_A = t;  
-    if(e.keyCode == 83)
-        KEY_S = t;
-    if(e.keyCode == 68)
-        KEY_D = t;
-    if(e.keyCode == 88)
-        KEY_X = t;
-    if(e.keyCode == 70)
-        KEY_F = t;
-    if(e.keyCode == 49)
-        KEY_1 = t;
-    if(e.keyCode == 50)
-        KEY_2 = t;
-    if(e.keyCode == 37)
-        KEY_LEFT = t;
-    if(e.keyCode == 38)
-        KEY_UP = t;
-    if(e.keyCode == 39)
-        KEY_RIGHT = t;
-    if(e.keyCode == 40)
-        KEY_DOWN = t;
-    if (e.keyCode == 13)
-        KEY_ENTER = t;
-    if (e.keyCode == 189)
-        KEY_MINUS = t;
-    if (e.keyCode == 187)
-        KEY_PLUS = t;
-    
-}
-
-window.addEventListener('keydown', checkDown,false);
-function checkDown(e) {
-   
-    // Checking for buttons pressed
-    checkKey(e, 1);
-    if (e.keyCode >= 37 && e.keyCode <= 40) {
-        e.preventDefault();
-    }
-}
-
-window.addEventListener('keyup', checkUp,false);
-function checkUp(e) {
-   
-    // Checking for buttons pressed
-    checkKey(e, 0);
-}

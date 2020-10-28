@@ -3844,9 +3844,7 @@ class Draw {
                 let cell = game.grid[x][y];
 
                 if (cell.roomId) { // esli komnata epta FIX IT
-                    if (cell.ground) {
-                        this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
-                    }
+                    this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
                     continue;
                 }
 
@@ -4510,7 +4508,7 @@ class Player extends Entity {
             return
 
         // Current subject
-        let subject = this.player.subjects[index];
+        let subject = this.subjects[index];
 
         // Checking for subject type
         if (subject.type === SBJ_HEAL) {
@@ -4527,17 +4525,17 @@ class Player extends Entity {
         }
         if (subject.type === SBJ_MATCHBOX){
             window.SOUND_MATCHBOX.play();
-            this.player.matches += 2;
-            this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
+            this.matches += 2;
+            this.matches = Math.min(this.matches, LIMIT_MATCHES);
         }
         if (subject.type === SBJ_AMMO) {
             window.SOUND_AMMO.play();
-            this.player.weapon.ammo += 5;
-            this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
+            this.weapon.ammo += 5;
+            this.weapon.ammo = Math.min(this.player.weapon.ammo, this.weapon.ammoMax);
         }
 
         // Remove subject
-        this.player.subjects[index] = undefined;
+        this.subjects[index] = undefined;
     }
 
     useMatch() {
@@ -5628,7 +5626,8 @@ window.addEventListener("load", function() {
             game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
         }
 
-        console.log(Vec2.counter);
+        // Рубрика эээкспериментыыы
+        // console.log(Vec2.counter);
         Vec2.counter = 0
     }
 

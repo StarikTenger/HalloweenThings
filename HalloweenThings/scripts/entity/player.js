@@ -204,7 +204,7 @@ class Player extends Entity {
             return
 
         // Current subject
-        let subject = this.player.subjects[index];
+        let subject = this.subjects[index];
 
         // Checking for subject type
         if (subject.type === SBJ_HEAL) {
@@ -221,17 +221,17 @@ class Player extends Entity {
         }
         if (subject.type === SBJ_MATCHBOX){
             window.SOUND_MATCHBOX.play();
-            this.player.matches += 2;
-            this.player.matches = Math.min(this.player.matches, LIMIT_MATCHES);
+            this.matches += 2;
+            this.matches = Math.min(this.matches, LIMIT_MATCHES);
         }
         if (subject.type === SBJ_AMMO) {
             window.SOUND_AMMO.play();
-            this.player.weapon.ammo += 5;
-            this.player.weapon.ammo = Math.min(this.player.weapon.ammo, this.player.weapon.ammoMax);
+            this.weapon.ammo += 5;
+            this.weapon.ammo = Math.min(this.player.weapon.ammo, this.weapon.ammoMax);
         }
 
         // Remove subject
-        this.player.subjects[index] = undefined;
+        this.subjects[index] = undefined;
     }
 
     useMatch() {

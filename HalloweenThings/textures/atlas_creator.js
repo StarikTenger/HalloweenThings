@@ -21,7 +21,7 @@ let i = 0;
 let images = [];
 const json = {};
 
-readdirdeep("./source").then((list) => {
+readdirdeep(path.resolve(__dirname, "source")).then((list) => {
 	for(let file of list) {
 		if(!file.endsWith(".png")) {
 			continue

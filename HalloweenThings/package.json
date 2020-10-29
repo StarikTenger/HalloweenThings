@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "cd compiler\ncd actions\nnode commit-client.js",
-    "create-atlas": "cd textures\nnode atlas_creator.js"
+    "build": "node compiler/actions/commit-client.js",
+    "create-atlas": "node textures/atlas_creator.js"
   },
   "author": "",
   "license": "ISC",

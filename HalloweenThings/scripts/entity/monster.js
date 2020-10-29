@@ -1,5 +1,6 @@
 
 const Entity = require("./entity")
+const Vec2 = require("../vec2")
 
 class Monster extends Entity {
 
@@ -22,6 +23,12 @@ class Monster extends Entity {
     attackRange = 5
 
     /**
+     * The distance at which he see player
+     * @type {number}
+     */
+    seenRange = 64
+
+    /**
      * Monster damage
      * @type {number}
      */
@@ -32,12 +39,66 @@ class Monster extends Entity {
     }
 
     static getRandomMonster(game) {
-        let classIndex = Math.floor(Math.random() * Monster.classes.length)
-        let Clazz = Monster.classes[classIndex]
-
+        let classIndex = Math.floor(Math.random() * Monster.classes.length);
+        let Clazz = Monster.classes[classIndex];
+        // Chosing direction for skeleton patrolling
+        if (classIndex === 1) {
+            this.dir = LEFT;
+        }
         return new Clazz({
             game:game
         })
+    }
+
+    step(dt) {
+        if (this.pos.dist(this.game.player.pos) < this.seenRange)
+            this.behavior();
+        this.setDirection();
+        super.step(dt);
+        this.dealHorror();
+        this.dealDamage();
+    }
+
+    behavior() {}
+
+    setDirection() {
+        let x1 = this.posPrev.x;
+        let y1 = this.posPrev.y;
+        let x2 = this.pos.x;
+        let y2 = this.pos.y;
+
+        if (x2 - x1 > 0) {
+            this.right = 1;
+            this.dir = RIGHT;
+        }
+
+        if (x2 - x1 < 0) {
+            this.right = 0;
+            this.dir = LEFT;
+        }
+
+        if (y2 - y1 > 0) {
+            this.dir = DOWN;
+        }
+
+        if (y2 - y1 < 0) {
+            this.dir = UP;
+        }
+
+        this.animationType = this.dir;
+    }
+
+    dealHorror() {
+        if (this.game.grid[this.gridPos.x][this.gridPos.y].light > DIST_LIGHT - 1) {
+            this.game.player.changeMind(-this.horror * DT);
+            this.game.mentalDanger = 1;
+        }
+    }
+
+    dealDamage() {
+        if (this.pos.dist(this.game.player.pos) <= this.attackRange) {
+            this.game.hurt(this.game.player, this.damage);
+        }
     }
 }
 

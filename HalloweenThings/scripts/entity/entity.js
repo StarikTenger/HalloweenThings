@@ -64,6 +64,7 @@ class Entity {
         this.animationTime = 0.3; // time per 1 animation frame
         this.animationTimer = 0; // timer
 
+        this.posPrev = this.pos.clone();
         this.grid_pos = null
     }
 
@@ -74,6 +75,11 @@ class Entity {
 
     // Cooldowns, timers, etc
     step(dt) {
+        // Previous pos
+        this.posPrev = this.pos.clone();
+
+        // Grid pos
+        this.gridPos = this.game.getCell(this.pos);
 
         // Protection timer
         this.protectionTimer -= dt;

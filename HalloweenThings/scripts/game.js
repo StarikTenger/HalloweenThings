@@ -157,6 +157,7 @@ class Game {
 
     // Choose random ground texture
     random_ground_type() {
+        return 1;
         let grounds_cnt = IMGS_GROUND.length;
         return Random.normalRoll(1, grounds_cnt, 3);
     }
@@ -518,11 +519,6 @@ class Game {
             let monster = Monster.getRandomMonster(this)
             monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
 
-            // Chosing direction for skeleton patrolling
-            if (monster.monsterType instanceof Skeleton) {
-                monster.dir = LEFT;
-            }
-
             // Adding monster to array
             this.monsters.push(monster);
 
@@ -534,116 +530,7 @@ class Game {
         for (let i = 0; i < this.monsters.length; i++) {
             // Get current monster
             let monster = this.monsters[i];
-            monster.gridPos = this.getCell(monster.pos);
-            let x1 = monster.pos.x;
-            let y1 = monster.pos.y;
-
-            // Movement
-            // ZOMBIE
-            if (monster instanceof Zombie && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                // Check neighbor cells to find
-                let neighbors = [
-                    new Vec2(1, 0),
-                    new Vec2(-1, 0),
-                    new Vec2(0, 1),
-                    new Vec2(0, -1)
-                ];
-                for (let j = 0; j < 4; j++) {
-                    let pos1 = monster.gridPos.plus(neighbors[j]);
-                    if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
-                        continue;
-                    if (this.grid[pos1.x][pos1.y].zombieNav > this.grid[monster.gridPos.x][monster.gridPos.y].zombieNav)
-                        deltaPos = deltaPos.plus(neighbors[j]);
-                }
-
-                let vel = 0.5;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
-            }
-            // GHOST
-            else if (monster instanceof Ghost && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                // Check neighbor cells to find
-                let neighbors = [
-                    new Vec2(1, 0),
-                    new Vec2(-1, 0),
-                    new Vec2(0, 1),
-                    new Vec2(0, -1)
-                ];
-                for (let j = 0; j < 4; j++) {
-                    let pos1 = monster.gridPos.plus(neighbors[j]);
-                    if (this.checkCell(pos1))
-                        continue;
-                    if (this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
-                        deltaPos = deltaPos.plus(neighbors[j]);
-                }
-                let vel = 0.3;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
-            }
-            // SKELETON
-            else if (monster.monsterType instanceof Skeleton) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                let gridPosLeft = this.getCell(monster.pos.plus(new Vec2(-1, 0)));
-                let gridPosRight = this.getCell(monster.pos.plus(new Vec2(+1, 0)));
-
-                if (monster.dir === LEFT && this.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-                    monster.dir = RIGHT;
-                    console.log('l');
-                }
-                if (monster.dir === RIGHT && this.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-                    monster.dir = LEFT;
-                    console.log('r');
-                }
-
-                if (monster.dir === LEFT) {
-                    deltaPos.x = -1;
-                }
-                else {
-                    deltaPos.x = 1;
-                }
-
-
-                let vel = 0.5;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
-            }
-
-            let x2 = monster.pos.x;
-            let y2 = monster.pos.y;
-
-            if (x2 - x1 > 0) {
-                monster.right = 1;
-                monster.dir = RIGHT;
-            }
-
-            if (x2 - x1 < 0) {
-                monster.right = 0;
-                monster.dir = LEFT;
-            }
-
-            if (y2 - y1 > 0) {
-                monster.dir = DOWN;
-            }
-
-            if (y2 - y1 < 0) {
-                monster.dir = UP;
-            }
-
-            monster.animationType = monster.dir;
             monster.step(DT);
-
-            // Horror
-            if (this.grid[monster.gridPos.x][monster.gridPos.y].light > DIST_LIGHT - 1) {
-                this.player.changeMind(-monster.horror * DT);
-                this.mentalDanger = 1;
-            }
-
-            // Damage
-            if (monster.pos.dist(this.player.pos) <= monster.attackRange) {
-                this.hurt(this.player, monster.damage);
-            }
         }
     }
 

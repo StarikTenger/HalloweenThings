@@ -103,12 +103,13 @@ function getImg(src) { // Load images
 // Loading current imgs
 window.IMGS_GROUND = [
     getImg("textures/grounds/ground1.png"),
-    getImg("textures/grounds/ground2.png")
+    getImg("textures/grounds/ground2.png"),
+    getImg("textures/grounds/ground3.png")
 ];
 
 window.ROOM_IMGS_GROUND = [
     getImg("textures/grounds/room_ground_1.png"),
-    getImg("textures/grounds/room_ground_2.png")
+    getImg("textures/grounds/room_ground_2.png"),
 ];
 
 window.IMGS_COVERING = [
@@ -135,9 +136,13 @@ window.IMGS_SPEC_MINI_GRAVE = [
 ];
 
 // [column, column_top, wall, wall_top]
-window.COLUMN_WIDTH = 2;
-window.COLUMN_HEIGHT = 8;
+window.COLUMN_WIDTH = 4;
+window.COLUMN_HEIGHT = 6;
 window.IMGS_WALL = [
+    [getImg("textures/walls/wall.png"),
+        getImg("textures/walls/wall_top.png"),
+        getImg("textures/walls/wall.png"),
+        getImg("textures/walls/wall_top.png")],
     [getImg("textures/walls/column.png"),
         getImg("textures/walls/column_top.png"),
         getImg("textures/walls/wall.png"),

@@ -227,7 +227,7 @@ class Player extends Entity {
         if (subject.type === SBJ_AMMO) {
             window.SOUND_AMMO.play();
             this.weapon.ammo += 5;
-            this.weapon.ammo = Math.min(this.player.weapon.ammo, this.weapon.ammoMax);
+            this.weapon.ammo = Math.min(this.weapon.ammo, this.weapon.ammoMax);
         }
 
         // Remove subject

@@ -3843,12 +3843,14 @@ class Draw {
                    continue;
                 let cell = game.grid[x][y];
 
-                if (cell.roomId) { // esli komnata epta FIX IT
-                    this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
-                    continue;
+                // Choosing room covering & wall (should be better in generate)
+                if (cell.roomId) {
+                    game.grid[x][y].ground = 3;
+                    if (game.grid[x][y].grave > 0)
+                        game.grid[x][y].grave = 2;
                 }
 
-
+                // Ground & covering
                 if (cell.ground) {
                     this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
                 }
@@ -3856,6 +3858,7 @@ class Draw {
                     this.ySorted.push([IMGS_COVERING[cell.covering - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, -4]);
                 }
 
+                // Gates
                 if (cell.gates) {
                     if (game.gates_state === 1)
                         this.ySorted.push([IMGS_GATES[+cell.gates - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
@@ -4126,6 +4129,7 @@ class Entity {
         this.animationTime = 0.3; // time per 1 animation frame
         this.animationTimer = 0; // timer
 
+        this.posPrev = this.pos.clone();
         this.grid_pos = null
     }
 
@@ -4136,6 +4140,11 @@ class Entity {
 
     // Cooldowns, timers, etc
     step(dt) {
+        // Previous pos
+        this.posPrev = this.pos.clone();
+
+        // Grid pos
+        this.gridPos = this.game.getCell(this.pos);
 
         // Protection timer
         this.protectionTimer -= dt;
@@ -4193,6 +4202,7 @@ module.exports = Entity
 },{"../vec2":33}],17:[function(require,module,exports){
 
 const Entity = require("./entity")
+const Vec2 = require("../vec2")
 
 class Monster extends Entity {
 
@@ -4215,6 +4225,12 @@ class Monster extends Entity {
     attackRange = 5
 
     /**
+     * The distance at which he see player
+     * @type {number}
+     */
+    seenRange = 64
+
+    /**
      * Monster damage
      * @type {number}
      */
@@ -4225,12 +4241,66 @@ class Monster extends Entity {
     }
 
     static getRandomMonster(game) {
-        let classIndex = Math.floor(Math.random() * Monster.classes.length)
-        let Clazz = Monster.classes[classIndex]
-
+        let classIndex = Math.floor(Math.random() * Monster.classes.length);
+        let Clazz = Monster.classes[classIndex];
+        // Chosing direction for skeleton patrolling
+        if (classIndex === 1) {
+            this.dir = LEFT;
+        }
         return new Clazz({
             game:game
         })
+    }
+
+    step(dt) {
+        if (this.pos.dist(this.game.player.pos) < this.seenRange)
+            this.behavior();
+        this.setDirection();
+        super.step(dt);
+        this.dealHorror();
+        this.dealDamage();
+    }
+
+    behavior() {}
+
+    setDirection() {
+        let x1 = this.posPrev.x;
+        let y1 = this.posPrev.y;
+        let x2 = this.pos.x;
+        let y2 = this.pos.y;
+
+        if (x2 - x1 > 0) {
+            this.right = 1;
+            this.dir = RIGHT;
+        }
+
+        if (x2 - x1 < 0) {
+            this.right = 0;
+            this.dir = LEFT;
+        }
+
+        if (y2 - y1 > 0) {
+            this.dir = DOWN;
+        }
+
+        if (y2 - y1 < 0) {
+            this.dir = UP;
+        }
+
+        this.animationType = this.dir;
+    }
+
+    dealHorror() {
+        if (this.game.grid[this.gridPos.x][this.gridPos.y].light > DIST_LIGHT - 1) {
+            this.game.player.changeMind(-this.horror * DT);
+            this.game.mentalDanger = 1;
+        }
+    }
+
+    dealDamage() {
+        if (this.pos.dist(this.game.player.pos) <= this.attackRange) {
+            this.game.hurt(this.game.player, this.damage);
+        }
     }
 }
 
@@ -4247,11 +4317,12 @@ Monster.classes = [
 ]
 
 
-},{"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
+},{"../vec2":33,"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
 const Anime = require("../../anime")
+const Vec2 = require("../../vec2")
 
 class Ghost extends Monster {
     constructor(config) {
@@ -4267,14 +4338,43 @@ class Ghost extends Monster {
 
         this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
     }
+
+    behavior() {
+        super.behavior();
+        // Movement
+        let deltaPos = new Vec2(0, 0);
+        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
+        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
+
+        if (this.dir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+            this.dir = RIGHT;
+            console.log('l');
+        }
+        if (this.dir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+            this.dir = LEFT;
+            console.log('r');
+        }
+
+        if (this.dir === LEFT) {
+            deltaPos.x = -1;
+        }
+        else {
+            deltaPos.x = 1;
+        }
+
+
+        let vel = 0.5;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+    }
 }
 
 module.exports = Ghost
-},{"../../anime":3,"../../random":29,"../monster":17}],19:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],19:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
 const Anime = require("../../anime")
+const Vec2 = require("../../vec2")
 
 class Skeleton extends Monster {
     constructor(config) {
@@ -4282,6 +4382,7 @@ class Skeleton extends Monster {
 
         this.hp = Random.random(2, 3);
         this.horror = 0.1
+        this.seenRange = 100000;
 
         // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
         // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
@@ -4295,14 +4396,37 @@ class Skeleton extends Monster {
 
         this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
     }
+
+    behavior() {
+        super.behavior();
+        // Movement
+        let deltaPos = new Vec2(0, 0);
+        // Check neighbor cells to find
+        let neighbors = [
+            new Vec2(1, 0),
+            new Vec2(-1, 0),
+            new Vec2(0, 1),
+            new Vec2(0, -1)
+        ];
+        for (let j = 0; j < 4; j++) {
+            let pos1 = this.gridPos.plus(neighbors[j]);
+            if (this.game.checkCell(pos1))
+                continue;
+            if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav)
+                deltaPos = deltaPos.plus(neighbors[j]);
+        }
+        let vel = 0.3;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
+    }
 }
 
 module.exports = Skeleton
-},{"../../anime":3,"../../random":29,"../monster":17}],20:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],20:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
 const Anime = require("../../anime")
+const Vec2 = require("../../vec2")
 
 class Tentacle extends Monster {
     constructor(config) {
@@ -4321,11 +4445,12 @@ class Tentacle extends Monster {
 }
 
 module.exports = Tentacle
-},{"../../anime":3,"../../random":29,"../monster":17}],21:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],21:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
 const Anime = require("../../anime")
+const Vec2 = require("../../vec2")
 
 class Zombie extends Monster {
     constructor(config) {
@@ -4341,10 +4466,33 @@ class Zombie extends Monster {
 
         this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
     }
+
+    behavior() {
+        super.behavior();
+        // Movement
+        let deltaPos = new Vec2(0, 0);
+        // Check neighbor cells to find
+        let neighbors = [
+            new Vec2(1, 0),
+            new Vec2(-1, 0),
+            new Vec2(0, 1),
+            new Vec2(0, -1)
+        ];
+        for (let j = 0; j < 4; j++) {
+            let pos1 = this.gridPos.plus(neighbors[j]);
+            if (this.game.checkCell(pos1) || this.game.grid[pos1.x][pos1.y].obstacle)
+                continue;
+            if (this.game.grid[pos1.x][pos1.y].zombieNav > this.game.grid[this.gridPos.x][this.gridPos.y].zombieNav)
+                deltaPos = deltaPos.plus(neighbors[j]);
+        }
+
+        let vel = 0.5;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+    }
 }
 
 module.exports = Zombie
-},{"../../anime":3,"../../random":29,"../monster":17}],22:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],22:[function(require,module,exports){
 
 const Entity = require("./entity")
 const CharacterControls = require("../controls/character-controls")
@@ -4574,7 +4722,7 @@ class Player extends Entity {
         if (subject.type === SBJ_AMMO) {
             window.SOUND_AMMO.play();
             this.weapon.ammo += 5;
-            this.weapon.ammo = Math.min(this.player.weapon.ammo, this.weapon.ammoMax);
+            this.weapon.ammo = Math.min(this.weapon.ammo, this.weapon.ammoMax);
         }
 
         // Remove subject
@@ -4882,6 +5030,7 @@ class Game {
 
     // Choose random ground texture
     random_ground_type() {
+        return 1;
         let grounds_cnt = IMGS_GROUND.length;
         return Random.normalRoll(1, grounds_cnt, 3);
     }
@@ -5243,11 +5392,6 @@ class Game {
             let monster = Monster.getRandomMonster(this)
             monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
 
-            // Chosing direction for skeleton patrolling
-            if (monster.monsterType instanceof Skeleton) {
-                monster.dir = LEFT;
-            }
-
             // Adding monster to array
             this.monsters.push(monster);
 
@@ -5259,116 +5403,7 @@ class Game {
         for (let i = 0; i < this.monsters.length; i++) {
             // Get current monster
             let monster = this.monsters[i];
-            monster.gridPos = this.getCell(monster.pos);
-            let x1 = monster.pos.x;
-            let y1 = monster.pos.y;
-
-            // Movement
-            // ZOMBIE
-            if (monster instanceof Zombie && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                // Check neighbor cells to find
-                let neighbors = [
-                    new Vec2(1, 0),
-                    new Vec2(-1, 0),
-                    new Vec2(0, 1),
-                    new Vec2(0, -1)
-                ];
-                for (let j = 0; j < 4; j++) {
-                    let pos1 = monster.gridPos.plus(neighbors[j]);
-                    if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].obstacle)
-                        continue;
-                    if (this.grid[pos1.x][pos1.y].zombieNav > this.grid[monster.gridPos.x][monster.gridPos.y].zombieNav)
-                        deltaPos = deltaPos.plus(neighbors[j]);
-                }
-
-                let vel = 0.5;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
-            }
-            // GHOST
-            else if (monster instanceof Ghost && this.grid[monster.gridPos.x][monster.gridPos.y].light > 0) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                // Check neighbor cells to find
-                let neighbors = [
-                    new Vec2(1, 0),
-                    new Vec2(-1, 0),
-                    new Vec2(0, 1),
-                    new Vec2(0, -1)
-                ];
-                for (let j = 0; j < 4; j++) {
-                    let pos1 = monster.gridPos.plus(neighbors[j]);
-                    if (this.checkCell(pos1))
-                        continue;
-                    if (this.grid[pos1.x][pos1.y].ghostNav > this.grid[monster.gridPos.x][monster.gridPos.y].ghostNav)
-                        deltaPos = deltaPos.plus(neighbors[j]);
-                }
-                let vel = 0.3;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 1);
-            }
-            // SKELETON
-            else if (monster.monsterType instanceof Skeleton) {
-                // Movement
-                let deltaPos = new Vec2(0, 0);
-                let gridPosLeft = this.getCell(monster.pos.plus(new Vec2(-1, 0)));
-                let gridPosRight = this.getCell(monster.pos.plus(new Vec2(+1, 0)));
-
-                if (monster.dir === LEFT && this.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-                    monster.dir = RIGHT;
-                    console.log('l');
-                }
-                if (monster.dir === RIGHT && this.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-                    monster.dir = LEFT;
-                    console.log('r');
-                }
-
-                if (monster.dir === LEFT) {
-                    deltaPos.x = -1;
-                }
-                else {
-                    deltaPos.x = 1;
-                }
-
-
-                let vel = 0.5;
-                this.move(monster, deltaPos.mult(new Vec2(vel, vel)), 0);
-            }
-
-            let x2 = monster.pos.x;
-            let y2 = monster.pos.y;
-
-            if (x2 - x1 > 0) {
-                monster.right = 1;
-                monster.dir = RIGHT;
-            }
-
-            if (x2 - x1 < 0) {
-                monster.right = 0;
-                monster.dir = LEFT;
-            }
-
-            if (y2 - y1 > 0) {
-                monster.dir = DOWN;
-            }
-
-            if (y2 - y1 < 0) {
-                monster.dir = UP;
-            }
-
-            monster.animationType = monster.dir;
             monster.step(DT);
-
-            // Horror
-            if (this.grid[monster.gridPos.x][monster.gridPos.y].light > DIST_LIGHT - 1) {
-                this.player.changeMind(-monster.horror * DT);
-                this.mentalDanger = 1;
-            }
-
-            // Damage
-            if (monster.pos.dist(this.player.pos) <= monster.attackRange) {
-                this.hurt(this.player, monster.damage);
-            }
         }
     }
 
@@ -5894,12 +5929,13 @@ function getImg(src) { // Load images
 // Loading current imgs
 window.IMGS_GROUND = [
     getImg("textures/grounds/ground1.png"),
-    getImg("textures/grounds/ground2.png")
+    getImg("textures/grounds/ground2.png"),
+    getImg("textures/grounds/ground3.png")
 ];
 
 window.ROOM_IMGS_GROUND = [
     getImg("textures/grounds/room_ground_1.png"),
-    getImg("textures/grounds/room_ground_2.png")
+    getImg("textures/grounds/room_ground_2.png"),
 ];
 
 window.IMGS_COVERING = [
@@ -5926,9 +5962,13 @@ window.IMGS_SPEC_MINI_GRAVE = [
 ];
 
 // [column, column_top, wall, wall_top]
-window.COLUMN_WIDTH = 2;
-window.COLUMN_HEIGHT = 8;
+window.COLUMN_WIDTH = 4;
+window.COLUMN_HEIGHT = 6;
 window.IMGS_WALL = [
+    [getImg("textures/walls/wall.png"),
+        getImg("textures/walls/wall_top.png"),
+        getImg("textures/walls/wall.png"),
+        getImg("textures/walls/wall_top.png")],
     [getImg("textures/walls/column.png"),
         getImg("textures/walls/column_top.png"),
         getImg("textures/walls/wall.png"),

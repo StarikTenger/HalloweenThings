@@ -2,6 +2,7 @@
 const Monster = require("../monster")
 const Random = require("../../random")
 const Anime = require("../../anime")
+const Vec2 = require("../../vec2")
 
 class Tentacle extends Monster {
     constructor(config) {

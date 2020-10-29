@@ -60,12 +60,14 @@ class Draw {
                    continue;
                 let cell = game.grid[x][y];
 
-                if (cell.roomId) { // esli komnata epta FIX IT
-                    this.ySorted.push([ROOM_IMGS_GROUND[(cell.roomId - 1) % 2], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
-                    continue;
+                // Choosing room covering & wall (should be better in generate)
+                if (cell.roomId) {
+                    game.grid[x][y].ground = 3;
+                    if (game.grid[x][y].grave > 0)
+                        game.grid[x][y].grave = 2;
                 }
 
-
+                // Ground & covering
                 if (cell.ground) {
                     this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
                 }
@@ -73,6 +75,7 @@ class Draw {
                     this.ySorted.push([IMGS_COVERING[cell.covering - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, -4]);
                 }
 
+                // Gates
                 if (cell.gates) {
                     if (game.gates_state === 1)
                         this.ySorted.push([IMGS_GATES[+cell.gates - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);

@@ -9,7 +9,9 @@ class Tentacle extends Monster {
         super(config);
 
         this.hp = Random.random(3, 4);
-        this.horror = 0.5
+        this.horror = 0.5;
+        this.level = 3;
+        console.log("tentacle");
 
         let standing_animation = new Anime(0.5, ANM_WORM_STANDING);
         let moving_up_animation = new Anime(0.3, ANM_WORM_STANDING);

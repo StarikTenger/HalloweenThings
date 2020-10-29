@@ -269,6 +269,8 @@ class Game {
 
     // Generates the map
     generate() {
+        console.log(this.level);
+
         // Initial graves (in each cell with some chance)
         let specGravesNum = 0;
         for (let x = 0; x < SIZE_X; x++) {
@@ -355,6 +357,8 @@ class Game {
         if (this.spec_graves_visited_count >= 3)
             this.gates(Random.random(MARGIN + 1, SIZE_X - MARGIN - 2));
 
+        // Killing all monsters
+        this.monsters = [];
     }
 
     // Subjects-spawning management
@@ -462,6 +466,7 @@ class Game {
             // Dead, too far or inappropriate level
             if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000 || monster.level > this.level) {
                 // Drop items
+                console.log("!!!!!", this.level);
                 if (monster.hp <= 0 && Random.random(0, 99) < 70) { // Chance 70%
                     let sbj = new Subject(); // Dropped subject
                     sbj.type = this.subject_type();

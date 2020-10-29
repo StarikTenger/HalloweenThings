@@ -187,6 +187,12 @@ window.addEventListener("load", async function() {
         Texture.named("monsters/spider_moving_2"),
     ];
 
+    // Bat
+    window.ANM_BAT_MOVING = [
+        Texture.named("monsters/bat_moving_0"),
+        Texture.named("monsters/bat_moving_1")
+    ];
+
     // GATES
     window.ANM_GATES = [
         Texture.named("particles/gates/gates0"),
@@ -307,7 +313,6 @@ window.addEventListener("load", async function() {
     game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
     game.player.status = 4;
 
-    window.game = game; // For checking from console
 
     function step() {
         Vec2.counter = 0

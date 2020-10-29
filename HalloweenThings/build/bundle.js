@@ -3277,7 +3277,7 @@ class Animation {
 }
 
 module.exports = Animation
-},{"./vec2":35}],3:[function(require,module,exports){
+},{"./vec2":36}],3:[function(require,module,exports){
 class Anime {
     constructor(frame_time, frames) {
         this.frame_time = frame_time;
@@ -3458,7 +3458,7 @@ class CharacterControls {
 }
 
 module.exports = CharacterControls
-},{"../vec2":35,"./axle":5}],8:[function(require,module,exports){
+},{"../vec2":36,"./axle":5}],8:[function(require,module,exports){
 
 const DocumentEventHandler = require("../events/documenteventhandler")
 const GamepadAxle = require("./gamepadaxle")
@@ -3527,7 +3527,7 @@ class GamepadController extends DocumentEventHandler {
 }
 
 module.exports = GamepadController
-},{"../events/documenteventhandler":24,"./gamepadaxle":9,"./gamepadbutton":10}],9:[function(require,module,exports){
+},{"../events/documenteventhandler":25,"./gamepadaxle":9,"./gamepadbutton":10}],9:[function(require,module,exports){
 
 const Axle = require("./axle")
 
@@ -3675,7 +3675,7 @@ class KeyboardController extends DocumentEventHandler {
 }
 
 module.exports = KeyboardController
-},{"../events/documenteventhandler":24,"./keyaxle":11}],13:[function(require,module,exports){
+},{"../events/documenteventhandler":25,"./keyaxle":11}],13:[function(require,module,exports){
 
 const Axle = require("./axle")
 const EventEmitter = require("../utils/event-emitter")
@@ -3746,7 +3746,7 @@ class UserControls extends EventEmitter {
 }
 
 module.exports = UserControls
-},{"../utils/event-emitter":34,"./axle":5}],14:[function(require,module,exports){
+},{"../utils/event-emitter":35,"./axle":5}],14:[function(require,module,exports){
 class Deque {
     constructor() {
         this.front = this.back = undefined;
@@ -4064,7 +4064,7 @@ class Draw {
 }
 
 module.exports = Draw
-},{"./vec2":35}],16:[function(require,module,exports){
+},{"./vec2":36}],16:[function(require,module,exports){
 
 
 const Vec2 = require("../vec2")
@@ -4201,7 +4201,7 @@ class Entity {
 }
 
 module.exports = Entity
-},{"../vec2":35}],17:[function(require,module,exports){
+},{"../vec2":36}],17:[function(require,module,exports){
 
 const Entity = require("./entity")
 const Vec2 = require("../vec2")
@@ -4320,11 +4320,61 @@ Monster.classes = [
     require("./monsters/skeleton"),
     require("./monsters/tentaсle"),
     require("./monsters/ghost"),
-    require("./monsters/spider")
+    require("./monsters/spider"),
+    require("./monsters/bat")
 ]
 
 
-},{"../random":30,"../vec2":35,"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/spider":20,"./monsters/tentaсle":21,"./monsters/zombie":22}],18:[function(require,module,exports){
+},{"../random":31,"../vec2":36,"./entity":16,"./monsters/bat":18,"./monsters/ghost":19,"./monsters/skeleton":20,"./monsters/spider":21,"./monsters/tentaсle":22,"./monsters/zombie":23}],18:[function(require,module,exports){
+
+const Monster = require("../monster")
+const Random = require("../../random")
+const Anime = require("../../anime")
+const Vec2 = require("../../vec2")
+
+class Bat extends Monster {
+    constructor(config) {
+        super(config);
+
+        this.horror = 0.02
+        this.hp = 1;
+        this.level = 1;
+        console.log("bat");
+
+        let standing_animation = new Anime(0.5, ANM_BAT_MOVING);
+        let moving_up_animation = new Anime(0.3, ANM_BAT_MOVING);
+        let moving_down_animation = new Anime(0.3, ANM_BAT_MOVING);
+        let moving_right_animation = new Anime(0.3, ANM_BAT_MOVING);
+
+        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    }
+
+    behavior() {
+        super.behavior();
+        // Movement
+        let deltaPos = new Vec2(0, 0);
+        // Check neighbor cells to find
+        let neighbors = [
+            new Vec2(1, 0),
+            new Vec2(-1, 0),
+            new Vec2(0, 1),
+            new Vec2(0, -1)
+        ];
+        for (let j = 0; j < 4; j++) {
+            let pos1 = this.gridPos.plus(neighbors[j]);
+            if (this.game.checkCell(pos1) || this.game.grid[pos1.x][pos1.y].obstacle)
+                continue;
+            if (this.game.grid[pos1.x][pos1.y].zombieNav > this.game.grid[this.gridPos.x][this.gridPos.y].zombieNav)
+                deltaPos = deltaPos.plus(neighbors[j]);
+        }
+
+        let vel = 1;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+    }
+}
+
+module.exports = Bat
+},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],19:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4336,7 +4386,9 @@ class Ghost extends Monster {
         super(config);
 
         this.hp = Random.random(1, 3);
-        this.horror = 0.3
+        this.horror = 0.3;
+        this.level = 2;
+        console.log("ghost");
 
         let standing_animation = new Anime(0.5, ANM_GHOST_STANDING);
         let moving_up_animation = new Anime(0.3, ANM_GHOST_MOVING_UP);
@@ -4370,7 +4422,7 @@ class Ghost extends Monster {
 }
 
 module.exports = Ghost
-},{"../../anime":3,"../../random":30,"../../vec2":35,"../monster":17}],19:[function(require,module,exports){
+},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],20:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4384,6 +4436,7 @@ class Skeleton extends Monster {
         this.hp = Random.random(2, 3);
         this.horror = 0.1
         this.seenRange = 100000;
+        console.log("skeleton");
 
         this.patrolDir = Random.random(1, 4);
 
@@ -4412,19 +4465,15 @@ class Skeleton extends Monster {
 
         if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
             this.patrolDir = RIGHT;
-            console.log('l');
         }
         if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
             this.patrolDir = LEFT;
-            console.log('r');
         }
         if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
             this.patrolDir = DOWN;
-            console.log('u');
         }
         if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
             this.patrolDir = UP;
-            console.log('d');
         }
 
         if (this.patrolDir === LEFT) {
@@ -4447,7 +4496,7 @@ class Skeleton extends Monster {
 }
 
 module.exports = Skeleton
-},{"../../anime":3,"../../random":30,"../../vec2":35,"../monster":17}],20:[function(require,module,exports){
+},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],21:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4461,6 +4510,7 @@ class Spider extends Monster {
         this.hp = Random.random(2, 3);
         this.horror = 0.1
         this.seenRange = 100000;
+        console.log("spider");
 
         this.patrolDir = Random.random(1, 4);
 
@@ -4520,7 +4570,7 @@ class Spider extends Monster {
 }
 
 module.exports = Spider
-},{"../../anime":3,"../../random":30,"../../vec2":35,"../monster":17}],21:[function(require,module,exports){
+},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],22:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4532,7 +4582,9 @@ class Tentacle extends Monster {
         super(config);
 
         this.hp = Random.random(3, 4);
-        this.horror = 0.5
+        this.horror = 0.5;
+        this.level = 3;
+        console.log("tentacle");
 
         let standing_animation = new Anime(0.5, ANM_WORM_STANDING);
         let moving_up_animation = new Anime(0.3, ANM_WORM_STANDING);
@@ -4544,7 +4596,7 @@ class Tentacle extends Monster {
 }
 
 module.exports = Tentacle
-},{"../../anime":3,"../../random":30,"../../vec2":35,"../monster":17}],22:[function(require,module,exports){
+},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],23:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4557,6 +4609,8 @@ class Zombie extends Monster {
 
         this.horror = 0.2
         this.hp = Random.random(2, 3);
+        this.level = 1;
+        console.log("zombie");
 
         let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
         let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
@@ -4591,7 +4645,7 @@ class Zombie extends Monster {
 }
 
 module.exports = Zombie
-},{"../../anime":3,"../../random":30,"../../vec2":35,"../monster":17}],23:[function(require,module,exports){
+},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],24:[function(require,module,exports){
 
 const Entity = require("./entity")
 const CharacterControls = require("../controls/character-controls")
@@ -4858,6 +4912,7 @@ class Player extends Entity {
                         this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
                         this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
                         this.game.level++;
+
                         this.game.generate();
                     }
                 }
@@ -4924,7 +4979,7 @@ class Player extends Entity {
 }
 
 module.exports = Player
-},{"../animation":2,"../anime":3,"../controls/character-controls":7,"../light-source":26,"../subject":31,"../temporal-light-source.js":32,"../vec2":35,"../weapon":36,"./entity":16}],24:[function(require,module,exports){
+},{"../animation":2,"../anime":3,"../controls/character-controls":7,"../light-source":27,"../subject":32,"../temporal-light-source.js":33,"../vec2":36,"../weapon":37,"./entity":16}],25:[function(require,module,exports){
 
 const EventEmitter = require("../utils/event-emitter")
 
@@ -4976,7 +5031,7 @@ class DocumentEventHandler extends EventEmitter {
 }
 
 module.exports = DocumentEventHandler
-},{"../utils/event-emitter":34}],25:[function(require,module,exports){
+},{"../utils/event-emitter":35}],26:[function(require,module,exports){
 const Animation = require("./animation")
 const Anime = require("./anime")
 const Cell = require("./cell")
@@ -5248,6 +5303,8 @@ class Game {
 
     // Generates the map
     generate() {
+        console.log(this.level);
+
         // Initial graves (in each cell with some chance)
         let specGravesNum = 0;
         for (let x = 0; x < SIZE_X; x++) {
@@ -5334,6 +5391,8 @@ class Game {
         if (this.spec_graves_visited_count >= 3)
             this.gates(Random.random(MARGIN + 1, SIZE_X - MARGIN - 2));
 
+        // Killing all monsters
+        this.monsters = [];
     }
 
     // Subjects-spawning management
@@ -5441,6 +5500,7 @@ class Game {
             // Dead, too far or inappropriate level
             if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000 || monster.level > this.level) {
                 // Drop items
+                console.log("!!!!!", this.level);
                 if (monster.hp <= 0 && Random.random(0, 99) < 70) { // Chance 70%
                     let sbj = new Subject(); // Dropped subject
                     sbj.type = this.subject_type();
@@ -5727,7 +5787,7 @@ class Game {
 }
 
 module.exports = Game
-},{"./animation":2,"./anime":3,"./cell":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque":14,"./entity/entity":16,"./entity/monster":17,"./entity/player":23,"./light-source":26,"./maze":28,"./random":30,"./subject":31,"./vec2":35}],26:[function(require,module,exports){
+},{"./animation":2,"./anime":3,"./cell":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque":14,"./entity/entity":16,"./entity/monster":17,"./entity/player":24,"./light-source":27,"./maze":29,"./random":31,"./subject":32,"./vec2":36}],27:[function(require,module,exports){
 // Light source
 class LightSource {
     constructor(pos, power) {
@@ -5743,7 +5803,7 @@ class LightSource {
 }
 
 module.exports = LightSource
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 
 const Parameters = require("./parameters")
 const Game = require("./game.js")
@@ -5933,6 +5993,12 @@ window.addEventListener("load", async function() {
         Texture.named("monsters/spider_moving_2"),
     ];
 
+    // Bat
+    window.ANM_BAT_MOVING = [
+        Texture.named("monsters/bat_moving_0"),
+        Texture.named("monsters/bat_moving_1")
+    ];
+
     // GATES
     window.ANM_GATES = [
         Texture.named("particles/gates/gates0"),
@@ -6053,7 +6119,6 @@ window.addEventListener("load", async function() {
     game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
     game.player.status = 4;
 
-    window.game = game; // For checking from console
 
     function step() {
         Vec2.counter = 0
@@ -6085,7 +6150,7 @@ window.addEventListener("load", async function() {
 
     var interval = setInterval(step, DT * 1000);
 })
-},{"./draw.js":15,"./game.js":25,"./parameters":29,"./texture.js":33,"./vec2.js":35}],28:[function(require,module,exports){
+},{"./draw.js":15,"./game.js":26,"./parameters":30,"./texture.js":34,"./vec2.js":36}],29:[function(require,module,exports){
 const Vec2 = require("./vec2.js")
 const Random = require("./random.js")
 
@@ -6197,7 +6262,7 @@ class Maze {
 }
 
 module.exports = Maze
-},{"./random.js":30,"./vec2.js":35}],29:[function(require,module,exports){
+},{"./random.js":31,"./vec2.js":36}],30:[function(require,module,exports){
 'use strict'
 const Howl = require('howler').Howl;
 
@@ -6293,7 +6358,7 @@ window.SCREEN = document.getElementById("screen");
 SCREEN.width = SCREEN.height = 128 * SCALE;
 window.CTX = SCREEN.getContext("2d");
 
-},{"howler":1}],30:[function(require,module,exports){
+},{"howler":1}],31:[function(require,module,exports){
 
 //// RANDOM ////
 
@@ -6319,7 +6384,7 @@ class Random {
 }
 
 module.exports = Random
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -6334,7 +6399,7 @@ class Subject {
 }
 
 module.exports = Subject
-},{"./vec2":35}],32:[function(require,module,exports){
+},{"./vec2":36}],33:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -6373,7 +6438,7 @@ class TemporalLightSource {
 }
 
 module.exports = TemporalLightSource
-},{"./vec2":35}],33:[function(require,module,exports){
+},{"./vec2":36}],34:[function(require,module,exports){
 
 
 class Texture {
@@ -6446,7 +6511,7 @@ class Texture {
 }
 
 module.exports = Texture
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 class EventEmitter {
     constructor() {
         this.events = new Map()
@@ -6471,7 +6536,7 @@ class EventEmitter {
 }
 
 module.exports = EventEmitter
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 
 /**
  * 2D Vector
@@ -6547,7 +6612,7 @@ class Vec2 {
 Vec2.counter = 0
 
 module.exports = Vec2
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 // Weapon
 class Weapon {
 
@@ -6564,4 +6629,4 @@ class Weapon {
 }
 
 module.exports = Weapon
-},{}]},{},[27]);
+},{}]},{},[28]);

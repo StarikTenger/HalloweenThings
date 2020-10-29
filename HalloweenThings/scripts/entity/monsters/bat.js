@@ -4,19 +4,19 @@ const Random = require("../../random")
 const Anime = require("../../anime")
 const Vec2 = require("../../vec2")
 
-class Zombie extends Monster {
+class Bat extends Monster {
     constructor(config) {
         super(config);
 
-        this.horror = 0.2
-        this.hp = Random.random(2, 3);
+        this.horror = 0.02
+        this.hp = 1;
         this.level = 1;
-        console.log("zombie");
+        console.log("bat");
 
-        let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
-        let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-        let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-        let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+        let standing_animation = new Anime(0.5, ANM_BAT_MOVING);
+        let moving_up_animation = new Anime(0.3, ANM_BAT_MOVING);
+        let moving_down_animation = new Anime(0.3, ANM_BAT_MOVING);
+        let moving_right_animation = new Anime(0.3, ANM_BAT_MOVING);
 
         this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
     }
@@ -40,9 +40,9 @@ class Zombie extends Monster {
                 deltaPos = deltaPos.plus(neighbors[j]);
         }
 
-        let vel = 0.5;
+        let vel = 1;
         this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
     }
 }
 
-module.exports = Zombie
+module.exports = Bat

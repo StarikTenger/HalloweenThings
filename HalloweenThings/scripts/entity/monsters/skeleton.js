@@ -11,6 +11,7 @@ class Skeleton extends Monster {
         this.hp = Random.random(2, 3);
         this.horror = 0.1
         this.seenRange = 100000;
+        console.log("skeleton");
 
         this.patrolDir = Random.random(1, 4);
 
@@ -39,19 +40,15 @@ class Skeleton extends Monster {
 
         if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
             this.patrolDir = RIGHT;
-            console.log('l');
         }
         if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
             this.patrolDir = LEFT;
-            console.log('r');
         }
         if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
             this.patrolDir = DOWN;
-            console.log('u');
         }
         if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
             this.patrolDir = UP;
-            console.log('d');
         }
 
         if (this.patrolDir === LEFT) {

@@ -264,6 +264,7 @@ class Player extends Entity {
                         this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
                         this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
                         this.game.level++;
+
                         this.game.generate();
                     }
                 }

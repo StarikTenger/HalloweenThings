@@ -11,6 +11,7 @@ class Spider extends Monster {
         this.hp = Random.random(2, 3);
         this.horror = 0.1
         this.seenRange = 100000;
+        console.log("spider");
 
         this.patrolDir = Random.random(1, 4);
 

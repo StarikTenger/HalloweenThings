@@ -9,7 +9,9 @@ class Ghost extends Monster {
         super(config);
 
         this.hp = Random.random(1, 3);
-        this.horror = 0.3
+        this.horror = 0.3;
+        this.level = 2;
+        console.log("ghost");
 
         let standing_animation = new Anime(0.5, ANM_GHOST_STANDING);
         let moving_up_animation = new Anime(0.3, ANM_GHOST_MOVING_UP);

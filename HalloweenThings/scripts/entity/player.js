@@ -7,6 +7,7 @@ const Animation = require("../animation")
 const Weapon = require("../weapon")
 const Vec2 = require("../vec2")
 const Subject = require("../subject")
+const Anime = require("../anime")
 
 class Player extends Entity {
 
@@ -56,6 +57,12 @@ class Player extends Entity {
         super(config);
 
         this.controls = new CharacterControls()
+
+        let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
+        let anm_walking_right = new Anime(0.3, ANM_PLAYER_MOVING_RIGHT);
+        let anm_walking_up = new Anime(0.3, ANM_PLAYER_MOVING_UP);
+        let anm_walking_down = new Anime(0.3, ANM_PLAYER_MOVING_DOWN);
+        this.set_animations(anm_standing, [anm_walking_up, anm_walking_down, anm_walking_right]);
     }
 
     step(dt) {

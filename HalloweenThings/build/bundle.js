@@ -3277,7 +3277,7 @@ class Animation {
 }
 
 module.exports = Animation
-},{"./vec2":33}],3:[function(require,module,exports){
+},{"./vec2":34}],3:[function(require,module,exports){
 class Anime {
     constructor(frame_time, frames) {
         this.frame_time = frame_time;
@@ -3458,7 +3458,7 @@ class CharacterControls {
 }
 
 module.exports = CharacterControls
-},{"../vec2":33,"./axle":5}],8:[function(require,module,exports){
+},{"../vec2":34,"./axle":5}],8:[function(require,module,exports){
 
 const DocumentEventHandler = require("../events/documenteventhandler")
 const GamepadAxle = require("./gamepadaxle")
@@ -3746,7 +3746,7 @@ class UserControls extends EventEmitter {
 }
 
 module.exports = UserControls
-},{"../utils/event-emitter":32,"./axle":5}],14:[function(require,module,exports){
+},{"../utils/event-emitter":33,"./axle":5}],14:[function(require,module,exports){
 class Deque {
     constructor() {
         this.front = this.back = undefined;
@@ -3809,7 +3809,9 @@ class Draw {
             width = -1;
         }
         this.ctx.imageSmoothingEnabled = 0;
-        this.ctx.drawImage(texture, width*(x + w * flip - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+
+        this.ctx.drawImage(Texture.image, texture.rect.x, texture.rect.y, texture.rect.w, texture.rect.h, width*(x + w * flip - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE)
+
         this.ctx.restore();
     }
 
@@ -4062,7 +4064,7 @@ class Draw {
 }
 
 module.exports = Draw
-},{"./vec2":33}],16:[function(require,module,exports){
+},{"./vec2":34}],16:[function(require,module,exports){
 
 
 const Vec2 = require("../vec2")
@@ -4199,7 +4201,7 @@ class Entity {
 }
 
 module.exports = Entity
-},{"../vec2":33}],17:[function(require,module,exports){
+},{"../vec2":34}],17:[function(require,module,exports){
 
 const Entity = require("./entity")
 const Vec2 = require("../vec2")
@@ -4317,7 +4319,7 @@ Monster.classes = [
 ]
 
 
-},{"../vec2":33,"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
+},{"../vec2":34,"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4369,7 +4371,7 @@ class Ghost extends Monster {
 }
 
 module.exports = Ghost
-},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],19:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":34,"../monster":17}],19:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4421,7 +4423,7 @@ class Skeleton extends Monster {
 }
 
 module.exports = Skeleton
-},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],20:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":34,"../monster":17}],20:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4445,7 +4447,7 @@ class Tentacle extends Monster {
 }
 
 module.exports = Tentacle
-},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],21:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":34,"../monster":17}],21:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4492,7 +4494,7 @@ class Zombie extends Monster {
 }
 
 module.exports = Zombie
-},{"../../anime":3,"../../random":29,"../../vec2":33,"../monster":17}],22:[function(require,module,exports){
+},{"../../anime":3,"../../random":29,"../../vec2":34,"../monster":17}],22:[function(require,module,exports){
 
 const Entity = require("./entity")
 const CharacterControls = require("../controls/character-controls")
@@ -4502,6 +4504,7 @@ const Animation = require("../animation")
 const Weapon = require("../weapon")
 const Vec2 = require("../vec2")
 const Subject = require("../subject")
+const Anime = require("../anime")
 
 class Player extends Entity {
 
@@ -4551,6 +4554,12 @@ class Player extends Entity {
         super(config);
 
         this.controls = new CharacterControls()
+
+        let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
+        let anm_walking_right = new Anime(0.3, ANM_PLAYER_MOVING_RIGHT);
+        let anm_walking_up = new Anime(0.3, ANM_PLAYER_MOVING_UP);
+        let anm_walking_down = new Anime(0.3, ANM_PLAYER_MOVING_DOWN);
+        this.set_animations(anm_standing, [anm_walking_up, anm_walking_down, anm_walking_right]);
     }
 
     step(dt) {
@@ -4818,7 +4827,7 @@ class Player extends Entity {
 }
 
 module.exports = Player
-},{"../animation":2,"../controls/character-controls":7,"../light-source":25,"../subject":30,"../temporal-light-source.js":31,"../vec2":33,"../weapon":34,"./entity":16}],23:[function(require,module,exports){
+},{"../animation":2,"../anime":3,"../controls/character-controls":7,"../light-source":25,"../subject":30,"../temporal-light-source.js":31,"../vec2":34,"../weapon":35,"./entity":16}],23:[function(require,module,exports){
 
 const EventEmitter = require("../utils/event-emitter")
 
@@ -4870,7 +4879,7 @@ class DocumentEventHandler extends EventEmitter {
 }
 
 module.exports = DocumentEventHandler
-},{"../utils/event-emitter":32}],24:[function(require,module,exports){
+},{"../utils/event-emitter":33}],24:[function(require,module,exports){
 const Animation = require("./animation.js")
 const Anime = require("./anime.js")
 const Cell = require("./cell.js")
@@ -4887,11 +4896,6 @@ const GamepadController = require("./controls/gamepad-controller")
 const Player = require("./entity/player")
 
 const Monster = require("./entity/monster")
-
-const Zombie = require("./entity/monsters/zombie")
-const Skeleton = require("./entity/monsters/skeleton")
-const Tentacle = require("./entity/monsters/tentaсle")
-const Ghost = require("./entity/monsters/ghost")
 
 /**
  * Main class that controls everything
@@ -4926,13 +4930,6 @@ class Game {
         this.playerControls.setupGamepad(this.gamepad)
 
         this.playerControls.connectCharacterControls(this.player.controls)
-
-        // Player's animations
-        let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
-        let anm_walking_right = new Anime(0.3, ANM_PLAYER_MOVING_RIGHT);
-        let anm_walking_up = new Anime(0.3, ANM_PLAYER_MOVING_UP);
-        let anm_walking_down = new Anime(0.3, ANM_PLAYER_MOVING_DOWN);
-        this.player.set_animations(anm_standing, [anm_walking_up, anm_walking_down, anm_walking_right]);
 
         // Game progress
         this.spec_graves_visited = [0, 0, 0];
@@ -5185,20 +5182,6 @@ class Game {
                 }
             }
         }
-
-        // Neighbor graves (finds random point, sets grave if this cell has neighbor)
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        let neighborsDiagonal = [
-            new Vec2(1, 1),
-            new Vec2(-1, 1),
-            new Vec2(1, -1),
-            new Vec2(-1, -1)
-        ];
 
         // Apply maze
         let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));
@@ -5646,7 +5629,7 @@ class Game {
 }
 
 module.exports = Game
-},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque.js":14,"./entity/entity.js":16,"./entity/monster":17,"./entity/monsters/ghost":18,"./entity/monsters/skeleton":19,"./entity/monsters/tentaсle":20,"./entity/monsters/zombie":21,"./entity/player":22,"./light-source.js":25,"./maze":27,"./random":29,"./subject":30,"./vec2.js":33}],25:[function(require,module,exports){
+},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque.js":14,"./entity/entity.js":16,"./entity/monster":17,"./entity/player":22,"./light-source.js":25,"./maze":27,"./random":29,"./subject":30,"./vec2.js":34}],25:[function(require,module,exports){
 // Light source
 class LightSource {
     constructor(pos, power) {
@@ -5667,10 +5650,297 @@ module.exports = LightSource
 const Parameters = require("./parameters")
 const Game = require("./game.js")
 const Draw = require("./draw.js")
+const Texture = require("./texture.js")
 const Vec2 = require("./vec2.js")
 
 
-window.addEventListener("load", function() {
+window.addEventListener("load", async function() {
+
+    try {
+        await Texture.download()
+    } catch(exception) {
+        console.error(exception)
+        return;
+    }
+    
+    // Скопировал сюда чтобы мозолило глаза
+    // Ну и потому что Texture.named нельзя вызывать перед
+    // загрузкой текстур
+
+    // Loading current imgs
+    window.IMGS_GROUND = [
+        Texture.named("grounds/ground1"),
+        Texture.named("grounds/ground2"),
+        Texture.named("grounds/ground3"),
+    ];
+
+    window.ROOM_IMGS_GROUND = [
+        Texture.named("grounds/room_ground_1"),
+        Texture.named("grounds/room_ground_2")
+    ];
+
+    window.IMGS_COVERING = [
+        Texture.named("coverings/covering1"),
+        Texture.named("coverings/covering2"),
+        Texture.named("coverings/covering3"),
+        Texture.named("coverings/covering4"),
+        Texture.named("coverings/covering5"),
+        Texture.named("coverings/covering6"),
+        Texture.named("coverings/covering7"),
+        Texture.named("coverings/covering8")
+    ];
+
+    window.IMGS_SPEC_GRAVE = [
+        Texture.named("spec_graves/spec_grave1"),
+        Texture.named("spec_graves/spec_grave2"),
+        Texture.named("spec_graves/spec_grave3")
+    ];
+
+    window.IMGS_SPEC_MINI_GRAVE = [
+        Texture.named("spec_graves/spec_mini_grave1"),
+        Texture.named("spec_graves/spec_mini_grave2"),
+        Texture.named("spec_graves/spec_mini_grave3")
+    ];
+
+    // [vertical, left, right]
+    window.IMGS_GRAVE = [
+        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
+        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
+        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
+        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
+        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")]
+    ];
+
+    window.COLUMN_WIDTH = 4;
+    window.COLUMN_HEIGHT = 6;
+    window.IMGS_WALL = [
+        [
+            Texture.named("walls/wall"),
+            Texture.named("walls/wall_top"),
+            Texture.named("walls/wall"),
+            Texture.named("walls/wall_top")
+        ],
+        [
+            Texture.named("walls/column"),
+            Texture.named("walls/column_top"),
+            Texture.named("walls/wall"),
+            Texture.named("walls/wall_top")
+        ]
+    ];
+
+    window.IMGS_GATES = [
+        Texture.named("gates1"),
+        Texture.named("gates2")
+    ];
+
+    window.IMGS_MONSTER = [
+        Texture.named("monsters/monster1"),
+        Texture.named("monsters/monster2"),
+        Texture.named("monsters/monster3"),
+        Texture.named("monsters/monster2")
+    ];
+
+    window.IMGS_SUBJECT = [
+        Texture.named("subjects/heal"),
+        Texture.named("subjects/oil"),
+        Texture.named("subjects/whiskey"),
+        Texture.named("subjects/matchbox"),
+        Texture.named("subjects/ammo")
+    ];
+
+    // Player animation
+    window.ANM_PLAYER_STANDING = [
+        Texture.named("player/player_standing_0"),
+        Texture.named("player/player_standing_1")
+    ];
+
+    window.ANM_PLAYER_MOVING_RIGHT = [
+        Texture.named("player/player_moving_right_0"),
+        Texture.named("player/player_moving_right_1")
+    ];
+
+    window.ANM_PLAYER_MOVING_UP = [
+        Texture.named("player/player_moving_up_0"),
+        Texture.named("player/player_moving_up_1")
+    ];
+
+    window.ANM_PLAYER_MOVING_DOWN = [
+        Texture.named("player/player_moving_down_0"),
+        Texture.named("player/player_moving_down_1")
+    ];
+
+    // MONSTERS
+
+
+    // Zombie
+    window.ANM_ZOMBIE_STANDING = [
+        Texture.named("monsters/zombie_standing_0"),
+        Texture.named("monsters/zombie_standing_1")
+    ];
+
+    window.ANM_ZOMBIE_MOVING_UP = [
+        Texture.named("monsters/zombie_moving_up_0"),
+        Texture.named("monsters/zombie_moving_up_1")
+    ];
+
+    window.ANM_ZOMBIE_MOVING_DOWN = [
+        Texture.named("monsters/zombie_moving_down_0"),
+        Texture.named("monsters/zombie_moving_down_1")
+    ];
+
+    window.ANM_ZOMBIE_MOVING_RIGHT = [
+        Texture.named("monsters/zombie_moving_right_0"),
+        Texture.named("monsters/zombie_moving_right_1")
+    ];
+
+    // Ghost
+    window.ANM_GHOST_STANDING = [
+        Texture.named("monsters/ghost_standing_0"),
+        Texture.named("monsters/ghost_standing_1")
+    ];
+
+    window.ANM_GHOST_MOVING_UP = [
+        Texture.named("monsters/ghost_moving_up_0"),
+        Texture.named("monsters/ghost_moving_up_1"),
+        Texture.named("monsters/ghost_moving_up_2"),
+        Texture.named("monsters/ghost_moving_up_3")
+
+    ];
+
+    window.ANM_GHOST_MOVING_DOWN = [
+        Texture.named("monsters/ghost_moving_down_0"),
+        Texture.named("monsters/ghost_moving_down_1"),
+        Texture.named("monsters/ghost_moving_down_2"),
+        Texture.named("monsters/ghost_moving_down_3")
+    ];
+
+    window.ANM_GHOST_MOVING_RIGHT = [
+        Texture.named("monsters/ghost_moving_right_0"),
+        Texture.named("monsters/ghost_moving_right_1"),
+        Texture.named("monsters/ghost_moving_right_2"),
+        Texture.named("monsters/ghost_moving_right_3"),
+    ];
+
+// Worm
+    window.ANM_WORM_STANDING = [
+        Texture.named("monsters/worm_standing_0"),
+        Texture.named("monsters/worm_standing_1"),
+        Texture.named("monsters/worm_standing_2"),
+        Texture.named("monsters/worm_standing_3")
+    ]
+
+// GATES
+    window.ANM_GATES = [
+        Texture.named("particles/gates/gates0"),
+        Texture.named("particles/gates/gates1"),
+        Texture.named("particles/gates/gates2"),
+        Texture.named("particles/gates/gates3")
+    ];
+
+// ===================
+
+    window.IMG_MONSTER0 = Texture.named("monsters/zombie_standing_0");
+    window.IMG_SHADOW = Texture.named("shadow");
+    window.IMG_INTERFACE = Texture.named("interface/interface");
+    window.IMG_INTERFACE_OVERLAY = Texture.named("interface/interfaceOverlay");
+    window.IMG_MATCH = Texture.named("interface/match");
+    window.IMG_MENTAL_DANGER = Texture.named("interface/mental_danger");
+
+// Endgame screens
+    window.IMG_DEAD = Texture.named("interface/deathscreen");
+    window.IMG_DELIRIOUS = Texture.named("interface/deliriumscreen");
+    window.IMG_WIN = Texture.named("interface/winscreen");
+    window.IMG_START_SCREEN = Texture.named("interface/startscreen");
+
+// Sprite animations
+    window.ANM_BLOOD = [
+        Texture.named("particles/blood/blood0"),
+        Texture.named("particles/blood/blood1"),
+        Texture.named("particles/blood/blood2")
+    ];
+
+    window.ANM_IGNITION_RED = [
+        Texture.named("particles/ignition/ignition_red_0"),
+        Texture.named("particles/ignition/ignition_red_1"),
+        Texture.named("particles/ignition/ignition_red_2"),
+        Texture.named("particles/ignition/ignition_red_3"),
+        Texture.named("particles/ignition/ignition_red_4"),
+        Texture.named("particles/ignition/ignition_red_5"),
+    ];
+
+    window.ANM_IGNITION_GREEN = [
+        Texture.named("particles/ignition/ignition_green_0"),
+        Texture.named("particles/ignition/ignition_green_1"),
+        Texture.named("particles/ignition/ignition_green_2"),
+        Texture.named("particles/ignition/ignition_green_3"),
+        Texture.named("particles/ignition/ignition_green_4"),
+        Texture.named("particles/ignition/ignition_green_5"),
+    ];
+
+    window.ANM_IGNITION_BLUE = [
+        Texture.named("particles/ignition/ignition_blue_0"),
+        Texture.named("particles/ignition/ignition_blue_1"),
+        Texture.named("particles/ignition/ignition_blue_2"),
+        Texture.named("particles/ignition/ignition_blue_3"),
+        Texture.named("particles/ignition/ignition_blue_4"),
+        Texture.named("particles/ignition/ignition_blue_5"),
+    ];
+
+    window.ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
+
+    window.ANM_MATCH = [
+        Texture.named("particles/match/match0"),
+        Texture.named("particles/match/match1"),
+        Texture.named("particles/match/match2")
+    ];
+
+    window.ANM_MATCH_BURNING = [
+        Texture.named("particles/match_burn/match_burn_0"),
+        Texture.named("particles/match_burn/match_burn_1"),
+        Texture.named("particles/match_burn/match_burn_2"),
+        Texture.named("particles/match_burn/match_burn_3"),
+        Texture.named("particles/match_burn/match_burn_4")
+    ];
+
+    window.ANM_ACTIVE_GRAVE = [
+        Texture.named("particles/active_grave/active_grave_0"),
+        Texture.named("particles/active_grave/active_grave_1"),
+        Texture.named("particles/active_grave/active_grave_2"),
+        Texture.named("particles/active_grave/active_grave_3"),
+        Texture.named("particles/active_grave/active_grave_4")
+    ];
+
+    window.ANM_PISTOL_SHOT = [
+        Texture.named("interface/pistol_shot/pistol_0"),
+        Texture.named("interface/pistol_shot/pistol_1"),
+        Texture.named("interface/pistol_shot/pistol_2"),
+        Texture.named("interface/pistol_shot/pistol_3"),
+        Texture.named("interface/pistol_shot/pistol_4")
+    ];
+
+    window.ANM_TRACER_LEFT = [
+        Texture.named("particles/tracer/tracer_left")
+    ];
+    window.ANM_TRACER_RIGHT = [
+        Texture.named("particles/tracer/tracer_right")
+    ];
+    window.ANM_TRACER_UP = [
+        Texture.named("particles/tracer/tracer_up")
+    ];
+    window.ANM_TRACER_DOWN = [
+        Texture.named("particles/tracer/tracer_down")
+    ];
+
+    // Damage animation
+    window.ANM_DAMAGE = [
+        Texture.named("particles/damage/damage0"),
+        Texture.named("particles/damage/damage1"),
+        Texture.named("particles/damage/damage2"),
+        Texture.named("particles/damage/damage3")
+    ];
+
+    window.Texture = Texture
+
     let game = new Game();
     let draw = new Draw(CTX);
 
@@ -5711,7 +5981,7 @@ window.addEventListener("load", function() {
 
     var interval = setInterval(step, DT * 1000);
 })
-},{"./draw.js":15,"./game.js":24,"./parameters":28,"./vec2.js":33}],27:[function(require,module,exports){
+},{"./draw.js":15,"./game.js":24,"./parameters":28,"./texture.js":32,"./vec2.js":34}],27:[function(require,module,exports){
 const Vec2 = require("./vec2.js")
 const Random = require("./random.js")
 
@@ -5823,7 +6093,7 @@ class Maze {
 }
 
 module.exports = Maze
-},{"./random.js":29,"./vec2.js":33}],28:[function(require,module,exports){
+},{"./random.js":29,"./vec2.js":34}],28:[function(require,module,exports){
 'use strict'
 const Howl = require('howler').Howl;
 
@@ -5919,272 +6189,6 @@ window.SCREEN = document.getElementById("screen");
 SCREEN.width = SCREEN.height = 128 * SCALE;
 window.CTX = SCREEN.getContext("2d");
 
-// Images
-function getImg(src) { // Load images
-    let img = new Image();
-    img.src = src;
-    return img;
-}
-
-// Loading current imgs
-window.IMGS_GROUND = [
-    getImg("textures/grounds/ground1.png"),
-    getImg("textures/grounds/ground2.png"),
-    getImg("textures/grounds/ground3.png")
-];
-
-window.ROOM_IMGS_GROUND = [
-    getImg("textures/grounds/room_ground_1.png"),
-    getImg("textures/grounds/room_ground_2.png"),
-];
-
-window.IMGS_COVERING = [
-    getImg("textures/coverings/covering1.png"),
-    getImg("textures/coverings/covering2.png"),
-    getImg("textures/coverings/covering3.png"),
-    getImg("textures/coverings/covering4.png"),
-    getImg("textures/coverings/covering5.png"),
-    getImg("textures/coverings/covering6.png"),
-    getImg("textures/coverings/covering7.png"),
-    getImg("textures/coverings/covering8.png")
-];
-
-window.IMGS_SPEC_GRAVE = [
-    getImg("textures/spec_graves/spec_grave1.png"),
-    getImg("textures/spec_graves/spec_grave2.png"),
-    getImg("textures/spec_graves/spec_grave3.png")
-];
-
-window.IMGS_SPEC_MINI_GRAVE = [
-    getImg("textures/spec_graves/spec_mini_grave1.png"),
-    getImg("textures/spec_graves/spec_mini_grave2.png"),
-    getImg("textures/spec_graves/spec_mini_grave3.png")
-];
-
-// [column, column_top, wall, wall_top]
-window.COLUMN_WIDTH = 4;
-window.COLUMN_HEIGHT = 6;
-window.IMGS_WALL = [
-    [getImg("textures/walls/wall.png"),
-        getImg("textures/walls/wall_top.png"),
-        getImg("textures/walls/wall.png"),
-        getImg("textures/walls/wall_top.png")],
-    [getImg("textures/walls/column.png"),
-        getImg("textures/walls/column_top.png"),
-        getImg("textures/walls/wall.png"),
-        getImg("textures/walls/wall_top.png")]
-];
-
-window.IMGS_GATES = [
-    getImg("textures/gates1.png"),
-    getImg("textures/gates2.png")
-];
-
-window.IMGS_MONSTER = [
-    getImg("textures/monsters/monster1.png"),
-    getImg("textures/monsters/monster2.png"),
-    getImg("textures/monsters/monster3.png"),
-    getImg("textures/monsters/monster2.png")
-];
-
-window.IMGS_SUBJECT = [
-    getImg("textures/subjects/heal.png"),
-    getImg("textures/subjects/oil.png"),
-    getImg("textures/subjects/whiskey.png"),
-    getImg("textures/subjects/matchbox.png"),
-    getImg("textures/subjects/ammo.png")
-];
-
-// Player animation
-window.ANM_PLAYER_STANDING = [
-    getImg("textures/player/player_standing_0.png"),
-    getImg("textures/player/player_standing_1.png")
-];
-
-window.ANM_PLAYER_MOVING_RIGHT = [
-    getImg("textures/player/player_moving_right_0.png"),
-    getImg("textures/player/player_moving_right_1.png")
-];
-
-window.ANM_PLAYER_MOVING_UP = [
-    getImg("textures/player/player_moving_up_0.png"),
-    getImg("textures/player/player_moving_up_1.png")
-];
-
-window.ANM_PLAYER_MOVING_DOWN = [
-    getImg("textures/player/player_moving_down_0.png"),
-    getImg("textures/player/player_moving_down_1.png")
-];
-
-// MONSTERS
-
-
-// Zombie
-window.ANM_ZOMBIE_STANDING = [
-    getImg("textures/monsters/zombie_standing_0.png"),
-    getImg("textures/monsters/zombie_standing_1.png")
-];
-
-window.ANM_ZOMBIE_MOVING_UP = [
-    getImg("textures/monsters/zombie_moving_up_0.png"),
-    getImg("textures/monsters/zombie_moving_up_1.png")
-];
-
-window.ANM_ZOMBIE_MOVING_DOWN = [
-    getImg("textures/monsters/zombie_moving_down_0.png"),
-    getImg("textures/monsters/zombie_moving_down_1.png")
-];
-
-window.ANM_ZOMBIE_MOVING_RIGHT = [
-    getImg("textures/monsters/zombie_moving_right_0.png"),
-    getImg("textures/monsters/zombie_moving_right_1.png")
-];
-
-// Ghost
-window.ANM_GHOST_STANDING = [
-    getImg("textures/monsters/ghost_standing_0.png"),
-    getImg("textures/monsters/ghost_standing_1.png")
-];
-
-window.ANM_GHOST_MOVING_UP = [
-    getImg("textures/monsters/ghost_moving_up_0.png"),
-    getImg("textures/monsters/ghost_moving_up_1.png"),
-    getImg("textures/monsters/ghost_moving_up_2.png"),
-    getImg("textures/monsters/ghost_moving_up_3.png")
-
-];
-
-window.ANM_GHOST_MOVING_DOWN = [
-    getImg("textures/monsters/ghost_moving_down_0.png"),
-    getImg("textures/monsters/ghost_moving_down_1.png"),
-    getImg("textures/monsters/ghost_moving_down_2.png"),
-    getImg("textures/monsters/ghost_moving_down_3.png")
-];
-
-window.ANM_GHOST_MOVING_RIGHT = [
-    getImg("textures/monsters/ghost_moving_right_0.png"),
-    getImg("textures/monsters/ghost_moving_right_1.png"),
-    getImg("textures/monsters/ghost_moving_right_2.png"),
-    getImg("textures/monsters/ghost_moving_right_3.png"),
-];
-
-// Worm
-window.ANM_WORM_STANDING = [
-    getImg("textures/monsters/worm_standing_0.png"),
-    getImg("textures/monsters/worm_standing_1.png"),
-    getImg("textures/monsters/worm_standing_2.png"),
-    getImg("textures/monsters/worm_standing_3.png")
-]
-
-// GATES
-window.ANM_GATES = [
-    getImg("textures/particles/gates/gates0.png"),
-    getImg("textures/particles/gates/gates1.png"),
-    getImg("textures/particles/gates/gates2.png"),
-    getImg("textures/particles/gates/gates3.png")
-];
-
-// ===================
-
-window.IMG_MONSTER0 = getImg("textures/monsters/zombie_standing_0.png");
-window.IMG_SHADOW = getImg("textures/shadow.png");
-window.IMG_INTERFACE = getImg("textures/interface/interface.png");
-window.IMG_INTERFACE_OVERLAY = getImg("textures/interface/interfaceOverlay.png");
-window.IMG_MATCH = getImg("textures/interface/match.png");
-window.IMG_MENTAL_DANGER = getImg("textures/interface/mental_danger.png");
-
-// Endgame screens
-window.IMG_DEAD = getImg("textures/interface/deathscreen.png");
-window.IMG_DELIRIOUS = getImg("textures/interface/deliriumscreen.png");
-window.IMG_WIN = getImg("textures/interface/winscreen.png");
-window.IMG_START_SCREEN = getImg("textures/interface/startscreen.png");
-
-// Sprite animations
-window.ANM_BLOOD = [
-    getImg("textures/particles/blood/blood0.png"),
-    getImg("textures/particles/blood/blood1.png"),
-    getImg("textures/particles/blood/blood2.png")
-];
-
-window.ANM_IGNITION_RED = [
-    getImg("textures/particles/ignition/ignition_red_0.png"),
-    getImg("textures/particles/ignition/ignition_red_1.png"),
-    getImg("textures/particles/ignition/ignition_red_2.png"),
-    getImg("textures/particles/ignition/ignition_red_3.png"),
-    getImg("textures/particles/ignition/ignition_red_4.png"),
-    getImg("textures/particles/ignition/ignition_red_5.png"),
-];
-
-window.ANM_IGNITION_GREEN = [
-    getImg("textures/particles/ignition/ignition_green_0.png"),
-    getImg("textures/particles/ignition/ignition_green_1.png"),
-    getImg("textures/particles/ignition/ignition_green_2.png"),
-    getImg("textures/particles/ignition/ignition_green_3.png"),
-    getImg("textures/particles/ignition/ignition_green_4.png"),
-    getImg("textures/particles/ignition/ignition_green_5.png"),
-];
-
-window.ANM_IGNITION_BLUE = [
-    getImg("textures/particles/ignition/ignition_blue_0.png"),
-    getImg("textures/particles/ignition/ignition_blue_1.png"),
-    getImg("textures/particles/ignition/ignition_blue_2.png"),
-    getImg("textures/particles/ignition/ignition_blue_3.png"),
-    getImg("textures/particles/ignition/ignition_blue_4.png"),
-    getImg("textures/particles/ignition/ignition_blue_5.png"),
-];
-
-window.ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
-
-window.ANM_MATCH = [
-    getImg("textures/particles/match/match0.png"),
-    getImg("textures/particles/match/match1.png"),
-    getImg("textures/particles/match/match2.png")
-];
-
-window.ANM_MATCH_BURNING = [
-    getImg("textures/particles/match_burn/match_burn_0.png"),
-    getImg("textures/particles/match_burn/match_burn_1.png"),
-    getImg("textures/particles/match_burn/match_burn_2.png"),
-    getImg("textures/particles/match_burn/match_burn_3.png"),
-    getImg("textures/particles/match_burn/match_burn_4.png")
-];
-
-window.ANM_ACTIVE_GRAVE = [
-    getImg("textures/particles/active_grave/active_grave_0.png"),
-    getImg("textures/particles/active_grave/active_grave_1.png"),
-    getImg("textures/particles/active_grave/active_grave_2.png"),
-    getImg("textures/particles/active_grave/active_grave_3.png"),
-    getImg("textures/particles/active_grave/active_grave_4.png")
-];
-
-window.ANM_PISTOL_SHOT = [
-    getImg("textures/interface/pistol_shot/pistol_0.png"),
-    getImg("textures/interface/pistol_shot/pistol_1.png"),
-    getImg("textures/interface/pistol_shot/pistol_2.png"),
-    getImg("textures/interface/pistol_shot/pistol_3.png"),
-    getImg("textures/interface/pistol_shot/pistol_4.png")
-];
-
-window.ANM_TRACER_LEFT = [
-    getImg("textures/particles/tracer/tracer_left.png")
-];
-window.ANM_TRACER_RIGHT = [
-    getImg("textures/particles/tracer/tracer_right.png")
-];
-window.ANM_TRACER_UP = [
-    getImg("textures/particles/tracer/tracer_up.png")
-];
-window.ANM_TRACER_DOWN = [
-    getImg("textures/particles/tracer/tracer_down.png")
-];
-
-// Damage animation
-window.ANM_DAMAGE = [
-    getImg("textures/particles/damage/damage0.png"),
-    getImg("textures/particles/damage/damage1.png"),
-    getImg("textures/particles/damage/damage2.png"),
-    getImg("textures/particles/damage/damage3.png")
-];
 },{"howler":1}],29:[function(require,module,exports){
 
 //// RANDOM ////
@@ -6226,7 +6230,7 @@ class Subject {
 }
 
 module.exports = Subject
-},{"./vec2":33}],31:[function(require,module,exports){
+},{"./vec2":34}],31:[function(require,module,exports){
 
 const Vec2 = require("./vec2")
 
@@ -6265,7 +6269,80 @@ class TemporalLightSource {
 }
 
 module.exports = TemporalLightSource
-},{"./vec2":33}],32:[function(require,module,exports){
+},{"./vec2":34}],32:[function(require,module,exports){
+
+
+class Texture {
+
+    static textures = new Map()
+    static rectangles = []
+    static image
+
+    constructor(name) {
+        this.rect = Texture.rectangles[name]
+    }
+
+    static download() {
+
+        // This code is not perfect, btw
+        // it cannot get much better without creating
+        // a ton of utility files
+
+        return new Promise((resolve, reject) => {
+
+            let atlasImage = new Image()
+            atlasImage.src = "./textures/atlas.png"
+
+            atlasImage.addEventListener("load", function(){
+                if (this.complete) {
+                    Texture.image = this
+                    if(Texture.rectangles) resolve()
+                } else {
+                    reject("Failed to download atlas image")
+                }
+            })
+
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4) {
+                    if(xmlhttp.status === 200) {
+                        try {
+                            Texture.rectangles = JSON.parse(xmlhttp.responseText);
+                            if (Texture.image) resolve()
+                        } catch (err) {
+                            reject(err)
+                        }
+                    } else {
+                        reject("Failed to download atlas json")
+                    }
+                }
+            }
+            xmlhttp.onerror = function() {
+                reject("Failed to download atlas json")
+            }
+
+            xmlhttp.open("GET", "./textures/atlas.json", true);
+            xmlhttp.send();
+        }).then(() => {
+            for(let [name] of Object.entries(Texture.rectangles)) {
+                console.log(name)
+                Texture.textures.set(name, new Texture(name))
+            }
+        })
+    }
+
+    /**
+     * @param name Name of the sprite, like "tanks/sniper/body-bright"
+     * @returns {Texture} The sprite associated with this name
+     */
+
+    static named(name) {
+        return Texture.textures.get(name)
+    }
+}
+
+module.exports = Texture
+},{}],33:[function(require,module,exports){
 class EventEmitter {
     constructor() {
         this.events = new Map()
@@ -6290,7 +6367,7 @@ class EventEmitter {
 }
 
 module.exports = EventEmitter
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /**
  * 2D Vector
@@ -6366,7 +6443,7 @@ class Vec2 {
 Vec2.counter = 0
 
 module.exports = Vec2
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 // Weapon
 class Weapon {
 

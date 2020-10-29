@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "browserify scripts/main.js -o build/bundle.js"
+    "build": "browserify scripts/main.js -o build/bundle.js",
+    "create-atlas": "cd textures; node atlas_creator.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "browserify": "^17.0.0"
+    "atlaspack": "^1.0.0",
+    "browserify": "^17.0.0",
+    "canvas": "^2.6.1"
   },
   "dependencies": {
     "howler": "^2.2.1"

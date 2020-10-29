@@ -15,11 +15,6 @@ const Player = require("./entity/player")
 
 const Monster = require("./entity/monster")
 
-const Zombie = require("./entity/monsters/zombie")
-const Skeleton = require("./entity/monsters/skeleton")
-const Tentacle = require("./entity/monsters/tentaсle")
-const Ghost = require("./entity/monsters/ghost")
-
 /**
  * Main class that controls everything
  */
@@ -53,13 +48,6 @@ class Game {
         this.playerControls.setupGamepad(this.gamepad)
 
         this.playerControls.connectCharacterControls(this.player.controls)
-
-        // Player's animations
-        let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
-        let anm_walking_right = new Anime(0.3, ANM_PLAYER_MOVING_RIGHT);
-        let anm_walking_up = new Anime(0.3, ANM_PLAYER_MOVING_UP);
-        let anm_walking_down = new Anime(0.3, ANM_PLAYER_MOVING_DOWN);
-        this.player.set_animations(anm_standing, [anm_walking_up, anm_walking_down, anm_walking_right]);
 
         // Game progress
         this.spec_graves_visited = [0, 0, 0];
@@ -312,20 +300,6 @@ class Game {
                 }
             }
         }
-
-        // Neighbor graves (finds random point, sets grave if this cell has neighbor)
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        let neighborsDiagonal = [
-            new Vec2(1, 1),
-            new Vec2(-1, 1),
-            new Vec2(1, -1),
-            new Vec2(-1, -1)
-        ];
 
         // Apply maze
         let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));

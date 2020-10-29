@@ -91,7 +91,7 @@ readdirdeep("./source").then((list) => {
 	}
 
 	let atlasPath = path.resolve(destination, "atlas.png")
-	let jsonPath = path.resolve(destination, "atlas.json")
+	let jsonPath = path.resolve(destination, "atlas.js")
 
 	try { fs.accessSync(path.dirname(atlasPath)) }
 	catch(err) { fs.mkdirSync(path.dirname(atlasPath)) }
@@ -100,5 +100,5 @@ readdirdeep("./source").then((list) => {
 	catch(err) { fs.mkdirSync(path.dirname(jsonPath)) }
 
 	fs.writeFileSync(atlasPath, canvas.toBuffer());
-	fs.writeFileSync(jsonPath, JSON.stringify(json));
+	fs.writeFileSync(jsonPath, `module.exports = (${JSON.stringify(json)})`);
 });

@@ -1,4 +1,1039 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+module.exports = {
+  "particles/tracer/tracer_up": {
+    "x": 1,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/tracer/tracer_right": {
+    "x": 67,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/tracer/tracer_left": {
+    "x": 133,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/tracer/tracer_down": {
+    "x": 199,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/damage/damage3": {
+    "x": 265,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/damage/damage2": {
+    "x": 331,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/damage/damage1": {
+    "x": 397,
+    "y": 1,
+    "w": 64,
+    "h": 64
+  },
+  "particles/damage/damage0": {
+    "x": 1,
+    "y": 67,
+    "w": 64,
+    "h": 64
+  },
+  "interface/winscreen": {
+    "x": 1,
+    "y": 133,
+    "w": 64,
+    "h": 64
+  },
+  "interface/startscreen": {
+    "x": 1,
+    "y": 199,
+    "w": 64,
+    "h": 64
+  },
+  "interface/start_screen": {
+    "x": 1,
+    "y": 265,
+    "w": 64,
+    "h": 64
+  },
+  "interface/interfaceOverlay": {
+    "x": 1,
+    "y": 331,
+    "w": 64,
+    "h": 64
+  },
+  "interface/interface": {
+    "x": 1,
+    "y": 397,
+    "w": 64,
+    "h": 64
+  },
+  "interface/deliriumscreen": {
+    "x": 67,
+    "y": 67,
+    "w": 64,
+    "h": 64
+  },
+  "interface/deathscreen": {
+    "x": 133,
+    "y": 67,
+    "w": 64,
+    "h": 64
+  },
+  "monsters/spider_moving_2": {
+    "x": 463,
+    "y": 1,
+    "w": 32,
+    "h": 64
+  },
+  "monsters/spider_moving_1": {
+    "x": 199,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "monsters/spider_moving_0": {
+    "x": 233,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "monsters/bat_moving_1": {
+    "x": 267,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "monsters/bat_moving_0": {
+    "x": 301,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave9": {
+    "x": 335,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave8": {
+    "x": 369,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave7": {
+    "x": 403,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave6": {
+    "x": 437,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave5": {
+    "x": 471,
+    "y": 67,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave4": {
+    "x": 67,
+    "y": 133,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave3": {
+    "x": 67,
+    "y": 199,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave2_s": {
+    "x": 67,
+    "y": 265,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave2_r": {
+    "x": 67,
+    "y": 331,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave2_l": {
+    "x": 67,
+    "y": 397,
+    "w": 32,
+    "h": 64
+  },
+  "graves/grave2": {
+    "x": 101,
+    "y": 133,
+    "w": 32,
+    "h": 64
+  },
+  "grounds/room_ground_2": {
+    "x": 1,
+    "y": 463,
+    "w": 32,
+    "h": 32
+  },
+  "grounds/room_ground_1": {
+    "x": 67,
+    "y": 463,
+    "w": 32,
+    "h": 32
+  },
+  "grounds/ground3": {
+    "x": 101,
+    "y": 199,
+    "w": 32,
+    "h": 32
+  },
+  "grounds/ground2": {
+    "x": 101,
+    "y": 233,
+    "w": 32,
+    "h": 32
+  },
+  "grounds/ground1": {
+    "x": 101,
+    "y": 267,
+    "w": 32,
+    "h": 32
+  },
+  "walls/wall": {
+    "x": 35,
+    "y": 463,
+    "w": 24,
+    "h": 32
+  },
+  "walls/column": {
+    "x": 497,
+    "y": 1,
+    "w": 8,
+    "h": 32
+  },
+  "particles/gates/gates3": {
+    "x": 101,
+    "y": 301,
+    "w": 16,
+    "h": 16
+  },
+  "particles/gates/gates2": {
+    "x": 101,
+    "y": 319,
+    "w": 16,
+    "h": 16
+  },
+  "particles/gates/gates1": {
+    "x": 101,
+    "y": 337,
+    "w": 16,
+    "h": 16
+  },
+  "particles/gates/gates0": {
+    "x": 101,
+    "y": 355,
+    "w": 16,
+    "h": 16
+  },
+  "gates_full": {
+    "x": 101,
+    "y": 373,
+    "w": 16,
+    "h": 16
+  },
+  "gates_anim_1": {
+    "x": 101,
+    "y": 391,
+    "w": 16,
+    "h": 16
+  },
+  "gates_anim_0": {
+    "x": 101,
+    "y": 409,
+    "w": 16,
+    "h": 16
+  },
+  "walls/wall_top": {
+    "x": 497,
+    "y": 35,
+    "w": 8,
+    "h": 24
+  },
+  "spec_graves/spec_grave3": {
+    "x": 119,
+    "y": 301,
+    "w": 8,
+    "h": 16
+  },
+  "spec_graves/spec_grave2": {
+    "x": 119,
+    "y": 319,
+    "w": 8,
+    "h": 16
+  },
+  "spec_graves/spec_grave1": {
+    "x": 119,
+    "y": 337,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_walking_1": {
+    "x": 119,
+    "y": 355,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_walking_0": {
+    "x": 119,
+    "y": 373,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_standing_1": {
+    "x": 119,
+    "y": 391,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_standing_0": {
+    "x": 119,
+    "y": 409,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_up_1": {
+    "x": 101,
+    "y": 427,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_up_0": {
+    "x": 111,
+    "y": 427,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_right_1": {
+    "x": 121,
+    "y": 427,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_right_0": {
+    "x": 101,
+    "y": 445,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_down_1": {
+    "x": 111,
+    "y": 445,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_down_0": {
+    "x": 121,
+    "y": 445,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_1": {
+    "x": 101,
+    "y": 463,
+    "w": 8,
+    "h": 16
+  },
+  "player/player_moving_0": {
+    "x": 111,
+    "y": 463,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_red_5": {
+    "x": 121,
+    "y": 463,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_red_4": {
+    "x": 101,
+    "y": 481,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_red_3": {
+    "x": 111,
+    "y": 481,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_red_2": {
+    "x": 121,
+    "y": 481,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_red_1": {
+    "x": 135,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_red_0": {
+    "x": 135,
+    "y": 151,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_green_5": {
+    "x": 135,
+    "y": 169,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_green_4": {
+    "x": 135,
+    "y": 187,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_green_3": {
+    "x": 135,
+    "y": 205,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_green_2": {
+    "x": 135,
+    "y": 223,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_green_1": {
+    "x": 135,
+    "y": 241,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_green_0": {
+    "x": 135,
+    "y": 259,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_blue_5": {
+    "x": 135,
+    "y": 277,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_blue_4": {
+    "x": 135,
+    "y": 295,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_blue_3": {
+    "x": 135,
+    "y": 313,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_blue_2": {
+    "x": 135,
+    "y": 331,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_blue_1": {
+    "x": 135,
+    "y": 349,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition_blue_0": {
+    "x": 135,
+    "y": 367,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition5": {
+    "x": 135,
+    "y": 385,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition4": {
+    "x": 135,
+    "y": 403,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition3": {
+    "x": 135,
+    "y": 421,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition2": {
+    "x": 135,
+    "y": 439,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition1": {
+    "x": 135,
+    "y": 457,
+    "w": 8,
+    "h": 16
+  },
+  "particles/ignition/ignition0": {
+    "x": 135,
+    "y": 475,
+    "w": 8,
+    "h": 16
+  },
+  "particles/active_grave/active_grave_4": {
+    "x": 135,
+    "y": 493,
+    "w": 8,
+    "h": 16
+  },
+  "particles/active_grave/active_grave_3": {
+    "x": 145,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "particles/active_grave/active_grave_2": {
+    "x": 155,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "particles/active_grave/active_grave_1": {
+    "x": 165,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "particles/active_grave/active_grave_0": {
+    "x": 175,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_standing_1": {
+    "x": 185,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_standing_0": {
+    "x": 195,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_moving_up_1": {
+    "x": 205,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_moving_up_0": {
+    "x": 215,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_moving_right_1": {
+    "x": 225,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_moving_right_0": {
+    "x": 235,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_moving_down_1": {
+    "x": 245,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/zombie_moving_down_0": {
+    "x": 255,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/worm_standing_3": {
+    "x": 265,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/worm_standing_2": {
+    "x": 275,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/worm_standing_1": {
+    "x": 285,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/worm_standing_0": {
+    "x": 295,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster_standing_1": {
+    "x": 305,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster_standing_01": {
+    "x": 315,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster_standing_0": {
+    "x": 325,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster4": {
+    "x": 335,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster3": {
+    "x": 345,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster2": {
+    "x": 355,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/monster1": {
+    "x": 365,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_standing_1": {
+    "x": 375,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_standing_0": {
+    "x": 385,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_up_3": {
+    "x": 395,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_up_2": {
+    "x": 405,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_up_1": {
+    "x": 415,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_up_0": {
+    "x": 425,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_right_3": {
+    "x": 435,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_right_2": {
+    "x": 445,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_right_1": {
+    "x": 455,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_right_0": {
+    "x": 465,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_down_3": {
+    "x": 475,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_down_2": {
+    "x": 485,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_down_1": {
+    "x": 495,
+    "y": 133,
+    "w": 8,
+    "h": 16
+  },
+  "monsters/ghost_moving_down_0": {
+    "x": 145,
+    "y": 151,
+    "w": 8,
+    "h": 16
+  },
+  "graves/grave_player": {
+    "x": 145,
+    "y": 169,
+    "w": 8,
+    "h": 16
+  },
+  "graves/grave_10": {
+    "x": 145,
+    "y": 187,
+    "w": 8,
+    "h": 16
+  },
+  "graves/grave1": {
+    "x": 145,
+    "y": 205,
+    "w": 8,
+    "h": 16
+  },
+  "graves/grave0": {
+    "x": 145,
+    "y": 223,
+    "w": 8,
+    "h": 16
+  },
+  "gates2": {
+    "x": 145,
+    "y": 241,
+    "w": 8,
+    "h": 16
+  },
+  "gates1": {
+    "x": 145,
+    "y": 259,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering8": {
+    "x": 145,
+    "y": 277,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering7": {
+    "x": 145,
+    "y": 295,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering6": {
+    "x": 145,
+    "y": 313,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering5": {
+    "x": 145,
+    "y": 331,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering4": {
+    "x": 145,
+    "y": 349,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering3": {
+    "x": 145,
+    "y": 367,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering2": {
+    "x": 145,
+    "y": 385,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering1": {
+    "x": 145,
+    "y": 403,
+    "w": 8,
+    "h": 16
+  },
+  "interface/pistol_shot/pistol_4": {
+    "x": 1,
+    "y": 497,
+    "w": 13,
+    "h": 7
+  },
+  "interface/pistol_shot/pistol_3": {
+    "x": 16,
+    "y": 497,
+    "w": 13,
+    "h": 7
+  },
+  "interface/pistol_shot/pistol_2": {
+    "x": 35,
+    "y": 497,
+    "w": 13,
+    "h": 7
+  },
+  "interface/pistol_shot/pistol_1": {
+    "x": 50,
+    "y": 497,
+    "w": 13,
+    "h": 7
+  },
+  "interface/pistol_shot/pistol_0": {
+    "x": 67,
+    "y": 497,
+    "w": 13,
+    "h": 7
+  },
+  "walls/column_top": {
+    "x": 82,
+    "y": 497,
+    "w": 8,
+    "h": 8
+  },
+  "subjects/whiskey": {
+    "x": 101,
+    "y": 499,
+    "w": 8,
+    "h": 8
+  },
+  "subjects/oil": {
+    "x": 111,
+    "y": 499,
+    "w": 8,
+    "h": 8
+  },
+  "subjects/matchbox": {
+    "x": 121,
+    "y": 499,
+    "w": 8,
+    "h": 8
+  },
+  "subjects/heal": {
+    "x": 145,
+    "y": 421,
+    "w": 8,
+    "h": 8
+  },
+  "subjects/ammo": {
+    "x": 145,
+    "y": 431,
+    "w": 8,
+    "h": 8
+  },
+  "shadow": {
+    "x": 145,
+    "y": 441,
+    "w": 8,
+    "h": 8
+  },
+  "player/walking/player_walking2": {
+    "x": 145,
+    "y": 451,
+    "w": 8,
+    "h": 8
+  },
+  "player/walking/player_walking1": {
+    "x": 145,
+    "y": 461,
+    "w": 8,
+    "h": 8
+  },
+  "player/standing/player_standing2": {
+    "x": 145,
+    "y": 471,
+    "w": 8,
+    "h": 8
+  },
+  "player/standing/player_standing1": {
+    "x": 145,
+    "y": 481,
+    "w": 8,
+    "h": 8
+  },
+  "player/player3": {
+    "x": 145,
+    "y": 491,
+    "w": 8,
+    "h": 8
+  },
+  "player/player2": {
+    "x": 145,
+    "y": 501,
+    "w": 8,
+    "h": 8
+  },
+  "player/player1": {
+    "x": 155,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "particles/match/match2": {
+    "x": 165,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "particles/match/match1": {
+    "x": 175,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "particles/match/match0": {
+    "x": 185,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "particles/blood/blood2": {
+    "x": 195,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "particles/blood/blood1": {
+    "x": 205,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "particles/blood/blood0": {
+    "x": 215,
+    "y": 151,
+    "w": 8,
+    "h": 8
+  },
+  "interface/mental_danger": {
+    "x": 1,
+    "y": 506,
+    "w": 10,
+    "h": 5
+  },
+  "particles/match_burn/match_burn_4": {
+    "x": 507,
+    "y": 1,
+    "w": 3,
+    "h": 7
+  },
+  "particles/match_burn/match_burn_3": {
+    "x": 507,
+    "y": 10,
+    "w": 3,
+    "h": 7
+  },
+  "particles/match_burn/match_burn_2": {
+    "x": 507,
+    "y": 19,
+    "w": 3,
+    "h": 7
+  },
+  "particles/match_burn/match_burn_1": {
+    "x": 507,
+    "y": 35,
+    "w": 3,
+    "h": 7
+  },
+  "particles/match_burn/match_burn_0": {
+    "x": 507,
+    "y": 44,
+    "w": 3,
+    "h": 7
+  },
+  "spec_graves/spec_mini_grave3": {
+    "x": 507,
+    "y": 53,
+    "w": 3,
+    "h": 6
+  },
+  "spec_graves/spec_mini_grave2": {
+    "x": 61,
+    "y": 463,
+    "w": 3,
+    "h": 6
+  },
+  "spec_graves/spec_mini_grave1": {
+    "x": 61,
+    "y": 471,
+    "w": 3,
+    "h": 6
+  },
+  "interface/match": {
+    "x": 507,
+    "y": 28,
+    "w": 1,
+    "h": 5
+  }
+};
+},{}],2:[function(require,module,exports){
 (function (global){(function (){
 /*!
  *  howler.js v2.2.1
@@ -3227,3406 +4262,3053 @@
 })();
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+const Vec2 = require(37); // Sprite
 
-const Vec2 = require("./vec2")
 
-// Sprite
 class Animation {
-    constructor(frames, pos, box, t, interface_bind, repeating) {
-        this.frames = frames; // Images
-        this.pos = new Vec2(pos.x, pos.y); // Position
-        this.box = box; // Size
-        this.frameTime = t; // Frame change period
-        this.timer = this.frameTime; // Countdown to change frame
-        this.currentFrame = 0; // id of current frame
-        this.alive = 1; // If 0 - animation must be deleted
+  constructor(frames, pos, box, t, interface_bind, repeating) {
+    this.frames = frames; // Images
 
-        if (interface_bind) {
-            this.interface_bind = 1; // drawn at very top of all layers
-        } else {
-            this.interface_bind = 0;
-        }
-        if (repeating) { // 0 - dying after repeating, 1 - repeating, 2 - last frame alive
-            this.repeating = repeating;
-        } else {
-            this.repeating = 0;
-        }
+    this.pos = new Vec2(pos.x, pos.y); // Position
+
+    this.box = box; // Size
+
+    this.frameTime = t; // Frame change period
+
+    this.timer = this.frameTime; // Countdown to change frame
+
+    this.currentFrame = 0; // id of current frame
+
+    this.alive = 1; // If 0 - animation must be deleted
+
+    if (interface_bind) {
+      this.interface_bind = 1; // drawn at very top of all layers
+    } else {
+      this.interface_bind = 0;
     }
 
-    step() {
-        this.timer -= DT;
-        if (this.timer <= 0) {
-            this.currentFrame++;
-            this.timer = this.frameTime;
-            if (this.currentFrame >= this.frames.length)
-            {
-                if (this.repeating === 0) { // Repeating check
-                    this.alive = 0;
-                }
-                else if (this.repeating === 1) {
-                    this.currentFrame = 0;
-                }
-            }
-        }
+    if (repeating) {
+      // 0 - dying after repeating, 1 - repeating, 2 - last frame alive
+      this.repeating = repeating;
+    } else {
+      this.repeating = 0;
     }
+  }
 
-    getFrame() {
-        return this.frames[this.currentFrame];
+  step() {
+    this.timer -= DT;
+
+    if (this.timer <= 0) {
+      this.currentFrame++;
+      this.timer = this.frameTime;
+
+      if (this.currentFrame >= this.frames.length) {
+        if (this.repeating === 0) {
+          // Repeating check
+          this.alive = 0;
+        } else if (this.repeating === 1) {
+          this.currentFrame = 0;
+        }
+      }
     }
+  }
+
+  getFrame() {
+    return this.frames[this.currentFrame];
+  }
+
 }
 
-module.exports = Animation
-},{"./vec2":36}],3:[function(require,module,exports){
-class Anime {
-    constructor(frame_time, frames) {
-        this.frame_time = frame_time;
-        this.frames = frames;
-        this.frame = 0;
-        this.frames_cnt = this.frames.length;
-    }
-}
-
-module.exports = Anime
+module.exports = Animation;
 },{}],4:[function(require,module,exports){
-// Cell on the grid
-class Cell {
-    constructor() {
-        this.ground = 0;
-        this.covering = 0;
-        this.grave = 0;
-        this.gates = 0; // 0 - none, 1 - left part, 2 - right part
-        this.obstacle = 0; // 0 - player can pass, 1 - player can't pass
-        this.type = 0; // For different texturing
-        this.light = 0; // Illumination
+class Anime {
+  constructor(frame_time, frames) {
+    this.frame_time = frame_time;
+    this.frames = frames;
+    this.frame = 0;
+    this.frames_cnt = this.frames.length;
+  }
 
-        this.zombieNav = 0; // Used to navigate zombies
-        this.ghostNav = 0; // Used to navigate zombies
-    }
 }
 
-module.exports = Cell
+module.exports = Anime;
 },{}],5:[function(require,module,exports){
+class Cell {
+  constructor() {
+    this.ground = 0;
+    this.covering = 0;
+    this.grave = 0;
+    this.gates = 0; // 0 - none, 1 - left part, 2 - right part
 
-class Axle {
-    constructor() {
-        this.sources = new Set()
-        this.ownValue = 0
-        this.value = 0
-        this.update = false
+    this.obstacle = 0; // 0 - player can pass, 1 - player can't pass
 
-        this.destinations = new Set()
-    }
+    this.type = 0; // For different texturing
 
-    addSource(source) {
-        this.sources.add(source)
-        source.destinations.add(this)
-        this.setNeedsUpdate()
-        return this
-    }
+    this.light = 0; // Illumination
 
-    removeSource(source) {
-        this.sources.delete(source)
-        source.destinations.delete(this)
-        this.setNeedsUpdate()
-        return this
-    }
+    this.zombieNav = 0; // Used to navigate zombies
 
-    disconnectAll() {
-        for(let destination of this.destinations.values()) {
-            destination.removeSource(this)
-        }
-    }
+    this.ghostNav = 0; // Used to navigate zombies
+  }
 
-    connect(destination) {
-        destination.addSource(this)
-    }
-
-    getValue() {
-        if (this.update) {
-            this.update = false
-            let result = this.ownValue
-
-            for (let source of this.sources.values()) result += source.getValue()
-            this.value = result
-            return result
-        } else {
-            return this.value
-        }
-    }
-
-    setValue(value) {
-        this.ownValue = value
-        this.setNeedsUpdate()
-    }
-
-    setNeedsUpdate() {
-        this.update = true
-
-        for(let destination of this.destinations.values())
-            destination.setNeedsUpdate()
-    }
-
-    needsUpdate() {
-        return this.update
-    }
 }
 
-module.exports = Axle
+module.exports = Cell;
 },{}],6:[function(require,module,exports){
+class Axle {
+  constructor() {
+    this.sources = new Set();
+    this.ownValue = 0;
+    this.value = 0;
+    this.update = false;
+    this.destinations = new Set();
+  }
 
-const Axle = require("./axle")
+  addSource(source) {
+    this.sources.add(source);
+    source.destinations.add(this);
+    this.setNeedsUpdate();
+    return this;
+  }
+
+  removeSource(source) {
+    this.sources.delete(source);
+    source.destinations.delete(this);
+    this.setNeedsUpdate();
+    return this;
+  }
+
+  disconnectAll() {
+    for (let destination of this.destinations.values()) {
+      destination.removeSource(this);
+    }
+  }
+
+  connect(destination) {
+    destination.addSource(this);
+  }
+
+  getValue() {
+    if (this.update) {
+      this.update = false;
+      let result = this.ownValue;
+
+      for (let source of this.sources.values()) result += source.getValue();
+
+      this.value = result;
+      return result;
+    } else {
+      return this.value;
+    }
+  }
+
+  setValue(value) {
+    this.ownValue = value;
+    this.setNeedsUpdate();
+  }
+
+  setNeedsUpdate() {
+    this.update = true;
+
+    for (let destination of this.destinations.values()) destination.setNeedsUpdate();
+  }
+
+  needsUpdate() {
+    return this.update;
+  }
+
+}
+
+module.exports = Axle;
+},{}],7:[function(require,module,exports){
+const Axle = require(6);
 
 class ButtonAxle extends Axle {
-    constructor(min, max) {
-        super()
-        this.min = min === undefined ? 0 : min
-        this.max = max === undefined ? 1 : max
+  constructor(min, max) {
+    super();
+    this.min = min === undefined ? 0 : min;
+    this.max = max === undefined ? 1 : max;
+    this.ownValue = this.min;
+    this.pressed = false;
+  }
 
-        this.ownValue = this.min
-        this.pressed = false
-    }
+  keyPressed() {
+    this.pressed = true;
+    this.setNeedsUpdate();
+  }
 
-    keyPressed() {
-        this.pressed = true
-        this.setNeedsUpdate()
-    }
+  keyReleased() {
+    this.pressed = false;
+    this.setNeedsUpdate();
+  }
 
-    keyReleased() {
-        this.pressed = false
-        this.setNeedsUpdate()
-    }
+  reverse() {
+    this.max = -this.max;
+    this.min = -this.min;
+    return this;
+  }
 
-    reverse() {
-        this.max = -this.max
-        this.min = -this.min
-        return this
-    }
+  getValue() {
+    this.ownValue = this.pressed ? this.max : this.min;
+    return this.ownValue;
+  }
 
-    getValue() {
-        this.ownValue = this.pressed ? this.max : this.min
-        return this.ownValue
-    }
 }
 
-module.exports = ButtonAxle
-},{"./axle":5}],7:[function(require,module,exports){
+module.exports = ButtonAxle;
+},{}],8:[function(require,module,exports){
+const Axle = require(6);
 
-const Axle = require("./axle")
-const Vec2 = require("../vec2")
+const Vec2 = require(37);
 
 class CharacterControls {
-    constructor() {
-        this.movementXAxle = new Axle()
-        this.movementYAxle = new Axle()
+  constructor() {
+    this.movementXAxle = new Axle();
+    this.movementYAxle = new Axle();
+    this.shootWestAxle = new Axle();
+    this.shootEastAxle = new Axle();
+    this.shootNorthAxle = new Axle();
+    this.shootSouthAxle = new Axle();
+    this.movement = new Vec2(0, 0);
+    this.shootDirection = new Vec2(0, 0);
+  } // TODO: make this a bit more effective
 
-        this.shootWestAxle = new Axle()
-        this.shootEastAxle = new Axle()
-        this.shootNorthAxle = new Axle()
-        this.shootSouthAxle = new Axle()
+  /**
+   * Updates and returns player movement vector
+   * @return {Vec2}
+   */
 
-        this.movement = new Vec2(0, 0)
-        this.shootDirection = new Vec2(0, 0)
-    }
 
-    // TODO: make this a bit more effective
-    /**
-     * Updates and returns player movement vector
-     * @return {Vec2}
-     */
-    getMovement() {
-        this.movement.x = this.movementXAxle.getValue()
-        this.movement.y = this.movementYAxle.getValue()
+  getMovement() {
+    this.movement.x = this.movementXAxle.getValue();
+    this.movement.y = this.movementYAxle.getValue();
+    return this.movement;
+  }
 
-        return this.movement
-    }
+  updateShootingDirection() {
+    let x = 0,
+        y = 0;
+    x -= Math.ceil(this.shootWestAxle.getValue());
+    x += Math.ceil(this.shootEastAxle.getValue());
+    y -= Math.ceil(this.shootNorthAxle.getValue());
+    y += Math.ceil(this.shootSouthAxle.getValue());
+    if (y !== 0 && x !== 0) x = 0;
+    this.shootDirection.x = x;
+    this.shootDirection.y = y;
+  }
 
-    updateShootingDirection() {
-
-        let x = 0, y = 0;
-
-        x -= Math.ceil(this.shootWestAxle.getValue())
-        x += Math.ceil(this.shootEastAxle.getValue())
-        y -= Math.ceil(this.shootNorthAxle.getValue())
-        y += Math.ceil(this.shootSouthAxle.getValue())
-
-        if(y !== 0 && x !== 0) x = 0;
-
-        this.shootDirection.x = x
-        this.shootDirection.y = y
-    }
 }
 
-module.exports = CharacterControls
-},{"../vec2":36,"./axle":5}],8:[function(require,module,exports){
+module.exports = CharacterControls;
+},{}],9:[function(require,module,exports){
+const DocumentEventHandler = require(26);
 
-const DocumentEventHandler = require("../events/documenteventhandler")
-const GamepadAxle = require("./gamepadaxle")
-const GamepadButton = require("./gamepadbutton")
+const GamepadAxle = require(10);
 
-navigator.getGamepads = navigator.getGamepads || navigator["webkitGetGamepads"]
+const GamepadButton = require(11);
+
+navigator.getGamepads = navigator.getGamepads || navigator["webkitGetGamepads"];
 
 class GamepadController extends DocumentEventHandler {
-    constructor() {
-        super();
+  constructor() {
+    super();
+    this.gamepad = null;
+    this.axises = [];
+    this.buttons = [];
+    this.target = window;
+  }
 
-        this.gamepad = null
-        this.axises = []
-        this.buttons = []
-        this.target = window
+  startListening() {
+    if (navigator.getGamepads) {
+      this.bind("gamepadconnected", this.gamepadConnected);
+      this.bind("gamepaddisconnected", this.gamepadDisconnected);
+    }
+  }
+
+  refresh() {
+    if (this.gamepad === null) return;
+
+    for (let [i, button] of navigator.getGamepads()[this.gamepad].buttons.entries()) {
+      let value = typeof button === "number" ? button : button.value;
+
+      if (this.buttons[i] !== value) {
+        this.emit("button", i, value);
+        this.buttons[i] = value;
+      }
     }
 
-    startListening() {
-        if(navigator.getGamepads) {
-            this.bind("gamepadconnected", this.gamepadConnected)
-            this.bind("gamepaddisconnected", this.gamepadDisconnected)
-        }
+    for (let [i, axis] of navigator.getGamepads()[this.gamepad].axes.entries()) {
+      if (this.axises[i] !== axis) {
+        this.emit("axle", i, axis);
+        this.axises[i] = axis;
+      }
+    }
+  }
+
+  gamepadConnected(event) {
+    console.log("hey!!!");
+
+    if (this.gamepad !== null) {
+      return;
     }
 
-    refresh() {
-        if(this.gamepad === null) return
+    this.gamepad = event.gamepad.index;
+    this.axises = new Array(navigator.getGamepads()[this.gamepad].axes.length);
+  }
 
-        for(let [i, button] of navigator.getGamepads()[this.gamepad].buttons.entries()) {
-            let value = typeof button === "number" ? button : button.value
-            if(this.buttons[i] !== value) {
-                this.emit("button", i, value)
-                this.buttons[i] = value
-            }
-        }
-
-        for(let [i, axis] of navigator.getGamepads()[this.gamepad].axes.entries()) {
-            if(this.axises[i] !== axis) {
-                this.emit("axle", i, axis)
-                this.axises[i] = axis
-            }
-        }
+  gamepadDisconnected(event) {
+    if (event.gamepad.index === this.gamepad) {
+      this.gamepad = null;
     }
+  }
 
-    gamepadConnected(event) {
-        console.log("hey!!!")
-        if(this.gamepad !== null) {
-            return
-        }
-        this.gamepad = event.gamepad.index
-        this.axises = new Array(navigator.getGamepads()[this.gamepad].axes.length)
-    }
+  getAxle(index) {
+    return new GamepadAxle(this, index);
+  }
 
-    gamepadDisconnected(event) {
-        if(event.gamepad.index === this.gamepad) {
-            this.gamepad = null
-        }
-    }
+  getButton(index) {
+    return new GamepadButton(this, index);
+  }
 
-    getAxle(index) {
-        return new GamepadAxle(this, index)
-    }
-
-    getButton(index) {
-        return new GamepadButton(this, index)
-    }
 }
 
-module.exports = GamepadController
-},{"../events/documenteventhandler":25,"./gamepadaxle":9,"./gamepadbutton":10}],9:[function(require,module,exports){
-
-const Axle = require("./axle")
+module.exports = GamepadController;
+},{}],10:[function(require,module,exports){
+const Axle = require(6);
 
 class GamepadAxle extends Axle {
-    constructor(controller, axle) {
-        super();
-        this.axle = axle
-        this.controller = controller
-        this.value = 0
-        this.power = 1
-        this.inverted = false
-        this.controller.on("axle", (index, value) => {
-            if(index === this.axle) {
-                this.value = Math.pow(value, this.power)
-                this.setNeedsUpdate()
-            }
-        })
-    }
+  constructor(controller, axle) {
+    super();
+    this.axle = axle;
+    this.controller = controller;
+    this.value = 0;
+    this.power = 1;
+    this.inverted = false;
+    this.controller.on("axle", (index, value) => {
+      if (index === this.axle) {
+        this.value = Math.pow(value, this.power);
+        this.setNeedsUpdate();
+      }
+    });
+  }
 
-    invert() {
-        this.inverted = !this.inverted
-        return this
-    }
+  invert() {
+    this.inverted = !this.inverted;
+    return this;
+  }
 
-    getValue() {
-        return this.inverted ? -this.value : this.value
-    }
+  getValue() {
+    return this.inverted ? -this.value : this.value;
+  }
+
 }
 
-module.exports = GamepadAxle
-},{"./axle":5}],10:[function(require,module,exports){
-
-const ButtonAxle = require("./buttonaxle")
+module.exports = GamepadAxle;
+},{}],11:[function(require,module,exports){
+const ButtonAxle = require(7);
 
 class GamepadButton extends ButtonAxle {
-    constructor(gamepad, button, min, max) {
-        super(max, min);
+  constructor(gamepad, button, min, max) {
+    super(max, min);
+    this.button = button;
+    gamepad.on("button", (index, value) => {
+      if (index === this.button) {
+        this.keyPressed(value);
+      }
+    });
+  }
 
-        this.button = button
-        gamepad.on("button", (index, value) => {
-            if(index === this.button) {
-                this.keyPressed(value)
-            }
-        })
-    }
 }
 
-module.exports = GamepadButton
-},{"./buttonaxle":6}],11:[function(require,module,exports){
-
-const ButtonAxle = require("./buttonaxle")
+module.exports = GamepadButton;
+},{}],12:[function(require,module,exports){
+const ButtonAxle = require(7);
 
 class KeyAxle extends ButtonAxle {
-    constructor(keyboard, key, min, max) {
-        super(min, max)
-        this.key = key
+  constructor(keyboard, key, min, max) {
+    super(min, max);
+    this.key = key;
+    keyboard.on("keydown", event => {
+      if (event.code === this.key) this.keyPressed();
+    });
+    keyboard.on("keyup", event => {
+      if (event.code === this.key) this.keyReleased();
+    });
+  }
 
-        keyboard.on("keydown", (event) => {
-            if(event.code === this.key) this.keyPressed()
-        })
-        keyboard.on("keyup", (event) => {
-            if(event.code === this.key) this.keyReleased()
-        })
-    }
 }
 
-module.exports = KeyAxle
-},{"./buttonaxle":6}],12:[function(require,module,exports){
+module.exports = KeyAxle;
+},{}],13:[function(require,module,exports){
+const DocumentEventHandler = require(26);
 
-const DocumentEventHandler = require("../events/documenteventhandler")
-const KeyAxle = require("./keyaxle")
+const KeyAxle = require(12);
 
 class KeyboardController extends DocumentEventHandler {
-    constructor() {
-        super()
-        this.keys = new Set()
-        this.keybindings = []
-        this.isMacOS = navigator.userAgent.indexOf("Mac") !== -1
+  constructor() {
+    super();
+    this.keys = new Set();
+    this.keybindings = [];
+    this.isMacOS = navigator.userAgent.indexOf("Mac") !== -1;
+  }
+
+  keybinding(name, handler) {
+    let parts = name.split("-");
+    let cmd = parts.indexOf("Cmd") !== -1;
+    let shift = parts.indexOf("Shift") !== -1;
+    let alt = parts.indexOf("Alt") !== -1;
+    let key = parts.pop();
+    this.on("keydown", event => {
+      let eventCmd = this.isMacOS ? event.metaKey : event.ctrlKey;
+      let eventShift = event.shiftKey;
+      let eventAlt = event.altKey;
+      let eventKey = event.code;
+      if (eventKey.startsWith("Key")) eventKey = eventKey.substr(3);
+      if (eventCmd !== cmd) return;
+      if (eventShift !== shift) return;
+      if (eventAlt !== alt) return;
+      if (eventKey !== key) return;
+      event.preventDefault();
+      handler(event);
+    });
+  }
+
+  startListening() {
+    this.bind("keyup", this.keyup);
+    this.bind("keydown", this.keydown);
+  }
+
+  keyPressed() {
+    for (let argument of arguments) {
+      if (this.keys.has(argument)) return true;
     }
 
-    keybinding(name, handler) {
-        let parts = name.split("-")
-        let cmd = parts.indexOf("Cmd") !== -1
-        let shift = parts.indexOf("Shift") !== -1
-        let alt = parts.indexOf("Alt") !== -1
-        let key = parts.pop()
+    return false;
+  }
 
-        this.on("keydown", (event) => {
-            let eventCmd = this.isMacOS ? event.metaKey : event.ctrlKey
-            let eventShift = event.shiftKey
-            let eventAlt = event.altKey
-
-            let eventKey = event.code
-            if(eventKey.startsWith("Key")) eventKey = eventKey.substr(3)
-
-            if(eventCmd !== cmd) return;
-            if(eventShift !== shift) return;
-            if(eventAlt !== alt) return;
-            if(eventKey !== key) return;
-
-            event.preventDefault()
-
-            handler(event)
-        })
+  keyPressedOnce(key) {
+    if (this.keys.has(key)) {
+      this.keys.delete(key);
+      return true;
     }
 
-    startListening() {
-        this.bind("keyup", this.keyup)
-        this.bind("keydown", this.keydown)
+    return false;
+  }
+
+  keyup(e) {
+    this.emit("keyup", e);
+    this.keys.delete(e.code);
+  }
+
+  keydown(e) {
+    if (e.repeat) {
+      e.preventDefault();
+      return;
     }
 
-    keyPressed() {
-        for(let argument of arguments) {
-            if (this.keys.has(argument)) return true
-        }
-        return false
-    }
+    this.emit("keydown", e);
+    this.keys.add(e.code);
+  } // for future gamepad support
 
-    keyPressedOnce(key) {
-        if(this.keys.has(key)) {
-            this.keys.delete(key)
-            return true
-        }
-        return false
-    }
 
-    keyup(e) {
-        this.emit("keyup", e)
-        this.keys.delete(e.code)
-    }
+  getKeyAxle(key, min, max) {
+    return new KeyAxle(this, key, min, max);
+  }
 
-    keydown(e) {
-        if(e.repeat) {
-            e.preventDefault()
-            return
-        }
-        this.emit("keydown", e)
-        this.keys.add(e.code)
-    }
-
-    // for future gamepad support
-    getKeyAxle(key, min, max) {
-        return new KeyAxle(this, key, min, max)
-    }
 }
 
-module.exports = KeyboardController
-},{"../events/documenteventhandler":25,"./keyaxle":11}],13:[function(require,module,exports){
+module.exports = KeyboardController;
+},{}],14:[function(require,module,exports){
+const Axle = require(6);
 
-const Axle = require("./axle")
-const EventEmitter = require("../utils/event-emitter")
+const EventEmitter = require(36);
 
 class UserControls extends EventEmitter {
-    constructor() {
-        super()
+  constructor() {
+    super();
+    this.axles = new Map();
+    this.createAxle("movement-x");
+    this.createAxle("movement-y");
+    this.createAxle("shoot-west");
+    this.createAxle("shoot-east");
+    this.createAxle("shoot-north");
+    this.createAxle("shoot-south");
+    this.createAxle("respawn");
+  }
 
-        this.axles = new Map()
-        this.createAxle("movement-x")
-        this.createAxle("movement-y")
-        this.createAxle("shoot-west")
-        this.createAxle("shoot-east")
-        this.createAxle("shoot-north")
-        this.createAxle("shoot-south")
+  createAxle(name, dimensions) {
+    this.axles.set(name, new Axle(dimensions));
+  }
 
-        this.createAxle("respawn")
-    }
+  connectCharacterControls(controls) {
+    controls.movementXAxle.addSource(this.axles.get("movement-x"));
+    controls.movementYAxle.addSource(this.axles.get("movement-y"));
+    controls.shootWestAxle.addSource(this.axles.get("shoot-west"));
+    controls.shootEastAxle.addSource(this.axles.get("shoot-east"));
+    controls.shootNorthAxle.addSource(this.axles.get("shoot-north"));
+    controls.shootSouthAxle.addSource(this.axles.get("shoot-south"));
+  }
 
-    createAxle(name, dimensions) {
-        this.axles.set(name, new Axle(dimensions))
-    }
+  disconnectCharacterControls() {
+    this.axles.get("movement-x").disconnectAll();
+    this.axles.get("movement-y").disconnectAll();
+    this.axles.get("shoot-west").disconnectAll();
+    this.axles.get("shoot-east").disconnectAll();
+    this.axles.get("shoot-north").disconnectAll();
+    this.axles.get("shoot-south").disconnectAll();
+  }
 
-    connectCharacterControls(controls) {
-        controls.movementXAxle.addSource(this.axles.get("movement-x"))
-        controls.movementYAxle.addSource(this.axles.get("movement-y"))
+  setupGamepad(gamepad) {
+    this.axles.get("movement-x").addSource(gamepad.getAxle(2));
+    this.axles.get("movement-y").addSource(gamepad.getAxle(3));
+    this.axles.get("shoot-west").addSource(gamepad.getButton(14));
+    this.axles.get("shoot-east").addSource(gamepad.getButton(15));
+    this.axles.get("shoot-north").addSource(gamepad.getButton(12));
+    this.axles.get("shoot-south").addSource(gamepad.getButton(13));
+  }
 
-        controls.shootWestAxle.addSource(this.axles.get("shoot-west"))
-        controls.shootEastAxle.addSource(this.axles.get("shoot-east"))
-        controls.shootNorthAxle.addSource(this.axles.get("shoot-north"))
-        controls.shootSouthAxle.addSource(this.axles.get("shoot-south"))
-    }
+  setupKeyboard(keyboard) {
+    this.axles.get("movement-y").addSource(keyboard.getKeyAxle("KeyW").reverse()).addSource(keyboard.getKeyAxle("KeyS"));
+    this.axles.get("movement-x").addSource(keyboard.getKeyAxle("KeyD")).addSource(keyboard.getKeyAxle("KeyA").reverse());
+    this.axles.get("shoot-west").addSource(keyboard.getKeyAxle("ArrowLeft"));
+    this.axles.get("shoot-east").addSource(keyboard.getKeyAxle("ArrowRight"));
+    this.axles.get("shoot-north").addSource(keyboard.getKeyAxle("ArrowUp"));
+    this.axles.get("shoot-south").addSource(keyboard.getKeyAxle("ArrowDown"));
+  }
 
-    disconnectCharacterControls() {
-        this.axles.get("movement-x").disconnectAll()
-        this.axles.get("movement-y").disconnectAll()
-
-        this.axles.get("shoot-west") .disconnectAll()
-        this.axles.get("shoot-east") .disconnectAll()
-        this.axles.get("shoot-north").disconnectAll()
-        this.axles.get("shoot-south").disconnectAll()
-    }
-
-    setupGamepad(gamepad) {
-        this.axles.get("movement-x").addSource(gamepad.getAxle(2))
-        this.axles.get("movement-y").addSource(gamepad.getAxle(3))
-
-        this.axles.get("shoot-west") .addSource(gamepad.getButton(14));
-        this.axles.get("shoot-east") .addSource(gamepad.getButton(15));
-        this.axles.get("shoot-north").addSource(gamepad.getButton(12));
-        this.axles.get("shoot-south").addSource(gamepad.getButton(13));
-    }
-
-    setupKeyboard(keyboard) {
-        this.axles.get("movement-y")
-            .addSource(keyboard.getKeyAxle("KeyW").reverse())
-            .addSource(keyboard.getKeyAxle("KeyS"))
-
-        this.axles.get("movement-x")
-            .addSource(keyboard.getKeyAxle("KeyD"))
-            .addSource(keyboard.getKeyAxle("KeyA").reverse())
-
-        this.axles.get("shoot-west").addSource(keyboard.getKeyAxle("ArrowLeft"))
-        this.axles.get("shoot-east").addSource(keyboard.getKeyAxle("ArrowRight"))
-        this.axles.get("shoot-north").addSource(keyboard.getKeyAxle("ArrowUp"))
-        this.axles.get("shoot-south").addSource(keyboard.getKeyAxle("ArrowDown"))
-    }
 }
 
-module.exports = UserControls
-},{"../utils/event-emitter":35,"./axle":5}],14:[function(require,module,exports){
-class Deque {
-    constructor() {
-        this.front = this.back = undefined;
-    }
-    addFront(value) {
-        if (!this.front) this.front = this.back = { value };
-        else this.front = this.front.next = { value, prev: this.front };
-    }
-    removeFront() {
-        let value = this.peekFront();
-        if (this.front === this.back) this.front = this.back = undefined;
-        else (this.front = this.front.prev).next = undefined;
-        return value;
-    }
-    peekFront() { 
-        return this.front && this.front.value;
-    }
-    addBack(value) {
-        if (!this.front) this.front = this.back = { value };
-        else this.back = this.back.prev = { value, next: this.back };
-    }
-    removeBack() {
-        let value = this.peekBack();
-        if (this.front === this.back) this.front = this.back = undefined;
-        else (this.back = this.back.next).back = undefined;
-        return value;
-    }
-    peekBack() { 
-        return this.back && this.back.value;
-    }
-}
-
-module.exports = Deque
+module.exports = UserControls;
 },{}],15:[function(require,module,exports){
+class Deque {
+  constructor() {
+    this.front = this.back = undefined;
+  }
 
-const Vec2 = require("./vec2")
+  addFront(value) {
+    if (!this.front) this.front = this.back = {
+      value
+    };else this.front = this.front.next = {
+      value,
+      prev: this.front
+    };
+  }
 
-// This class is responsible for drawing
-class Draw {
-    constructor(ctx) {
-        this.ctx = ctx;
+  removeFront() {
+    let value = this.peekFront();
+    if (this.front === this.back) this.front = this.back = undefined;else (this.front = this.front.prev).next = undefined;
+    return value;
+  }
 
-        this.cam = new Vec2(0, 0); // Camera position
-        this.center = new Vec2(64, 64); // Screen center (здфнукы ы)
-    }
+  peekFront() {
+    return this.front && this.front.value;
+  }
 
-    image(texture, x, y, w, h, flip) {
-        // x = Math.round(x);
-        // y = Math.round(y);
-        // w = Math.round(w);
-        // h = Math.round(h);
+  addBack(value) {
+    if (!this.front) this.front = this.back = {
+      value
+    };else this.back = this.back.prev = {
+      value,
+      next: this.back
+    };
+  }
 
-        if(!flip)
-            flip = 0;
+  removeBack() {
+    let value = this.peekBack();
+    if (this.front === this.back) this.front = this.back = undefined;else (this.back = this.back.next).back = undefined;
+    return value;
+  }
 
-        this.ctx.save();
-        let width = 1;
-        if (flip) {
-            this.ctx.scale(-1, 1);
-            width = -1;
-        }
-        this.ctx.imageSmoothingEnabled = 0;
+  peekBack() {
+    return this.back && this.back.value;
+  }
 
-        this.ctx.drawImage(Texture.image, texture.rect.x, texture.rect.y, texture.rect.w, texture.rect.h, width*(x + w * flip - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE)
-
-        this.ctx.restore();
-    }
-
-    rect(x, y, w, h, color) {
-        // x = Math.round(x);
-        // y = Math.round(y);
-        // w = Math.round(w);
-        // h = Math.round(h);
-
-        this.ctx.imageSmoothingEnabled = 0;
-        this.ctx.fillStyle = color;
-        this.ctx.fillRect((x - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
-    }
-
-    draw(game) {
-
-        // Focusing camera
-        this.cam = game.player.pos;
-        this.center = new Vec2(64, 64);
-
-        // Filling background
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0, 0, 10000, 10000);
-
-        this.ySorted = [];
-
-        // Grid
-        for (let x = 0; x < SIZE_X; x++) {
-            for (let y = 0; y < SIZE_Y; y++) {
-                if(game.grid[x][y].light <= 0 && game.player.pos.distToPosition(x * 8 + 4, y * 8 + 4) > DIST_LIGHT * 2 * 8) // We don't see this cell
-                   continue;
-                let cell = game.grid[x][y];
-
-                // Choosing room covering & wall (should be better in generate)
-                if (cell.roomId) {
-                    game.grid[x][y].ground = 3;
-                    if (game.grid[x][y].grave > 0)
-                        game.grid[x][y].grave = 2;
-                }
-
-                // Ground & covering
-                if (cell.ground) {
-                    this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
-                }
-                if (cell.covering) {
-                    this.ySorted.push([IMGS_COVERING[cell.covering - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, -4]);
-                }
-
-                // Gates
-                if (cell.gates) {
-                    if (game.gates_state === 1)
-                        this.ySorted.push([IMGS_GATES[+cell.gates - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
-                    continue;
-                }
-
-                // Drawing wall (yes, it's called grave, but it's a wall)
-                if (cell.grave) {
-                    if (cell.grave > 0) {
-                        let column = IMGS_WALL[+cell.grave - 1][0];
-                        let column_top = IMGS_WALL[+cell.grave - 1][1];
-                        let wall = IMGS_WALL[+cell.grave - 1][2];
-                        let wall_top = IMGS_WALL[+cell.grave - 1][3];
-
-                        // Column top
-                        this.ySorted.push([column_top,
-                            x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
-                            y  * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                            COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
-                        // Wall top
-                        if (game.grid[x + 1][y].grave > 0) {
-                            this.ySorted.push([wall_top,
-                                x * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2,
-                                y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                                CELL_SIZE - COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
-                            this.ySorted.push([wall,
-                                x * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2,
-                                y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                                CELL_SIZE - COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
-                        }
-                        if (game.grid[x - 1][y].grave > 0) {
-                            this.ySorted.push([wall_top,
-                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH),
-                                y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                                CELL_SIZE - COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
-                            this.ySorted.push([wall,
-                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH),
-                                y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                                CELL_SIZE - COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
-                        }
-                        if (game.grid[x][y + 1].grave > 0)
-                            this.ySorted.push([wall_top,
-                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
-                                y  * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                                COLUMN_WIDTH, CELL_SIZE - COLUMN_WIDTH, 0, (y + 1) * 8]);
-                        if (game.grid[x][y - 1].grave > 0)
-                            this.ySorted.push([wall_top,
-                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
-                                y  * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH) -  COLUMN_HEIGHT,
-                                COLUMN_WIDTH, CELL_SIZE - COLUMN_WIDTH, 0, (y + 1) * 8]);
-
-                        // Columns
-                        if (!(game.grid[x][y + 1].grave > 0))
-                            this.ySorted.push([column,
-                                x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 ,
-                                y  * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 -  COLUMN_HEIGHT,
-                                COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
-                    } else { // Spec grave
-                        this.ySorted.push([IMGS_SPEC_GRAVE[-cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
-                    }
-                }
-            }
-        }
-
-        // Player
-        let cur_texture = game.player.getFrame();
-        this.ySorted.push([cur_texture, game.player.pos.x - CELL_SIZE / 2, game.player.pos.y - 2 * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, game.player.right === 0, game.player.pos.y]);
-
-        // Monsters
-        for (let i = 0; i < game.monsters.length; i++) {
-            let monster = game.monsters[i];
-            let frame = monster.getFrame();
-            this.ySorted.push([frame, monster.pos.x - CELL_SIZE / 2, monster.pos.y - CELL_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE * 2, monster.right === 0, monster.pos.y]);
-        }
-
-        // Subjects
-        for (let i = 0; i < game.subjects.length; i++) {
-            let subject = game.subjects[i];
-            if (!subject || !subject.type) // Corrupted
-                continue;
-            this.ySorted.push([IMGS_SUBJECT[subject.type - 1], subject.pos.x - CELL_SIZE / 2, subject.pos.y - CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE , 0, subject.pos.y]);
-        }
-
-        // Sprite animations
-        for (let i = 0; i < game.animations.length; i++) {
-            let animation = game.animations[i];
-            if (animation.interface_bind) {
-                continue;
-            }
-            let img = animation.getFrame();
-            this.ySorted.push([img, animation.pos.x - CELL_SIZE / 2, animation.pos.y, animation.box.x, animation.box.y , 0, 1000]);
-        }
-
-        // Sorting objects by Y-pos
-        this.ySorted.sort(function(a, b) {
-            return a[6] - b[6];
-        });
-
-        // Drawing sorted objects
-        for (let x = 0; x < this.ySorted.length; x++) {
-            let a = this.ySorted[x];
-            this.image(a[0], a[1], a[2], a[3], a[4], a[5]);
-        }
-
-        // Gradient light
-        let pixelSize = 2; // Size of cell of light grid
-        let vector = new Vec2(0, 0)
-        for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1 += pixelSize) {
-            for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1+= pixelSize) {
-                let val = 0; // Light value
-                let sum = 0; // Dist sum
-                vector.x = x1
-                vector.y = y1
-                let cellX = Math.floor(x1 / 8)
-                let cellY = Math.floor(y1 / 8)
-
-                // Neighbor cells
-                for (let x = cellX - 1; x <= cellX + 1; x++) {
-                    for (let y = cellY - 1; y <= cellY + 1; y++) {
-                        let dist = vector.distToPosition(x * 8 + 4, y * 8 + 4);
-                        if (game.checkCellPosition(x, y) || dist >= 16)
-                            continue;
-                        val += game.getLightPosition(x, y) * (18 - dist);
-                        sum += 18 - dist;
-                    }
-                }
-
-                val /= sum;
-
-                let alpha = (1 - (val / DIST_LIGHT));
-                this.rect(x1, y1, pixelSize, pixelSize, "rgba(0,0,0," + alpha + ")");
-            }
-        }
-
-        //// Interface ////
-        this.cam = new Vec2(0, 0);
-        this.center = new Vec2(0, 0);
-        this.image(IMG_INTERFACE, 0, 0, 64 * 2, 64 * 2);
-
-        // Mind
-        this.rect(53 * 2, 55 * 2, game.player.mind * 10 / LIMIT_MIND * 2, 2, "rgb(0,100,200)");
-        // Hp
-        this.rect(18 * 2, 63 * 2, 2 * 2, - game.player.hp * 6 / LIMIT_HP * 2, "rgb(194, 29, 40)");
-        // Oil
-        this.rect(8 * 2, 63 * 2, 2 * 2, - game.player.oil * 6 / LIMIT_OIL * 2, "rgb(148, 133, 46)");
-        // Matches
-        for (let i = 0; i < game.player.matches; i++) {
-            this.image(IMG_MATCH, (22 + i * 2)  * 2, 58 * 2, 2, 5 * 2);
-        }
-        // Ammo
-        this.rect(2, 55 * 2, game.player.weapon.ammo * 5 / 5 * 2, 2, "rgb(0, 143, 39)");
-        // Cooldown
-        this.rect(2, 54 * 2, game.player.weapon.timeToCooldown * 10 / game.player.weapon.cooldownTime * 2 , 2, "rgb(0, 0, 0)");
-
-        if (game.mentalDanger) {
-            this.image(IMG_MENTAL_DANGER, 53 * 2, 49 * 2, 10 * 2, 5 * 2);
-        }
-
-        // Subjects
-        for (let j = 0; j < 2; j++) {
-            if (!game.player.subjects[j] || !game.player.subjects[j].type) // Empty slot
-                continue;
-
-            this.image(IMGS_SUBJECT[game.player.subjects[j].type - 1], (28 + j * 7)  * 2, 56 * 2, 8 * 2, 8 * 2)
-        }
-
-        // Spec Graves
-        for (let i = 0; i < game.spec_graves_visited.length; i++) {
-            if (game.spec_graves_visited[i] === 2) {
-                this.image(IMGS_SPEC_MINI_GRAVE[i], (52 + 4 * i) * 2, 57 * 2, 3 * 2, 6 * 2);
-            }
-        }
-
-        // Overlay
-        this.image(IMG_INTERFACE_OVERLAY, 0, 0, 64 * 2, 64 * 2);
-
-        // Animations
-        for (let i = 0; i < game.animations.length; i++) {
-            let animation = game.animations[i];
-            if (!animation.interface_bind) {
-                continue;
-            }
-            let img = animation.getFrame();
-            this.image(img, animation.pos.x * 2, animation.pos.y * 2, animation.box.x * 2, animation.box.y * 2 , 0);
-        }
-
-        // Gameover screen
-        if (game.player.status === 1) {
-            this.image(IMG_DEAD, 0, 0, 64 * 2, 64 * 2);
-        }
-        if (game.player.status === 2) {
-            this.image(IMG_DELIRIOUS, 0, 0, 64 * 2, 64 * 2);
-        }
-        if (game.player.status === 3) {
-            this.image(IMG_WIN, 0, 0, 64 * 2, 64 * 2);
-        }
-        if (game.player.status === 4) {
-            this.image(IMG_START_SCREEN, 0, 0, 64 * 2, 64 * 2);
-        }
-    }
 }
 
-module.exports = Draw
-},{"./vec2":36}],16:[function(require,module,exports){
+module.exports = Deque;
+},{}],16:[function(require,module,exports){
+const Vec2 = require(37); // This class is responsible for drawing
 
 
-const Vec2 = require("../vec2")
+class Draw {
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.cam = new Vec2(0, 0); // Camera position
 
+    this.center = new Vec2(64, 64); // Screen center (здфнукы ы)
+  }
+
+  image(texture, x, y, w, h, flip) {
+    // x = Math.round(x);
+    // y = Math.round(y);
+    // w = Math.round(w);
+    // h = Math.round(h);
+    if (!flip) flip = 0;
+    this.ctx.save();
+    let width = 1;
+
+    if (flip) {
+      this.ctx.scale(-1, 1);
+      width = -1;
+    }
+
+    this.ctx.imageSmoothingEnabled = 0;
+    this.ctx.drawImage(Texture.image, texture.rect.x, texture.rect.y, texture.rect.w, texture.rect.h, width * (x + w * flip - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+    this.ctx.restore();
+  }
+
+  rect(x, y, w, h, color) {
+    // x = Math.round(x);
+    // y = Math.round(y);
+    // w = Math.round(w);
+    // h = Math.round(h);
+    this.ctx.imageSmoothingEnabled = 0;
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect((x - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+  }
+
+  draw(game) {
+    // Focusing camera
+    this.cam = game.player.pos;
+    this.center = new Vec2(64, 64); // Filling background
+
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, 10000, 10000);
+    this.ySorted = []; // Grid
+
+    for (let x = 0; x < SIZE_X; x++) {
+      for (let y = 0; y < SIZE_Y; y++) {
+        if (game.grid[x][y].light <= 0 && game.player.pos.distToPosition(x * 8 + 4, y * 8 + 4) > DIST_LIGHT * 2 * 8) // We don't see this cell
+          continue;
+        let cell = game.grid[x][y]; // Choosing room covering & wall (should be better in generate)
+
+        if (cell.roomId) {
+          game.grid[x][y].ground = 3;
+          if (game.grid[x][y].grave > 0) game.grid[x][y].grave = 2;
+        } // Ground & covering
+
+
+        if (cell.ground) {
+          this.ySorted.push([IMGS_GROUND[cell.ground - 1], x * CELL_SIZE, y * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, -5]);
+        }
+
+        if (cell.covering) {
+          this.ySorted.push([IMGS_COVERING[cell.covering - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, -4]);
+        } // Gates
+
+
+        if (cell.gates) {
+          if (game.gates_state === 1) this.ySorted.push([IMGS_GATES[+cell.gates - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+          continue;
+        } // Drawing wall (yes, it's called grave, but it's a wall)
+
+
+        if (cell.grave) {
+          if (cell.grave > 0) {
+            let column = IMGS_WALL[+cell.grave - 1][0];
+            let column_top = IMGS_WALL[+cell.grave - 1][1];
+            let wall = IMGS_WALL[+cell.grave - 1][2];
+            let wall_top = IMGS_WALL[+cell.grave - 1][3]; // Column top
+
+            this.ySorted.push([column_top, x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2, y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]); // Wall top
+
+            if (game.grid[x + 1][y].grave > 0) {
+              this.ySorted.push([wall_top, x * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2, y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, CELL_SIZE - COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
+              this.ySorted.push([wall, x * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2, y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, CELL_SIZE - COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
+            }
+
+            if (game.grid[x - 1][y].grave > 0) {
+              this.ySorted.push([wall_top, x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH), y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, CELL_SIZE - COLUMN_WIDTH, COLUMN_WIDTH, 0, (y + 1) * 8]);
+              this.ySorted.push([wall, x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH), y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, CELL_SIZE - COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
+            }
+
+            if (game.grid[x][y + 1].grave > 0) this.ySorted.push([wall_top, x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2, y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, COLUMN_WIDTH, CELL_SIZE - COLUMN_WIDTH, 0, (y + 1) * 8]);
+            if (game.grid[x][y - 1].grave > 0) this.ySorted.push([wall_top, x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2, y * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2 - (CELL_SIZE - COLUMN_WIDTH) - COLUMN_HEIGHT, COLUMN_WIDTH, CELL_SIZE - COLUMN_WIDTH, 0, (y + 1) * 8]); // Columns
+
+            if (!(game.grid[x][y + 1].grave > 0)) this.ySorted.push([column, x * CELL_SIZE + (CELL_SIZE - COLUMN_WIDTH) / 2, y * CELL_SIZE + (CELL_SIZE + COLUMN_WIDTH) / 2 - COLUMN_HEIGHT, COLUMN_WIDTH, COLUMN_HEIGHT, 0, (y + 1) * 8]);
+          } else {
+            // Spec grave
+            this.ySorted.push([IMGS_SPEC_GRAVE[-cell.grave - 1], x * CELL_SIZE, (y - 1) * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, 0, (y + 1) * 8]);
+          }
+        }
+      }
+    } // Player
+
+
+    let cur_texture = game.player.getFrame();
+    this.ySorted.push([cur_texture, game.player.pos.x - CELL_SIZE / 2, game.player.pos.y - 2 * CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE * 2, game.player.right === 0, game.player.pos.y]); // Monsters
+
+    for (let i = 0; i < game.monsters.length; i++) {
+      let monster = game.monsters[i];
+      let frame = monster.getFrame();
+      this.ySorted.push([frame, monster.pos.x - CELL_SIZE / 2, monster.pos.y - CELL_SIZE * 2, TEXTURE_SIZE, TEXTURE_SIZE * 2, monster.right === 0, monster.pos.y]);
+    } // Subjects
+
+
+    for (let i = 0; i < game.subjects.length; i++) {
+      let subject = game.subjects[i];
+      if (!subject || !subject.type) // Corrupted
+        continue;
+      this.ySorted.push([IMGS_SUBJECT[subject.type - 1], subject.pos.x - CELL_SIZE / 2, subject.pos.y - CELL_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, 0, subject.pos.y]);
+    } // Sprite animations
+
+
+    for (let i = 0; i < game.animations.length; i++) {
+      let animation = game.animations[i];
+
+      if (animation.interface_bind) {
+        continue;
+      }
+
+      let img = animation.getFrame();
+      this.ySorted.push([img, animation.pos.x - CELL_SIZE / 2, animation.pos.y, animation.box.x, animation.box.y, 0, 1000]);
+    } // Sorting objects by Y-pos
+
+
+    this.ySorted.sort(function (a, b) {
+      return a[6] - b[6];
+    }); // Drawing sorted objects
+
+    for (let x = 0; x < this.ySorted.length; x++) {
+      let a = this.ySorted[x];
+      this.image(a[0], a[1], a[2], a[3], a[4], a[5]);
+    } // Gradient light
+
+
+    let pixelSize = 2; // Size of cell of light grid
+
+    let vector = new Vec2(0, 0);
+
+    for (let x1 = this.cam.x - 64; x1 <= this.cam.x + 64; x1 += pixelSize) {
+      for (let y1 = this.cam.y - 64; y1 <= this.cam.y + 64; y1 += pixelSize) {
+        let val = 0; // Light value
+
+        let sum = 0; // Dist sum
+
+        vector.x = x1;
+        vector.y = y1;
+        let cellX = Math.floor(x1 / 8);
+        let cellY = Math.floor(y1 / 8); // Neighbor cells
+
+        for (let x = cellX - 1; x <= cellX + 1; x++) {
+          for (let y = cellY - 1; y <= cellY + 1; y++) {
+            let dist = vector.distToPosition(x * 8 + 4, y * 8 + 4);
+            if (game.checkCellPosition(x, y) || dist >= 16) continue;
+            val += game.getLightPosition(x, y) * (18 - dist);
+            sum += 18 - dist;
+          }
+        }
+
+        val /= sum;
+        let alpha = 1 - val / DIST_LIGHT;
+        this.rect(x1, y1, pixelSize, pixelSize, "rgba(0,0,0," + alpha + ")");
+      }
+    } //// Interface ////
+
+
+    this.cam = new Vec2(0, 0);
+    this.center = new Vec2(0, 0);
+    this.image(IMG_INTERFACE, 0, 0, 64 * 2, 64 * 2); // Mind
+
+    this.rect(53 * 2, 55 * 2, game.player.mind * 10 / LIMIT_MIND * 2, 2, "rgb(0,100,200)"); // Hp
+
+    this.rect(18 * 2, 63 * 2, 2 * 2, -game.player.hp * 6 / LIMIT_HP * 2, "rgb(194, 29, 40)"); // Oil
+
+    this.rect(8 * 2, 63 * 2, 2 * 2, -game.player.oil * 6 / LIMIT_OIL * 2, "rgb(148, 133, 46)"); // Matches
+
+    for (let i = 0; i < game.player.matches; i++) {
+      this.image(IMG_MATCH, (22 + i * 2) * 2, 58 * 2, 2, 5 * 2);
+    } // Ammo
+
+
+    this.rect(2, 55 * 2, game.player.weapon.ammo * 5 / 5 * 2, 2, "rgb(0, 143, 39)"); // Cooldown
+
+    this.rect(2, 54 * 2, game.player.weapon.timeToCooldown * 10 / game.player.weapon.cooldownTime * 2, 2, "rgb(0, 0, 0)");
+
+    if (game.mentalDanger) {
+      this.image(IMG_MENTAL_DANGER, 53 * 2, 49 * 2, 10 * 2, 5 * 2);
+    } // Subjects
+
+
+    for (let j = 0; j < 2; j++) {
+      if (!game.player.subjects[j] || !game.player.subjects[j].type) // Empty slot
+        continue;
+      this.image(IMGS_SUBJECT[game.player.subjects[j].type - 1], (28 + j * 7) * 2, 56 * 2, 8 * 2, 8 * 2);
+    } // Spec Graves
+
+
+    for (let i = 0; i < game.spec_graves_visited.length; i++) {
+      if (game.spec_graves_visited[i] === 2) {
+        this.image(IMGS_SPEC_MINI_GRAVE[i], (52 + 4 * i) * 2, 57 * 2, 3 * 2, 6 * 2);
+      }
+    } // Overlay
+
+
+    this.image(IMG_INTERFACE_OVERLAY, 0, 0, 64 * 2, 64 * 2); // Animations
+
+    for (let i = 0; i < game.animations.length; i++) {
+      let animation = game.animations[i];
+
+      if (!animation.interface_bind) {
+        continue;
+      }
+
+      let img = animation.getFrame();
+      this.image(img, animation.pos.x * 2, animation.pos.y * 2, animation.box.x * 2, animation.box.y * 2, 0);
+    } // Gameover screen
+
+
+    if (game.player.status === 1) {
+      this.image(IMG_DEAD, 0, 0, 64 * 2, 64 * 2);
+    }
+
+    if (game.player.status === 2) {
+      this.image(IMG_DELIRIOUS, 0, 0, 64 * 2, 64 * 2);
+    }
+
+    if (game.player.status === 3) {
+      this.image(IMG_WIN, 0, 0, 64 * 2, 64 * 2);
+    }
+
+    if (game.player.status === 4) {
+      this.image(IMG_START_SCREEN, 0, 0, 64 * 2, 64 * 2);
+    }
+  }
+
+}
+
+module.exports = Draw;
+},{}],17:[function(require,module,exports){
+const Vec2 = require(37);
 /**
  * Entity or monster
  */
+
+
 class Entity {
+  // TODO: Напишите внятные доки к gridPos и Pos, я не понимаю что они значат.
 
-    // TODO: Напишите внятные доки к gridPos и Pos, я не понимаю что они значат.
+  /**
+   * Entity grid position
+   * @type {Vec2}
+   */
 
-    /**
-     * Entity grid position
-     * @type {Vec2}
-     */
-    gridPos = new Vec2(0, 0);
+  /**
+   * Entity position
+   * @type {Vec2}
+   */
 
-    /**
-     * Entity position
-     * @type {Vec2}
-     */
-    pos = new Vec2(0, 0);
+  /**
+   * Damage invulnerability time parameter
+   * @type {Number}
+   */
 
-    /**
-     * Damage invulnerability time parameter
-     * @type {Number}
-     */
-    protectionTime = 0.5;
+  /**
+   * Damage invulnerability timer
+   * @type {Number}
+   */
 
-    /**
-     * Damage invulnerability timer
-     * @type {Number}
-     */
-    protectionTimer = 0;
+  /**
+   * Entity health
+   */
 
-    /**
-     * Entity health
-     */
-    hp = LIMIT_HP;
+  /**
+   * Where this entity lives
+   * @type {Game}
+   */
 
-    /**
-     * Where this entity lives
-     * @type {Game}
-     */
-    game = null
+  /**
+   * @param config Entity config
+   * @param config.game Game containing this entity
+   */
+  constructor(config) {
+    this.gridPos = new Vec2(0, 0);
+    this.pos = new Vec2(0, 0);
+    this.protectionTime = 0.5;
+    this.protectionTimer = 0;
+    this.hp = LIMIT_HP;
+    this.game = null;
+    if (!config) config = {};
+    this.game = config.game;
+    this.dir = 0; // Direction
 
-    /**
-     * @param config Entity config
-     * @param config.game Game containing this entity
-     */
-    constructor(config) {
-        if(!config) config = {}
+    this.status = 0; // 0 - alive, 1 - dead, 2 - delirious, 3 - win
+    // animation
 
-        this.game = config.game
+    this.right = 1;
+    this.animationType = -1; // 0 - standing, 1 - walking up, 2 - walking down, 3 - walking right, 4 - left
 
-        this.dir = 0; // Direction
+    this.animationFrame = 0; // from 0 to skol'ko est'
 
-        this.status = 0; // 0 - alive, 1 - dead, 2 - delirious, 3 - win
+    this.animationTime = 0.3; // time per 1 animation frame
 
-        // animation
-        this.right = 1;
-        this.animationType = -1; // 0 - standing, 1 - walking up, 2 - walking down, 3 - walking right, 4 - left
-        this.animationFrame = 0; // from 0 to skol'ko est'
-        this.animationTime = 0.3; // time per 1 animation frame
-        this.animationTimer = 0; // timer
+    this.animationTimer = 0; // timer
 
-        this.posPrev = this.pos.clone();
-        this.grid_pos = null
+    this.posPrev = this.pos.clone();
+    this.grid_pos = null;
+  }
+
+  set_animations(standing, walking) {
+    // standing - [], walking - [[up], [down], [right]]
+    this.animations = [standing, walking[0], walking[1], walking[2], walking[2]];
+    this.cur_animation = this.animations[0];
+  } // Cooldowns, timers, etc
+
+
+  step(dt) {
+    // Previous pos
+    this.posPrev = this.pos.clone(); // Grid pos
+
+    this.gridPos = this.game.getCell(this.pos); // Protection timer
+
+    this.protectionTimer -= dt;
+
+    if (this.protectionTimer < 0) {
+      this.protectionTimer = 0;
     }
 
-    set_animations(standing, walking) { // standing - [], walking - [[up], [down], [right]]
-        this.animations = [standing, walking[0], walking[1], walking[2], walking[2]];
-        this.cur_animation = this.animations[0];
+    if (this.animationType < 0) {
+      return;
+    } // animation timer
+
+
+    this.cur_animation = this.animations[this.animationType];
+    this.animationTimer += dt;
+
+    if (this.animationTimer >= this.cur_animation.frame_time) {
+      this.animationTimer = 0;
+      this.cur_animation.frame = (this.cur_animation.frame + 1) % this.cur_animation.frames_cnt;
+    }
+  }
+
+  getFrame() {
+    return this.cur_animation.frames[this.cur_animation.frame];
+  } // hp += delta
+
+
+  changeHp(delta) {
+    this.hp += delta;
+
+    if (this.hp < EPS) {
+      this.hp = 0;
+      this.status = 1; // Death
+
+      if (!this.monsterType) window.SOUND_DEATH.play();
     }
 
-    // Cooldowns, timers, etc
-    step(dt) {
-        // Previous pos
-        this.posPrev = this.pos.clone();
-
-        // Grid pos
-        this.gridPos = this.game.getCell(this.pos);
-
-        // Protection timer
-        this.protectionTimer -= dt;
-        if (this.protectionTimer < 0) {
-            this.protectionTimer = 0;
-        }
-
-        if (this.animationType < 0) {
-            return;
-        }
-
-        // animation timer
-        this.cur_animation = this.animations[this.animationType];
-        this.animationTimer += dt;
-        if (this.animationTimer >= this.cur_animation.frame_time) {
-            this.animationTimer = 0;
-            this.cur_animation.frame = (this.cur_animation.frame + 1) % this.cur_animation.frames_cnt;
-        }
+    if (this.hp > LIMIT_HP) {
+      this.hp = LIMIT_HP;
     }
+  } // hp += delta
 
-    getFrame() {
-        return this.cur_animation.frames[this.cur_animation.frame];
+
+  hurt(damage) {
+    if (this.protectionTimer === 0) {
+      // protection after attacks
+      this.changeHp(-damage);
+      this.protect();
     }
+  } // Protection after attacks
 
-    // hp += delta
-    changeHp(delta) {
-        this.hp += delta;
 
-        if (this.hp < EPS) {
-            this.hp = 0;
-            this.status = 1; // Death
-            if (!this.monsterType)
-                window.SOUND_DEATH.play();
-        }
-        if (this.hp > LIMIT_HP) {
-            this.hp = LIMIT_HP;
-        }
-    }
+  protect() {
+    this.protectionTimer = this.protectionTime;
+  }
 
-    // hp += delta
-    hurt(damage) {
-        if (this.protectionTimer === 0) { // protection after attacks
-            this.changeHp(-damage);
-            this.protect();
-        }
-    }
-
-    // Protection after attacks
-    protect() {
-        this.protectionTimer = this.protectionTime;
-    }
 }
 
-module.exports = Entity
-},{"../vec2":36}],17:[function(require,module,exports){
+module.exports = Entity;
+},{}],18:[function(require,module,exports){
+const Entity = require(17);
 
-const Entity = require("./entity")
-const Vec2 = require("../vec2")
-const Random = require("../random")
+const Vec2 = require(37);
+
+const Random = require(32);
 
 class Monster extends Entity {
+  /**
+   * crutch
+   * @type {number}
+   */
 
-    /**
-     * crutch
-     * @type {number}
-     */
-    monsterType = 0
+  /**
+   * Sanity consumption per second
+   * @type {number}
+   */
 
-    /**
-     * Sanity consumption per second
-     * @type {number}
-     */
-    horror = 0
+  /**
+   * Maximum distance to attack
+   * @type {number}
+   */
 
-    /**
-     * Maximum distance to attack
-     * @type {number}
-     */
-    attackRange = 5
+  /**
+   * The distance at which he see player
+   * @type {number}
+   */
 
-    /**
-     * The distance at which he see player
-     * @type {number}
-     */
-    seenRange = 64
+  /**
+   * Monster damage
+   * @type {number}
+   */
 
-    /**
-     * Monster damage
-     * @type {number}
-     */
-    damage = 1
+  /**
+   * Monster level, indicates on which level monster cam be spawned
+   * @type {number}
+   */
+  constructor(config) {
+    super(config);
+    this.monsterType = 0;
+    this.horror = 0;
+    this.attackRange = 5;
+    this.seenRange = 64;
+    this.damage = 1;
+    this.level = 0;
+  }
 
-    /**
-     * Monster level, indicates on which level monster cam be spawned
-     * @type {number}
-     */
-    level = 0
+  static getRandomMonster(game) {
+    let classIndex = Math.floor(Math.random() * Monster.classes.length);
+    let Clazz = Monster.classes[classIndex]; // Chosing direction for skeleton patrolling
 
-    constructor(config) {
-        super(config);
+    return new Clazz({
+      game: game
+    });
+  }
+
+  step(dt) {
+    if (this.pos.dist(this.game.player.pos) < this.seenRange) this.behavior();
+    this.setDirection();
+    super.step(dt);
+    this.dealHorror();
+    this.dealDamage();
+  }
+
+  behavior() {}
+
+  setDirection() {
+    let x1 = this.posPrev.x;
+    let y1 = this.posPrev.y;
+    let x2 = this.pos.x;
+    let y2 = this.pos.y;
+
+    if (x2 - x1 > 0) {
+      this.right = 1;
+      this.dir = RIGHT;
     }
 
-    static getRandomMonster(game) {
-        let classIndex = Math.floor(Math.random() * Monster.classes.length);
-        let Clazz = Monster.classes[classIndex];
-        // Chosing direction for skeleton patrolling
-        return new Clazz({
-            game:game
-        })
+    if (x2 - x1 < 0) {
+      this.right = 0;
+      this.dir = LEFT;
     }
 
-    step(dt) {
-        if (this.pos.dist(this.game.player.pos) < this.seenRange)
-            this.behavior();
-        this.setDirection();
-        super.step(dt);
-        this.dealHorror();
-        this.dealDamage();
+    if (y2 - y1 > 0) {
+      this.dir = DOWN;
     }
 
-    behavior() {}
-
-    setDirection() {
-        let x1 = this.posPrev.x;
-        let y1 = this.posPrev.y;
-        let x2 = this.pos.x;
-        let y2 = this.pos.y;
-
-        if (x2 - x1 > 0) {
-            this.right = 1;
-            this.dir = RIGHT;
-        }
-
-        if (x2 - x1 < 0) {
-            this.right = 0;
-            this.dir = LEFT;
-        }
-
-        if (y2 - y1 > 0) {
-            this.dir = DOWN;
-        }
-
-        if (y2 - y1 < 0) {
-            this.dir = UP;
-        }
-
-        this.animationType = this.dir;
+    if (y2 - y1 < 0) {
+      this.dir = UP;
     }
 
-    dealHorror() {
-        if (this.game.grid[this.gridPos.x][this.gridPos.y].light > DIST_LIGHT - 1) {
-            this.game.player.changeMind(-this.horror * DT);
-            this.game.mentalDanger = 1;
-        }
-    }
+    this.animationType = this.dir;
+  }
 
-    dealDamage() {
-        if (this.pos.dist(this.game.player.pos) <= this.attackRange) {
-            this.game.hurt(this.game.player, this.damage);
-        }
+  dealHorror() {
+    if (this.game.grid[this.gridPos.x][this.gridPos.y].light > DIST_LIGHT - 1) {
+      this.game.player.changeMind(-this.horror * DT);
+      this.game.mentalDanger = 1;
     }
+  }
+
+  dealDamage() {
+    if (this.pos.dist(this.game.player.pos) <= this.attackRange) {
+      this.game.hurt(this.game.player, this.damage);
+    }
+  }
+
 }
 
-module.exports = Monster
+module.exports = Monster; // Trailing monster loader
 
-// Trailing monster loader
-// TODO: use my browserify module for this
+Monster.classes = [require(19),require(20),require(21),require(22),require(23),require(24)];
+},{}],19:[function(require,module,exports){
+const Monster = require(18);
 
-Monster.classes = [
-    require("./monsters/zombie"),
-    require("./monsters/skeleton"),
-    require("./monsters/tentaсle"),
-    require("./monsters/ghost"),
-    require("./monsters/spider"),
-    require("./monsters/bat")
-]
+const Random = require(32);
 
+const Anime = require(4);
 
-},{"../random":31,"../vec2":36,"./entity":16,"./monsters/bat":18,"./monsters/ghost":19,"./monsters/skeleton":20,"./monsters/spider":21,"./monsters/tentaсle":22,"./monsters/zombie":23}],18:[function(require,module,exports){
-
-const Monster = require("../monster")
-const Random = require("../../random")
-const Anime = require("../../anime")
-const Vec2 = require("../../vec2")
+const Vec2 = require(37);
 
 class Bat extends Monster {
-    constructor(config) {
-        super(config);
+  constructor(config) {
+    super(config);
+    this.horror = 0.02;
+    this.hp = 1;
+    this.level = 1;
+    console.log("bat");
+    let standing_animation = new Anime(0.5, ANM_BAT_MOVING);
+    let moving_up_animation = new Anime(0.3, ANM_BAT_MOVING);
+    let moving_down_animation = new Anime(0.3, ANM_BAT_MOVING);
+    let moving_right_animation = new Anime(0.3, ANM_BAT_MOVING);
+    this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
 
-        this.horror = 0.02
-        this.hp = 1;
-        this.level = 1;
-        console.log("bat");
+  behavior() {
+    super.behavior(); // Movement
 
-        let standing_animation = new Anime(0.5, ANM_BAT_MOVING);
-        let moving_up_animation = new Anime(0.3, ANM_BAT_MOVING);
-        let moving_down_animation = new Anime(0.3, ANM_BAT_MOVING);
-        let moving_right_animation = new Anime(0.3, ANM_BAT_MOVING);
+    let deltaPos = new Vec2(0, 0); // Check neighbor cells to find
 
-        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    let neighbors = [new Vec2(1, 0), new Vec2(-1, 0), new Vec2(0, 1), new Vec2(0, -1)];
+
+    for (let j = 0; j < 4; j++) {
+      let pos1 = this.gridPos.plus(neighbors[j]);
+      if (this.game.checkCell(pos1) || this.game.grid[pos1.x][pos1.y].obstacle) continue;
+      if (this.game.grid[pos1.x][pos1.y].zombieNav > this.game.grid[this.gridPos.x][this.gridPos.y].zombieNav) deltaPos = deltaPos.plus(neighbors[j]);
     }
 
-    behavior() {
-        super.behavior();
-        // Movement
-        let deltaPos = new Vec2(0, 0);
-        // Check neighbor cells to find
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        for (let j = 0; j < 4; j++) {
-            let pos1 = this.gridPos.plus(neighbors[j]);
-            if (this.game.checkCell(pos1) || this.game.grid[pos1.x][pos1.y].obstacle)
-                continue;
-            if (this.game.grid[pos1.x][pos1.y].zombieNav > this.game.grid[this.gridPos.x][this.gridPos.y].zombieNav)
-                deltaPos = deltaPos.plus(neighbors[j]);
-        }
+    let vel = 1;
+    this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+  }
 
-        let vel = 1;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
-    }
 }
 
-module.exports = Bat
-},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],19:[function(require,module,exports){
+module.exports = Bat;
+},{}],20:[function(require,module,exports){
+const Monster = require(18);
 
-const Monster = require("../monster")
-const Random = require("../../random")
-const Anime = require("../../anime")
-const Vec2 = require("../../vec2")
+const Random = require(32);
+
+const Anime = require(4);
+
+const Vec2 = require(37);
 
 class Ghost extends Monster {
-    constructor(config) {
-        super(config);
+  constructor(config) {
+    super(config);
+    this.hp = Random.random(1, 3);
+    this.horror = 0.3;
+    this.level = 2;
+    console.log("ghost");
+    let standing_animation = new Anime(0.5, ANM_GHOST_STANDING);
+    let moving_up_animation = new Anime(0.3, ANM_GHOST_MOVING_UP);
+    let moving_down_animation = new Anime(0.3, ANM_GHOST_MOVING_DOWN);
+    let moving_right_animation = new Anime(0.3, ANM_GHOST_MOVING_RIGHT);
+    this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
 
-        this.hp = Random.random(1, 3);
-        this.horror = 0.3;
-        this.level = 2;
-        console.log("ghost");
+  behavior() {
+    super.behavior(); // Movement
 
-        let standing_animation = new Anime(0.5, ANM_GHOST_STANDING);
-        let moving_up_animation = new Anime(0.3, ANM_GHOST_MOVING_UP);
-        let moving_down_animation = new Anime(0.3, ANM_GHOST_MOVING_DOWN);
-        let moving_right_animation = new Anime(0.3, ANM_GHOST_MOVING_RIGHT);
+    let deltaPos = new Vec2(0, 0); // Check neighbor cells to find
 
-        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    let neighbors = [new Vec2(1, 0), new Vec2(-1, 0), new Vec2(0, 1), new Vec2(0, -1)];
+
+    for (let j = 0; j < 4; j++) {
+      let pos1 = this.gridPos.plus(neighbors[j]);
+      if (this.game.checkCell(pos1)) continue;
+      if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav) deltaPos = deltaPos.plus(neighbors[j]);
     }
 
-    behavior() {
-        super.behavior();
-        // Movement
-        let deltaPos = new Vec2(0, 0);
-        // Check neighbor cells to find
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        for (let j = 0; j < 4; j++) {
-            let pos1 = this.gridPos.plus(neighbors[j]);
-            if (this.game.checkCell(pos1))
-                continue;
-            if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav)
-                deltaPos = deltaPos.plus(neighbors[j]);
-        }
-        let vel = 0.3;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
-    }
+    let vel = 0.3;
+    this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
+  }
+
 }
 
-module.exports = Ghost
-},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],20:[function(require,module,exports){
+module.exports = Ghost;
+},{}],21:[function(require,module,exports){
+const Monster = require(18);
 
-const Monster = require("../monster")
-const Random = require("../../random")
-const Anime = require("../../anime")
-const Vec2 = require("../../vec2")
+const Random = require(32);
+
+const Anime = require(4);
+
+const Vec2 = require(37);
 
 class Skeleton extends Monster {
-    constructor(config) {
-        super(config);
+  constructor(config) {
+    super(config);
+    this.hp = Random.random(2, 3);
+    this.horror = 0.1;
+    this.seenRange = 100000;
+    console.log("skeleton");
+    this.patrolDir = Random.random(1, 4); // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
+    // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
+    // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
+    // let moving_right_animation = new Anime(0.3, ANM_SKELETON_MOVING_RIGHT);
 
-        this.hp = Random.random(2, 3);
-        this.horror = 0.1
-        this.seenRange = 100000;
-        console.log("skeleton");
+    let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
+    let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
+    let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
+    let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+    this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
 
-        this.patrolDir = Random.random(1, 4);
+  behavior() {
+    super.behavior(); // Movement
 
-        // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
-        // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
-        // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
-        // let moving_right_animation = new Anime(0.3, ANM_SKELETON_MOVING_RIGHT);
+    let deltaPos = new Vec2(0, 0);
+    let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
+    let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
+    let gridPosUp = this.game.getCell(this.pos.plus(new Vec2(0, -1)));
+    let gridPosDown = this.game.getCell(this.pos.plus(new Vec2(0, +1)));
 
-        let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
-        let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-        let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-        let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
-
-        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+      this.patrolDir = RIGHT;
     }
 
-    behavior() {
-        super.behavior();
-
-        // Movement
-        let deltaPos = new Vec2(0, 0);
-        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
-        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
-        let gridPosUp = this.game.getCell(this.pos.plus(new Vec2(0, -1)));
-        let gridPosDown = this.game.getCell(this.pos.plus(new Vec2(0, +1)));
-
-        if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-            this.patrolDir = RIGHT;
-        }
-        if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-            this.patrolDir = LEFT;
-        }
-        if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
-            this.patrolDir = DOWN;
-        }
-        if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
-            this.patrolDir = UP;
-        }
-
-        if (this.patrolDir === LEFT) {
-            deltaPos.x = -1;
-        }
-        else if (this.patrolDir === RIGHT) {
-            deltaPos.x = 1;
-        }
-        else if (this.patrolDir === UP) {
-            deltaPos.y = -1;
-        }
-        else if (this.patrolDir === DOWN) {
-            deltaPos.y = 1;
-        }
-
-
-        let vel = 0.5;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+    if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+      this.patrolDir = LEFT;
     }
+
+    if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
+      this.patrolDir = DOWN;
+    }
+
+    if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
+      this.patrolDir = UP;
+    }
+
+    if (this.patrolDir === LEFT) {
+      deltaPos.x = -1;
+    } else if (this.patrolDir === RIGHT) {
+      deltaPos.x = 1;
+    } else if (this.patrolDir === UP) {
+      deltaPos.y = -1;
+    } else if (this.patrolDir === DOWN) {
+      deltaPos.y = 1;
+    }
+
+    let vel = 0.5;
+    this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+  }
+
 }
 
-module.exports = Skeleton
-},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],21:[function(require,module,exports){
+module.exports = Skeleton;
+},{}],22:[function(require,module,exports){
+const Monster = require(18);
 
-const Monster = require("../monster")
-const Random = require("../../random")
-const Anime = require("../../anime")
-const Vec2 = require("../../vec2")
+const Random = require(32);
+
+const Anime = require(4);
+
+const Vec2 = require(37);
 
 class Spider extends Monster {
-    constructor(config) {
-        super(config);
+  constructor(config) {
+    super(config);
+    this.hp = Random.random(2, 3);
+    this.horror = 0.1;
+    this.seenRange = 100000;
+    console.log("spider");
+    this.patrolDir = Random.random(1, 4); // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
+    // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
+    // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
+    // let moving_right_animation = new Anime(0.3, ANM_SKELETON_MOVING_RIGHT);
 
-        this.hp = Random.random(2, 3);
-        this.horror = 0.1
-        this.seenRange = 100000;
-        console.log("spider");
+    let standing_animation = new Anime(0.5, ANM_SPIDER_MOVING);
+    let moving_up_animation = new Anime(0.1, ANM_SPIDER_MOVING);
+    let moving_down_animation = new Anime(0.1, ANM_SPIDER_MOVING);
+    let moving_right_animation = new Anime(0.1, ANM_SPIDER_MOVING);
+    this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
 
-        this.patrolDir = Random.random(1, 4);
+  behavior() {
+    super.behavior(); // Movement
 
-        // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
-        // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
-        // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
-        // let moving_right_animation = new Anime(0.3, ANM_SKELETON_MOVING_RIGHT);
+    let deltaPos = new Vec2(0, 0);
+    let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
+    let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
+    let gridPosUp = this.game.getCell(this.pos.plus(new Vec2(0, -1)));
+    let gridPosDown = this.game.getCell(this.pos.plus(new Vec2(0, +1)));
 
-        let standing_animation = new Anime(0.5, ANM_SPIDER_MOVING);
-        let moving_up_animation = new Anime(0.1, ANM_SPIDER_MOVING);
-        let moving_down_animation = new Anime(0.1, ANM_SPIDER_MOVING);
-        let moving_right_animation = new Anime(0.1, ANM_SPIDER_MOVING);
-
-        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+      this.patrolDir = Random.random(1, 4);
     }
 
-    behavior() {
-        super.behavior();
-
-        // Movement
-        let deltaPos = new Vec2(0, 0);
-        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
-        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
-        let gridPosUp = this.game.getCell(this.pos.plus(new Vec2(0, -1)));
-        let gridPosDown = this.game.getCell(this.pos.plus(new Vec2(0, +1)));
-
-        if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-            this.patrolDir = Random.random(1, 4);
-        }
-        if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-            this.patrolDir = Random.random(1, 4);
-        }
-        if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
-            this.patrolDir = Random.random(1, 4);
-        }
-        if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
-            this.patrolDir = Random.random(1, 4);
-        }
-
-        if (this.patrolDir === LEFT) {
-            deltaPos.x = -1;
-        }
-        else if (this.patrolDir === RIGHT) {
-            deltaPos.x = 1;
-        }
-        else if (this.patrolDir === UP) {
-            deltaPos.y = -1;
-        }
-        else if (this.patrolDir === DOWN) {
-            deltaPos.y = 1;
-        }
-
-
-        let vel = 1;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+    if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+      this.patrolDir = Random.random(1, 4);
     }
+
+    if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
+      this.patrolDir = Random.random(1, 4);
+    }
+
+    if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
+      this.patrolDir = Random.random(1, 4);
+    }
+
+    if (this.patrolDir === LEFT) {
+      deltaPos.x = -1;
+    } else if (this.patrolDir === RIGHT) {
+      deltaPos.x = 1;
+    } else if (this.patrolDir === UP) {
+      deltaPos.y = -1;
+    } else if (this.patrolDir === DOWN) {
+      deltaPos.y = 1;
+    }
+
+    let vel = 1;
+    this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+  }
+
 }
 
-module.exports = Spider
-},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],22:[function(require,module,exports){
+module.exports = Spider;
+},{}],23:[function(require,module,exports){
+const Monster = require(18);
 
-const Monster = require("../monster")
-const Random = require("../../random")
-const Anime = require("../../anime")
-const Vec2 = require("../../vec2")
+const Random = require(32);
+
+const Anime = require(4);
+
+const Vec2 = require(37);
 
 class Tentacle extends Monster {
-    constructor(config) {
-        super(config);
+  constructor(config) {
+    super(config);
+    this.hp = Random.random(3, 4);
+    this.horror = 0.5;
+    this.level = 3;
+    console.log("tentacle");
+    let standing_animation = new Anime(0.5, ANM_WORM_STANDING);
+    let moving_up_animation = new Anime(0.3, ANM_WORM_STANDING);
+    let moving_down_animation = new Anime(0.3, ANM_WORM_STANDING);
+    let moving_right_animation = new Anime(0.3, ANM_WORM_STANDING);
+    this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
 
-        this.hp = Random.random(3, 4);
-        this.horror = 0.5;
-        this.level = 3;
-        console.log("tentacle");
-
-        let standing_animation = new Anime(0.5, ANM_WORM_STANDING);
-        let moving_up_animation = new Anime(0.3, ANM_WORM_STANDING);
-        let moving_down_animation = new Anime(0.3, ANM_WORM_STANDING);
-        let moving_right_animation = new Anime(0.3, ANM_WORM_STANDING);
-
-        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
-    }
 }
 
-module.exports = Tentacle
-},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],23:[function(require,module,exports){
+module.exports = Tentacle;
+},{}],24:[function(require,module,exports){
+const Monster = require(18);
 
-const Monster = require("../monster")
-const Random = require("../../random")
-const Anime = require("../../anime")
-const Vec2 = require("../../vec2")
+const Random = require(32);
+
+const Anime = require(4);
+
+const Vec2 = require(37);
 
 class Zombie extends Monster {
-    constructor(config) {
-        super(config);
+  constructor(config) {
+    super(config);
+    this.horror = 0.2;
+    this.hp = Random.random(2, 3);
+    this.level = 1;
+    console.log("zombie");
+    let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
+    let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
+    let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
+    let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+    this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
 
-        this.horror = 0.2
-        this.hp = Random.random(2, 3);
-        this.level = 1;
-        console.log("zombie");
+  behavior() {
+    super.behavior(); // Movement
 
-        let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
-        let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-        let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-        let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+    let deltaPos = new Vec2(0, 0); // Check neighbor cells to find
 
-        this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+    let neighbors = [new Vec2(1, 0), new Vec2(-1, 0), new Vec2(0, 1), new Vec2(0, -1)];
+
+    for (let j = 0; j < 4; j++) {
+      let pos1 = this.gridPos.plus(neighbors[j]);
+      if (this.game.checkCell(pos1) || this.game.grid[pos1.x][pos1.y].obstacle) continue;
+      if (this.game.grid[pos1.x][pos1.y].zombieNav > this.game.grid[this.gridPos.x][this.gridPos.y].zombieNav) deltaPos = deltaPos.plus(neighbors[j]);
     }
 
-    behavior() {
-        super.behavior();
-        // Movement
-        let deltaPos = new Vec2(0, 0);
-        // Check neighbor cells to find
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        for (let j = 0; j < 4; j++) {
-            let pos1 = this.gridPos.plus(neighbors[j]);
-            if (this.game.checkCell(pos1) || this.game.grid[pos1.x][pos1.y].obstacle)
-                continue;
-            if (this.game.grid[pos1.x][pos1.y].zombieNav > this.game.grid[this.gridPos.x][this.gridPos.y].zombieNav)
-                deltaPos = deltaPos.plus(neighbors[j]);
-        }
+    let vel = 0.5;
+    this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+  }
 
-        let vel = 0.5;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
-    }
 }
 
-module.exports = Zombie
-},{"../../anime":3,"../../random":31,"../../vec2":36,"../monster":17}],24:[function(require,module,exports){
+module.exports = Zombie;
+},{}],25:[function(require,module,exports){
+const Entity = require(17);
 
-const Entity = require("./entity")
-const CharacterControls = require("../controls/character-controls")
-const TemporalLightSource = require("../temporal-light-source.js")
-const LightSource = require("../light-source")
-const Animation = require("../animation")
-const Weapon = require("../weapon")
-const Vec2 = require("../vec2")
-const Subject = require("../subject")
-const Anime = require("../anime")
+const CharacterControls = require(8);
+
+const TemporalLightSource = require(34);
+
+const LightSource = require(28);
+
+const Animation = require(3);
+
+const Weapon = require(38);
+
+const Vec2 = require(37);
+
+const Subject = require(33);
+
+const Anime = require(4);
 
 class Player extends Entity {
+  /**
+   * Lamp oil amount
+   * @type {number}
+   */
 
-    /**
-     * Lamp oil amount
-     * @type {number}
-     */
-    oil = LIMIT_OIL;
+  /**
+   * Sanity factor
+   * @type {number}
+   */
 
-    /**
-     * Sanity factor
-     * @type {number}
-     */
-    mind = LIMIT_MIND;
+  /**
+   * Lamp status
+   * @type {boolean}
+   */
 
-    /**
-     * Lamp status
-     * @type {boolean}
-     */
-    lamp = true
+  /**
+   * Light distance
+   * @type {number}
+   */
 
-    /**
-     * Light distance
-     * @type {number}
-     */
-    distLight = DIST_LIGHT;
+  /**
+   * Items
+   * @type Array<Subject|null>
+   */
 
-    /**
-     * Items
-     * @type Array<Subject|null>
-     */
-    subjects = [null, null];
+  /**
+   * Matches amount
+   * @type {number}
+   */
 
-    /**
-     * Matches amount
-     * @type {number}
-     */
-    matches = LIMIT_MATCHES
+  /**
+   * Player weapon
+   * @type {Weapon}
+   */
+  constructor(config) {
+    super(config);
+    this.oil = LIMIT_OIL;
+    this.mind = LIMIT_MIND;
+    this.lamp = true;
+    this.distLight = DIST_LIGHT;
+    this.subjects = [null, null];
+    this.matches = LIMIT_MATCHES;
+    this.weapon = new Weapon();
+    this.controls = new CharacterControls();
+    let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
+    let anm_walking_right = new Anime(0.3, ANM_PLAYER_MOVING_RIGHT);
+    let anm_walking_up = new Anime(0.3, ANM_PLAYER_MOVING_UP);
+    let anm_walking_down = new Anime(0.3, ANM_PLAYER_MOVING_DOWN);
+    this.set_animations(anm_standing, [anm_walking_up, anm_walking_down, anm_walking_right]);
+  }
 
-    /**
-     * Player weapon
-     * @type {Weapon}
-     */
-    weapon = new Weapon();
+  step(dt) {
+    super.step(dt);
+    this.dir = NONE;
+    let movement = this.controls.getMovement();
 
-    constructor(config) {
-        super(config);
+    if (movement.lengthSquared() > 0.01) {
+      // <=> length() > 0.1
+      this.game.move(this, movement);
 
-        this.controls = new CharacterControls()
+      if (window.SOUND_STEPS.isPlaying !== 1) {
+        window.SOUND_STEPS.play();
+        window.SOUND_STEPS.isPlaying = 1;
+      }
 
-        let anm_standing = new Anime(0.5, ANM_PLAYER_STANDING);
-        let anm_walking_right = new Anime(0.3, ANM_PLAYER_MOVING_RIGHT);
-        let anm_walking_up = new Anime(0.3, ANM_PLAYER_MOVING_UP);
-        let anm_walking_down = new Anime(0.3, ANM_PLAYER_MOVING_DOWN);
-        this.set_animations(anm_standing, [anm_walking_up, anm_walking_down, anm_walking_right]);
+      if (movement.y < -0.1) this.dir = UP;else if (movement.y > 0.1) this.dir = DOWN;else if (movement.x < -0.1) {
+        this.dir = LEFT;
+        this.right = 0;
+      } else if (movement.x > 0.1) {
+        this.dir = RIGHT;
+        this.right = 1;
+      }
+    } else {
+      window.SOUND_STEPS.pause();
+      window.SOUND_STEPS.isPlaying = 0;
     }
 
-    step(dt) {
-        super.step(dt)
+    this.animationType = this.dir; // Turning lamp off
 
-        this.dir = NONE;
+    if (this.game.keyboard.keyPressedOnce("KeyX")) {
+      this.lampOff();
+    }
 
-        let movement = this.controls.getMovement()
-        if (movement.lengthSquared() > 0.01) { // <=> length() > 0.1
+    if (this.lamp) this.changeOil(-OIL_CONSUMPTION * DT); // Horror
 
-            this.game.move(this, movement)
+    if (!this.lamp) {
+      this.changeMind(-0.35 * DT);
+      this.game.mentalDanger = 1;
+    }
 
-            if (window.SOUND_STEPS.isPlaying !== 1) {
-                window.SOUND_STEPS.play();
-                window.SOUND_STEPS.isPlaying = 1;
+    if (this.game.keyboard.keyPressedOnce("KeyF")) {
+      this.useMatch();
+    }
+
+    this.tickWeapon();
+    this.pickUpSubjects();
+    this.useSubjects();
+  }
+
+  tickWeapon() {
+    this.weapon.timeToCooldown -= DT;
+    this.controls.updateShootingDirection();
+
+    if (!this.controls.shootDirection.isZero()) {
+      let dir = this.controls.shootDirection;
+
+      if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) {
+        // Are we able to shoot
+        window.SOUND_SHOOT.play(); // Stupid collision check
+
+        let pos = new Vec2(this.pos.x, this.pos.y);
+
+        for (let i = 0; i < 30; i++) {
+          let hit = 0;
+
+          for (let j = 0; j < this.game.monsters.length; j++) {
+            // Current monster
+            let monster = this.game.monsters[j]; // Shift
+
+            pos = pos.plus(dir); // Collision check
+
+            if (pos.dist(monster.pos) < 8) {
+              this.game.hurt(monster, this.weapon.damage);
             }
+          }
 
-            if (movement.y < -0.1) this.dir = UP;
-            else if (movement.y > 0.1) this.dir = DOWN;
-            else if (movement.x < -0.1) {
-                this.dir = LEFT;
-                this.right = 0;
-            }
-            else if (movement.x > 0.1) {
-                this.dir = RIGHT;
-                this.right = 1;
-            }
-        }
-        else {
-            window.SOUND_STEPS.pause();
-            window.SOUND_STEPS.isPlaying = 0;
-        }
+          if (hit) break;
+        } // Animation
 
-        this.animationType = this.dir;
 
-        // Turning lamp off
-        if (this.game.keyboard.keyPressedOnce("KeyX")) {
-            this.lampOff()
-        }
+        let curAnm = ANM_TRACER_UP; // Current animation
 
-        if (this.lamp)
-            this.changeOil(-OIL_CONSUMPTION * DT);
+        if (dir.y < 0) curAnm = ANM_TRACER_UP;else if (dir.y > 0) curAnm = ANM_TRACER_DOWN;else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;else if (dir.x > 0) curAnm = ANM_TRACER_RIGHT;
+        this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
+        this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0)); // Modify cooldown & ammo
 
-        // Horror
-        if (!this.lamp) {
-            this.changeMind(-0.35 * DT);
-            this.game.mentalDanger = 1;
-        }
+        this.weapon.timeToCooldown = this.weapon.cooldownTime;
+        this.weapon.ammo--;
+      }
+    }
+  }
 
-        if (this.game.keyboard.keyPressedOnce("KeyF")) {
-            this.useMatch();
-        }
+  pickUpSubjects() {
+    for (let i = 0; i < this.game.subjects.length; i++) {
+      let subject = this.game.subjects[i];
+      if (subject.pos.dist(this.pos) > 8) // Not close enough
+        continue;
+      let freeSlot = this.getFreeSubjectSlot();
+      if (freeSlot === null) continue;
+      window.SOUND_PICKUP.play();
+      this.subjects[freeSlot] = new Subject();
+      this.subjects[freeSlot].type = subject.type;
+      subject.type = undefined;
+    }
+  }
 
-        this.tickWeapon();
-        this.pickUpSubjects();
-        this.useSubjects();
+  getFreeSubjectSlot() {
+    for (let i = 0; i < 2; i++) {
+      if (!this.subjects[i] || !this.subjects[i].type) return i;
     }
 
-    tickWeapon() {
-        this.weapon.timeToCooldown -= DT;
+    return null;
+  }
 
-        this.controls.updateShootingDirection()
-
-        if (!this.controls.shootDirection.isZero()) {
-            let dir = this.controls.shootDirection
-
-            if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) { // Are we able to shoot
-                window.SOUND_SHOOT.play();
-                // Stupid collision check
-                let pos = new Vec2(this.pos.x, this.pos.y);
-
-                for (let i = 0; i < 30; i++) {
-                    let hit = 0;
-                    for (let j = 0; j < this.game.monsters.length; j++) {
-                        // Current monster
-                        let monster = this.game.monsters[j];
-                        // Shift
-                        pos = pos.plus(dir);
-                        // Collision check
-                        if (pos.dist(monster.pos) < 8) {
-                            this.game.hurt(monster, this.weapon.damage);
-                        }
-                    }
-                    if (hit)
-                        break;
-                }
-
-                // Animation
-                let curAnm = ANM_TRACER_UP; // Current animation
-                if (dir.y < 0) curAnm = ANM_TRACER_UP;
-                else if (dir.y > 0)  curAnm = ANM_TRACER_DOWN;
-                else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;
-                else if (dir.x > 0)  curAnm = ANM_TRACER_RIGHT;
-
-                this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
-                this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
-
-                // Modify cooldown & ammo
-                this.weapon.timeToCooldown =  this.weapon.cooldownTime;
-                this.weapon.ammo--;
-            }
-        }
+  useSubjects() {
+    // // Use subjects
+    if (this.game.keyboard.keyPressedOnce("Digit1")) {
+      this.consumeSubject(0);
     }
 
-    pickUpSubjects() {
-        for (let i = 0; i < this.game.subjects.length; i++) {
-            let subject = this.game.subjects[i];
+    if (this.game.keyboard.keyPressedOnce("Digit2")) {
+      this.consumeSubject(1);
+    }
+  }
 
-            if (subject.pos.dist(this.pos) > 8) // Not close enough
-                continue;
+  consumeSubject(index) {
+    if (!this.subjects[index] || !this.subjects[index].type) // Slot is empty
+      return; // Current subject
 
+    let subject = this.subjects[index]; // Checking for subject type
 
-            let freeSlot = this.getFreeSubjectSlot()
-
-            if(freeSlot === null) continue;
-
-            window.SOUND_PICKUP.play();
-            this.subjects[freeSlot] = new Subject();
-            this.subjects[freeSlot].type = subject.type;
-
-            subject.type = undefined;
-        }
+    if (subject.type === SBJ_HEAL) {
+      window.SOUND_DRINK.play();
+      this.changeHp(1);
     }
 
-    getFreeSubjectSlot() {
-        for (let i = 0; i < 2; i++) {
-            if (!this.subjects[i] || !this.subjects[i].type)
-                return i
-        }
-
-        return null
+    if (subject.type === SBJ_OIL) {
+      window.SOUND_OIL.play();
+      this.changeOil(7);
     }
 
-    useSubjects() {
-        // // Use subjects
-        if(this.game.keyboard.keyPressedOnce("Digit1")) {
-            this.consumeSubject(0);
-        }
-        if(this.game.keyboard.keyPressedOnce("Digit2")) {
-            this.consumeSubject(1)
-        }
+    if (subject.type === SBJ_WHISKEY) {
+      window.SOUND_DRINK.play();
+      this.changeMind(6);
     }
 
-    consumeSubject(index) {
-        if(!this.subjects[index] || !this.subjects[index].type) // Slot is empty
-            return
-
-        // Current subject
-        let subject = this.subjects[index];
-
-        // Checking for subject type
-        if (subject.type === SBJ_HEAL) {
-            window.SOUND_DRINK.play();
-            this.changeHp(1);
-        }
-        if (subject.type === SBJ_OIL) {
-            window.SOUND_OIL.play();
-            this.changeOil(7);
-        }
-        if (subject.type === SBJ_WHISKEY){
-            window.SOUND_DRINK.play();
-            this.changeMind(6);
-        }
-        if (subject.type === SBJ_MATCHBOX){
-            window.SOUND_MATCHBOX.play();
-            this.matches += 2;
-            this.matches = Math.min(this.matches, LIMIT_MATCHES);
-        }
-        if (subject.type === SBJ_AMMO) {
-            window.SOUND_AMMO.play();
-            this.weapon.ammo += 5;
-            this.weapon.ammo = Math.min(this.weapon.ammo, this.weapon.ammoMax);
-        }
-
-        // Remove subject
-        this.subjects[index] = undefined;
+    if (subject.type === SBJ_MATCHBOX) {
+      window.SOUND_MATCHBOX.play();
+      this.matches += 2;
+      this.matches = Math.min(this.matches, LIMIT_MATCHES);
     }
 
-    useMatch() {
-        if (this.matches > 0) {
-            window.SOUND_MATCH.play();
-            this.lampOn()
-            this.matches--;
-            this.game.temporalLightSources.push(new TemporalLightSource(this.pos, 5, 2));
-            this.game.animations.push(new Animation(ANM_MATCH, this.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
-            this.game.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
+    if (subject.type === SBJ_AMMO) {
+      window.SOUND_AMMO.play();
+      this.weapon.ammo += 5;
+      this.weapon.ammo = Math.min(this.weapon.ammo, this.weapon.ammoMax);
+    } // Remove subject
 
-            // Lighting spec graves
-            let pos = this.grid_pos;
-            for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
-                for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
-                    let cell = this.game.grid[x][y];
-                    if (cell.grave < 0 && this.game.spec_graves_visited[-cell.grave - 1] === 1) { // spec grave
 
-                        this.game.specGraveTimer = this.game.specGraveCooldown;
-                        this.game.spec_graves_visited[-cell.grave - 1] = 2;
-                        this.game.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
-                        this.game.spec_graves_visited_count += 1;
-                        this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
-                        this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
-                        this.game.level++;
+    this.subjects[index] = undefined;
+  }
 
-                        this.game.generate();
-                    }
-                }
-            }
+  useMatch() {
+    if (this.matches > 0) {
+      window.SOUND_MATCH.play();
+      this.lampOn();
+      this.matches--;
+      this.game.temporalLightSources.push(new TemporalLightSource(this.pos, 5, 2));
+      this.game.animations.push(new Animation(ANM_MATCH, this.pos.plus(new Vec2(0, -5)), new Vec2(8, 8), 0.1)); // In game
 
-            // Open gates
-            for (let x = 0; x < SIZE_X; x++) {
-                for (let y = 0; y < SIZE_Y; y++) {
-                    if (this.game.spec_graves_visited_count < 3) // Gates are not ready
-                        break;
+      this.game.animations.push(new Animation(ANM_MATCH_BURNING, new Vec2(22 + (this.matches - 1) * 2 + 1, 57), new Vec2(3, 7), 0.1, 1)); // In interface
+      // Lighting spec graves
 
-                    // Check for player
-                    if (this.game.gates_state === 1 && this.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
-                        this.game.gates_state = 2; // Gates opened
-                        this.game.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
-                    }
+      let pos = this.grid_pos;
 
-                    // Clean obstacles
-                    if (this.game.gates_state === 2 && this.grid[x][y].gates) {
-                        this.game.grid[x][y].obstacle = 0;
-                    }
-                }
-            }
+      for (let x = pos.x - 1; x <= pos.x + 1; ++x) {
+        for (let y = pos.y - 1; y <= pos.y + 1; ++y) {
+          let cell = this.game.grid[x][y];
+
+          if (cell.grave < 0 && this.game.spec_graves_visited[-cell.grave - 1] === 1) {
+            // spec grave
+            this.game.specGraveTimer = this.game.specGraveCooldown;
+            this.game.spec_graves_visited[-cell.grave - 1] = 2;
+            this.game.spec_lights.push(new LightSource(new Vec2(x * 8 + 4, y * 8 + 4), 2));
+            this.game.spec_graves_visited_count += 1;
+            this.game.animations.push(new Animation(ANM_IGNITION[-cell.grave - 1], new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.1));
+            this.game.animations.push(new Animation(ANM_ACTIVE_GRAVE, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(8, 16), 0.15, 0, 1));
+            this.game.level++;
+            this.game.generate();
+          }
         }
+      } // Open gates
+
+
+      for (let x = 0; x < SIZE_X; x++) {
+        for (let y = 0; y < SIZE_Y; y++) {
+          if (this.game.spec_graves_visited_count < 3) // Gates are not ready
+            break; // Check for player
+
+          if (this.game.gates_state === 1 && this.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
+            this.game.gates_state = 2; // Gates opened
+
+            this.game.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
+          } // Clean obstacles
+
+
+          if (this.game.gates_state === 2 && this.grid[x][y].gates) {
+            this.game.grid[x][y].obstacle = 0;
+          }
+        }
+      }
+    }
+  } // mind += delta
+
+
+  changeMind(delta) {
+    this.mind += delta;
+
+    if (this.mind < EPS) {
+      this.mind = 0;
+      this.status = 2; // Delirium
+
+      if (!this.monsterType) window.SOUND_DEATH.play();
     }
 
-    // mind += delta
-    changeMind(delta) {
-        this.mind += delta;
+    if (this.mind > LIMIT_MIND) {
+      this.mind = LIMIT_MIND;
+    }
+  } // oil += delta
 
-        if (this.mind < EPS) {
-            this.mind = 0;
-            this.status = 2; // Delirium
-            if (!this.monsterType)
-                window.SOUND_DEATH.play();
-        }
-        if (this.mind > LIMIT_MIND) {
-            this.mind = LIMIT_MIND;
-        }
+
+  changeOil(delta) {
+    this.oil += delta;
+
+    if (this.oil < 0) {
+      this.oil = 0;
+      this.lampOff();
     }
 
-    // oil += delta
-    changeOil(delta) {
-        this.oil += delta;
-
-        if (this.oil < 0) {
-            this.oil = 0;
-            this.lampOff()
-        }
-        if (this.oil > LIMIT_OIL) {
-            this.oil = LIMIT_OIL;
-        }
+    if (this.oil > LIMIT_OIL) {
+      this.oil = LIMIT_OIL;
     }
+  }
 
-    lampOff() {
-        this.lamp = false
-        this.distLight = 1
-    }
+  lampOff() {
+    this.lamp = false;
+    this.distLight = 1;
+  }
 
-    lampOn() {
-        this.lamp = true
-        this.distLight = DIST_LIGHT
-    }
+  lampOn() {
+    this.lamp = true;
+    this.distLight = DIST_LIGHT;
+  }
+
 }
 
-module.exports = Player
-},{"../animation":2,"../anime":3,"../controls/character-controls":7,"../light-source":27,"../subject":32,"../temporal-light-source.js":33,"../vec2":36,"../weapon":37,"./entity":16}],25:[function(require,module,exports){
-
-const EventEmitter = require("../utils/event-emitter")
+module.exports = Player;
+},{}],26:[function(require,module,exports){
+const EventEmitter = require(36);
 
 class DocumentEventHandler extends EventEmitter {
-    constructor() {
-        super()
-        /** @type Map<string,any> */
-        this.listeners = new Map()
-        this.target = document.body
+  constructor() {
+    super();
+    /** @type Map<string,any> */
+
+    this.listeners = new Map();
+    this.target = document.body;
+  }
+
+  bind(event, handler) {
+    if (this.listeners.has(event)) {
+      this.unbind(event);
     }
 
-    bind(event, handler) {
-        if(this.listeners.has(event)) {
-            this.unbind(event)
-        }
-        const self = this
-        const listener = function(){ handler.apply(self, arguments) }
+    const self = this;
 
+    const listener = function () {
+      handler.apply(self, arguments);
+    };
 
-        this.listeners.set(event, listener)
+    this.listeners.set(event, listener);
 
-        if(Array.isArray(this.target)) {
-            for (let target of this.target)
-                target.addEventListener(event, listener)
-        } else {
-            this.target.addEventListener(event, listener)
-        }
+    if (Array.isArray(this.target)) {
+      for (let target of this.target) target.addEventListener(event, listener);
+    } else {
+      this.target.addEventListener(event, listener);
+    }
+  }
+
+  unbind(event) {
+    if (Array.isArray(this.target)) {
+      for (let target of this.target) target.removeEventListener(event, this.listeners.get(event));
+    } else {
+      this.target.removeEventListener(event, this.listeners.get(event));
     }
 
-    unbind(event) {
-        if(Array.isArray(this.target)) {
-            for (let target of this.target)
-                target.removeEventListener(event, this.listeners.get(event))
-        } else {
-            this.target.removeEventListener(event, this.listeners.get(event))
-        }
+    this.listeners.delete(event);
+  }
 
-        this.listeners.delete(event)
+  startListening() {}
+
+  stopListening() {
+    for (let event of this.listeners.keys()) {
+      this.unbind(event);
     }
 
-    startListening() {}
-    stopListening() {
-        for(let event of this.listeners.keys()) {
-            this.unbind(event)
-        }
-        this.keys.clear()
-        this.listeners.clear()
-    }
+    this.keys.clear();
+    this.listeners.clear();
+  }
+
 }
 
-module.exports = DocumentEventHandler
-},{"../utils/event-emitter":35}],26:[function(require,module,exports){
-const Animation = require("./animation")
-const Anime = require("./anime")
-const Cell = require("./cell")
-const Deque = require("./deque")
-const Entity = require("./entity/entity")
-const LightSource = require("./light-source")
-const Vec2 = require("./vec2")
-const Subject = require("./subject")
-const Random = require("./random")
-const Maze = require("./maze")
-const UserControls = require("./controls/user-controls")
-const KeyboardController = require("./controls/keyboardcontroller")
-const GamepadController = require("./controls/gamepad-controller")
-const Player = require("./entity/player")
+module.exports = DocumentEventHandler;
+},{}],27:[function(require,module,exports){
+const Animation = require(3);
 
-const Monster = require("./entity/monster")
+const Anime = require(4);
 
+const Cell = require(5);
+
+const Deque = require(15);
+
+const Entity = require(17);
+
+const LightSource = require(28);
+
+const Vec2 = require(37);
+
+const Subject = require(33);
+
+const Random = require(32);
+
+const Maze = require(30);
+
+const UserControls = require(14);
+
+const KeyboardController = require(13);
+
+const GamepadController = require(9);
+
+const Player = require(25);
+
+const Monster = require(18);
 /**
  * Main class that controls everything
  */
 
+
 class Game {
-    constructor() {
-        // Filling grid
-        this.grid = [];
-        for (let x = 0; x < SIZE_X; x++) {
-            this.grid.push([]);
-            for (let y = 0; y < SIZE_Y; y++) {
-                this.grid[x].push(new Cell());
-            }
+  constructor() {
+    // Filling grid
+    this.grid = [];
+
+    for (let x = 0; x < SIZE_X; x++) {
+      this.grid.push([]);
+
+      for (let y = 0; y < SIZE_Y; y++) {
+        this.grid[x].push(new Cell());
+      }
+    } // Setting player
+
+
+    this.player = new Player({
+      game: this
+    });
+    this.player.pos.set(10, 10);
+    this.player.gridPos.set(0, 0);
+    this.playerControls = new UserControls();
+    this.keyboard = new KeyboardController();
+    this.gamepad = new GamepadController();
+    this.keyboard.startListening();
+    this.gamepad.startListening();
+    this.playerControls.setupKeyboard(this.keyboard);
+    this.playerControls.setupGamepad(this.gamepad);
+    this.playerControls.connectCharacterControls(this.player.controls); // Game progress
+
+    this.spec_graves_visited = [0, 0, 0];
+    this.spec_graves_visited_count = 0;
+    this.gates_state = 0; // 1 - gates spawned, 2 - gates opened
+
+    this.level = 0; // Spec graves cooldown
+
+    this.specGraveCooldown = 5; // in sec
+
+    this.specGraveTimer = this.specGraveCooldown; // Flickering
+
+    this.flickeringCooldown = 0.1;
+    this.flickeringTimer = this.flickeringCooldown;
+    this.flickeringDelta = 0;
+    this.flickeringMaxDelta = 0.5;
+    this.flickeringD = 0.075; // Light
+
+    this.spec_lights = [];
+    this.temporalLightSources = []; // Monster array
+
+    this.monsterTimer = 0;
+    this.monsters = []; // Subjects array
+
+    this.subjectTimer = 0;
+    this.subjects = []; // Light sources array
+
+    this.lightSources = [];
+    this.animations = [];
+    this.RELOAD = 0;
+    this.mentalDanger = 0; // PLayer is taking mental damage
+  } // Deals damage & makes sprite animation
+
+
+  hurt(target, value) {
+    if (target.protectionTimer === 0) {
+      this.animations.push(new Animation(ANM_BLOOD, target.pos.plus(new Vec2(0, -8)), new Vec2(8, 8), 0.1));
+
+      if (target instanceof Player) {
+        this.animations.push(new Animation(ANM_DAMAGE, new Vec2(0, 0), new Vec2(64, 64), 0.3, 1));
+      }
+    }
+
+    target.hurt(value);
+  } // Checks is the cell is in bounds
+
+
+  checkCell(pos) {
+    return this.checkCellPosition(pos.x, pos.y);
+  }
+
+  checkCellPosition(x, y) {
+    if (x < 0 || y < 0 || x >= SIZE_X || y >= SIZE_Y) return 1;
+    return 0;
+  } // Checks is the cell is in bounds and in margin
+
+
+  checkMargin(pos) {
+    if (pos.x < MARGIN || pos.y < MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) return 1;
+    return 0;
+  } // In which cell is pos
+
+
+  getCell(pos) {
+    let cellPos = pos.div(new Vec2(8, 8));
+    cellPos.x = Math.floor(cellPos.x);
+    cellPos.y = Math.floor(cellPos.y);
+    return cellPos;
+  } // Gets visible light value for current cell
+
+
+  getLight(pos) {
+    return this.getLightPosition(pos.x, pos.y);
+  }
+
+  getLightPosition(x, y) {
+    let val = 0;
+    if (!this.checkCellPosition(x, y)) val = Math.max(this.grid[x][y].light + DIST_LIGHT - DIST_LOAD, 0);
+    return val;
+  } // Choose random grave texture
+
+
+  random_grave_type() {
+    let graves_cnt = window.IMGS_WALL.length;
+    return Random.normalRoll(1, graves_cnt, 10 - this.level * 3);
+  } // Choose random ground texture
+
+
+  random_ground_type() {
+    return 1;
+    let grounds_cnt = IMGS_GROUND.length;
+    return Random.normalRoll(1, grounds_cnt, 3);
+  } // Choose random ground covering texture
+  //     random_covering_type() {
+  //         let covering_cnt = IMGS_COVERING.length;
+  //         return normalRoll(1, covering_cnt, 2);
+  //     }
+  // Choose random monster texture
+
+
+  random_monster_type() {
+    return 4;
+    let monster_cnt = IMGS_MONSTER.length;
+    return Random.normalRoll(1, monster_cnt, 1);
+  }
+
+  clever_covering_type() {
+    return 0; // let roll = Random.random(1, 100);
+    // let grass_cnt = 5;
+    // let water_cnt = 2;
+    // let blood_cnt = 1;
+    // let sum = 0;
+    //
+    // if (roll < 90) { // Grass
+    //     return Random.normalRoll(sum + 1, grass_cnt, 3);
+    // } else {
+    //     sum += grass_cnt;
+    // }
+    //
+    // if (roll < 98) { // Water
+    //     return Random.normalRoll(sum + 1, sum + water_cnt, 3);
+    // } else {
+    //     sum += water_cnt;
+    // }
+    //
+    // if (roll < 100) {
+    //     return Random.normalRoll(sum + 1, sum + blood_cnt, 3);
+    // }
+  }
+
+  subject_type() {
+    let type = Random.random(1, 100);
+
+    if (type <= 10) {
+      type = SBJ_HEAL;
+    } else if (type <= 35) {
+      type = SBJ_WHISKEY;
+    } else if (type <= 60) {
+      type = SBJ_OIL;
+    } else if (type <= 80) {
+      type = SBJ_MATCHBOX;
+    } else {
+      type = SBJ_AMMO;
+    }
+
+    return type;
+  } // Generates map
+
+
+  initialGeneration() {
+    // Initial graves (in each cell with some chance)
+    for (let x = MARGIN - 1; x < SIZE_X - (MARGIN - 1); x++) {
+      let y = MARGIN - 1;
+      let cell = this.grid[x][y];
+      cell.grave = 1;
+      cell.obstacle = 1;
+    }
+
+    for (let x = MARGIN - 1; x < SIZE_X - (MARGIN - 1); x++) {
+      let y = SIZE_Y - (MARGIN - 1) - 1;
+      let cell = this.grid[x][y];
+      cell.grave = 1;
+      cell.obstacle = 1;
+    }
+
+    for (let y = MARGIN - 1; y < SIZE_Y - (MARGIN - 1); y++) {
+      let x = MARGIN - 1;
+      let cell = this.grid[x][y];
+      cell.grave = 1;
+      cell.obstacle = 1;
+    }
+
+    for (let y = MARGIN - 1; y < SIZE_Y - (MARGIN - 1); y++) {
+      let x = SIZE_X - (MARGIN - 1) - 1;
+      let cell = this.grid[x][y];
+      cell.grave = 1;
+      cell.obstacle = 1;
+    }
+  } // Generates gates (always in the top), check for player near
+
+
+  gates(x) {
+    // Check for existing gates
+    let gatesFound = 0;
+
+    for (let x = 0; x < SIZE_X; x++) {
+      for (let y = 0; y < SIZE_Y; y++) {
+        if (this.grid[x][y].gates) gatesFound = 1;
+      }
+    }
+
+    if (gatesFound || this.gates_state) {
+      // We don't need one more gates
+      if (this.gates_state === 0) this.gates_state = 1; // Gates spawned
+
+      return;
+    } // Set gates_state
+
+
+    this.gates_state = 1; // Gates itself
+
+    this.grid[x][MARGIN - 1].gates = 1;
+    this.grid[x + 1][MARGIN - 1].gates = 2; // Clear space under
+
+    this.grid[x][MARGIN].obstacle = 0;
+    this.grid[x + 1][MARGIN].obstacle = 0;
+    this.grid[x][MARGIN].grave = 0;
+    this.grid[x + 1][MARGIN].grave = 0; // Light
+
+    this.spec_lights.push(new LightSource(new Vec2(x * 8 + 8, MARGIN * 8 - 8), 3));
+  } // Generates the map
+
+
+  generate() {
+    console.log(this.level); // Initial graves (in each cell with some chance)
+
+    let specGravesNum = 0;
+
+    for (let x = 0; x < SIZE_X; x++) {
+      for (let y = 0; y < SIZE_Y; y++) {
+        let cell = this.grid[x][y];
+        if (cell.light > 0) // Forbidden zone
+          continue;
+        cell.ground = this.random_ground_type();
+        cell.covering = this.clever_covering_type();
+
+        if (cell.grave < 0) {
+          this.spec_graves_visited[-cell.grave - 1] = 0;
+          specGravesNum++;
         }
-
-        // Setting player
-        this.player = new Player({
-            game: this
-        });
-        this.player.pos.set(10, 10);
-        this.player.gridPos.set(0, 0);
-
-        this.playerControls = new UserControls();
-        this.keyboard = new KeyboardController();
-        this.gamepad = new GamepadController();
-
-        this.keyboard.startListening()
-        this.gamepad.startListening()
-
-        this.playerControls.setupKeyboard(this.keyboard)
-        this.playerControls.setupGamepad(this.gamepad)
-
-        this.playerControls.connectCharacterControls(this.player.controls)
-
-        // Game progress
-        this.spec_graves_visited = [0, 0, 0];
-        this.spec_graves_visited_count = 0;
-        this.gates_state = 0; // 1 - gates spawned, 2 - gates opened
-        this.level = 0;
-
-        // Spec graves cooldown
-        this.specGraveCooldown = 5; // in sec
-        this.specGraveTimer = this.specGraveCooldown;
-
-        // Flickering
-        this.flickeringCooldown = 0.1;
-        this.flickeringTimer = this.flickeringCooldown;
-        this.flickeringDelta = 0;
-        this.flickeringMaxDelta = 0.5;
-        this.flickeringD = 0.075;
-
-        // Light
-        this.spec_lights = [];
-        this.temporalLightSources = [];
-
-        // Monster array
-        this.monsterTimer = 0;
-        this.monsters = [];
-
-        // Subjects array
-        this.subjectTimer = 0;
-        this.subjects = [];
-
-        // Light sources array
-        this.lightSources = [];
-
-        this.animations = [];
-
-        this.RELOAD = 0;
-
-        this.mentalDanger = 0; // PLayer is taking mental damage
+      }
     }
 
-    // Deals damage & makes sprite animation
-    hurt(target, value) {
-        if (target.protectionTimer === 0) {
-            this.animations.push(new Animation(ANM_BLOOD, target.pos.plus(new Vec2(0, -8)), new Vec2(8, 8), 0.1));
-            if (target instanceof Player) {
-                this.animations.push(new Animation(ANM_DAMAGE, new Vec2(0, 0), new Vec2(64, 64), 0.3, 1));
-            }
-        }
-        target.hurt(value);
-    }
+    for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
+      for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
+        let cell = this.grid[x][y];
+        if (cell.light > 0) // Forbidden zone
+          continue;
 
-    // Checks is the cell is in bounds
-    checkCell(pos) {
-        return this.checkCellPosition(pos.x, pos.y)
-    }
-
-    checkCellPosition(x, y) {
-        if (x < 0 || y < 0 || x >= SIZE_X || y >= SIZE_Y)
-            return 1;
-        return 0;
-    }
-
-    // Checks is the cell is in bounds and in margin
-    checkMargin(pos) {
-        if (pos.x < MARGIN || pos.y < MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN)
-            return 1;
-        return 0;
-    }
-
-    // In which cell is pos
-    getCell(pos) {
-        let cellPos = pos.div(new Vec2(8, 8));
-        cellPos.x = Math.floor(cellPos.x);
-        cellPos.y = Math.floor(cellPos.y);
-        return cellPos;
-    }
-
-    // Gets visible light value for current cell
-    getLight(pos) {
-        return this.getLightPosition(pos.x, pos.y)
-    }
-
-    getLightPosition(x, y) {
-        let val = 0;
-        if (!this.checkCellPosition(x, y))
-            val = Math.max(this.grid[x][y].light + DIST_LIGHT - DIST_LOAD, 0);
-        return val;
-    }
-
-    // Choose random grave texture
-    random_grave_type() {
-        let graves_cnt = window.IMGS_WALL.length;
-        return Random.normalRoll(1, graves_cnt, 10 - this.level * 3);
-    }
-
-    // Choose random ground texture
-    random_ground_type() {
-        return 1;
-        let grounds_cnt = IMGS_GROUND.length;
-        return Random.normalRoll(1, grounds_cnt, 3);
-    }
-
-    // Choose random ground covering texture
-    //     random_covering_type() {
-    //         let covering_cnt = IMGS_COVERING.length;
-    //         return normalRoll(1, covering_cnt, 2);
-    //     }
-
-    // Choose random monster texture
-    random_monster_type() {
-        return 4;
-        let monster_cnt = IMGS_MONSTER.length;
-        return Random.normalRoll(1, monster_cnt, 1);
-    }
-
-    clever_covering_type() {
-        return 0;
-
-        // let roll = Random.random(1, 100);
-        // let grass_cnt = 5;
-        // let water_cnt = 2;
-        // let blood_cnt = 1;
-        // let sum = 0;
-        //
-        // if (roll < 90) { // Grass
-        //     return Random.normalRoll(sum + 1, grass_cnt, 3);
-        // } else {
-        //     sum += grass_cnt;
-        // }
-        //
-        // if (roll < 98) { // Water
-        //     return Random.normalRoll(sum + 1, sum + water_cnt, 3);
-        // } else {
-        //     sum += water_cnt;
-        // }
-        //
-        // if (roll < 100) {
-        //     return Random.normalRoll(sum + 1, sum + blood_cnt, 3);
-        // }
-    }
-
-    subject_type() {
-        let type = Random.random(1, 100);
-        if (type <= 10) {
-            type = SBJ_HEAL;
-        } else if (type <= 35) {
-            type = SBJ_WHISKEY;
-        } else if (type <= 60) {
-            type = SBJ_OIL;
-        } else if (type <= 80) {
-            type = SBJ_MATCHBOX;
+        if (!Random.random(0, 10)) {
+          // Grave
+          cell.grave = this.random_grave_type();
+          cell.obstacle = 1;
+          cell.covering = 0;
         } else {
-            type = SBJ_AMMO;
+          cell.grave = 0;
+          cell.obstacle = 0;
+        }
+      }
+    } // Apply maze
+
+
+    let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));
+
+    for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
+      for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
+        let cell = this.grid[x][y];
+        cell.roomId = mazeField[x - MARGIN + 1][y - MARGIN + 1].roomId; // FIX IT
+
+        if (cell.light > 0) // Forbidden zone
+          continue;
+
+        if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) {
+          // Grave
+          cell.grave = this.random_grave_type();
+          cell.obstacle = 1;
+          cell.covering = 0;
+        } else {
+          cell.grave = 0;
+          cell.obstacle = 0;
+        }
+      }
+    } // Spec grave
+
+
+    let spec_sum = this.spec_graves_visited[0] * this.spec_graves_visited[1] * this.spec_graves_visited[2];
+
+    if (this.level < 3 && specGravesNum <= this.spec_graves_visited_count + 1 && spec_sum === 0) {
+      let x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
+      let y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
+      let cell = this.grid[x0][y0];
+
+      for (let i = 0; i < 1000 && cell.light > 0; i++) {
+        x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
+        y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
+        cell = this.grid[x0][y0];
+      }
+
+      if (1) {
+        // Spec grave!!!
+        for (let x = x0 - 1; x <= x0 + 1; x++) {
+          for (let y = y0 - 1; y <= y0 + 1; y++) {
+            this.grid[x][y].obstacle = 0;
+            this.grid[x][y].grave = 0;
+          }
         }
 
-        return type;
+        cell.grave = -this.level - 1;
+        this.spec_graves_visited[-cell.grave - 1] = 1; // 1 - generated, 2 - visited
+
+        cell.obstacle = 1;
+        cell.covering = 0;
+      }
+
+      console.log('spec');
+    } //// Cemetery gates ////
+
+
+    if (this.spec_graves_visited_count >= 3) this.gates(Random.random(MARGIN + 1, SIZE_X - MARGIN - 2)); // Killing all monsters
+
+    this.monsters = [];
+  } // Subjects-spawning management
+
+
+  spawnSubjects() {
+    //// Subjects (bonuses) ////
+    this.subjectTimer -= DT; // dt
+    // Despawn
+
+    for (let i = 0; i < this.subjects.length; i++) {
+      let subject = this.subjects[i];
+      subject.gridPos = this.getCell(subject.pos);
+
+      if (!subject.type || subject.pos.dist(this.player.pos) > 1000) {
+        this.subjects.splice(i, 1);
+      }
+    } // Spawning new subjects
+
+
+    for (let i = 0; i < 10; i++) {
+      // We try to spawn subject for 10 times
+      // Generate random point
+      let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1));
+      let neighbors = 0;
+      neighbors += this.grid[pos.x + 1][pos.y].grave > 0;
+      neighbors += this.grid[pos.x - 1][pos.y].grave > 0;
+      neighbors += this.grid[pos.x][pos.y + 1].grave > 0;
+      neighbors += this.grid[pos.x][pos.y - 1].grave > 0; // Checking for limitations
+
+      if (neighbors !== 3) // We place sunbjects in the dead ends
+        break;
+      if (this.subjects.length >= SUBJECT_LIMIT) // Too much subjects
+        break;
+      if (this.subjectTimer > 0) // We can't spawn subjects to often
+        break;
+      if (this.grid[pos.x][pos.y].obstacle) // Cell is not empty
+        continue;
+      if (this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
+        continue;
+      if (pos.x <= MARGIN && pos.y <= MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) // Out of cemetery
+        continue; // Making a subject
+
+      let subject = new Subject(pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4))); // Choosing type
+
+      subject.type = this.subject_type(); // Adding subject to array
+
+      this.subjects.push(subject); // Timer
+
+      this.subjectTimer = SUBJECT_PERIOD;
+    }
+  } // Moves object (collision)
+
+
+  move(object, shift, flight) {
+    let deltaPos = shift;
+    let newPosX = object.pos.plus(new Vec2(0, 0));
+    newPosX.x += deltaPos.x;
+    let newPosY = object.pos.plus(new Vec2(0, 0));
+    newPosY.y += deltaPos.y;
+    let cellPosX = newPosX.div(new Vec2(8, 8)); // Cell
+
+    let cellPosY = newPosY.div(new Vec2(8, 8)); // Cell
+
+    cellPosX.x = Math.floor(cellPosX.x);
+    cellPosX.y = Math.floor(cellPosX.y);
+    cellPosY.x = Math.floor(cellPosY.x);
+    cellPosY.y = Math.floor(cellPosY.y);
+
+    if (cellPosX.x < 0 || cellPosX.y < 0 || cellPosX.x >= SIZE_X || cellPosX.y >= SIZE_Y || !flight && this.grid[cellPosX.x][cellPosX.y].obstacle) {
+      deltaPos.x = 0;
     }
 
-    // Generates map
-    initialGeneration() {
-        // Initial graves (in each cell with some chance)
-        for (let x = MARGIN - 1; x < SIZE_X - (MARGIN - 1); x++) {
-            let y = (MARGIN - 1);
-            let cell = this.grid[x][y];
-            cell.grave = 1;
-            cell.obstacle = 1;
-        }
-        for (let x = (MARGIN - 1); x < SIZE_X - (MARGIN - 1); x++) {
-            let y = SIZE_Y - (MARGIN - 1) - 1;
-            let cell = this.grid[x][y];
-            cell.grave = 1;
-            cell.obstacle = 1;
-        }
-        for (let y = (MARGIN - 1); y < SIZE_Y - (MARGIN - 1); y++) {
-            let x = (MARGIN - 1);
-            let cell = this.grid[x][y];
-            cell.grave = 1;
-            cell.obstacle = 1;
-        }
-        for (let y = (MARGIN - 1); y < SIZE_Y - (MARGIN - 1); y++) {
-            let x = SIZE_X - (MARGIN - 1) - 1;
-            let cell = this.grid[x][y];
-            cell.grave = 1;
-            cell.obstacle = 1;
-        }
+    if (cellPosY.x < 0 || cellPosY.y < 0 || cellPosY.x >= SIZE_X || cellPosY.y >= SIZE_Y || !flight && this.grid[cellPosY.x][cellPosY.y].obstacle) {
+      deltaPos.y = 0;
     }
 
-    // Generates gates (always in the top), check for player near
-    gates(x) {
-        // Check for existing gates
-        let gatesFound = 0;
-        for (let x = 0; x < SIZE_X; x++) {
-            for (let y = 0; y < SIZE_Y; y++) {
-                if (this.grid[x][y].gates)
-                    gatesFound = 1;
-            }
+    object.pos = object.pos.plus(deltaPos); // Grid pos
+
+    object.grid_pos = this.getCell(this.player.pos);
+    return deltaPos.x || deltaPos.y;
+  } // Player's movement & actions
+
+
+  playerControl() {
+    // Player movement
+    // Check keys
+    this.player.step(DT);
+
+    if (this.keyboard.keyPressedOnce("Enter")) {
+      this.RELOAD = 1;
+    } //
+    // //// WIN ////
+    // if (this.player.pos.y < MARGIN * 8 - 8)
+    //     this.player.status = 3;
+
+  } // Monster management
+
+
+  monstersControl() {
+    //// Spawning & despawning ////
+    this.monsterTimer -= DT; // Despawning monsters
+
+    for (let i = 0; i < this.monsters.length; i++) {
+      let monster = this.monsters[i]; // Dead, too far or inappropriate level
+
+      if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000 || monster.level > this.level) {
+        // Drop items
+        console.log("!!!!!", this.level);
+
+        if (monster.hp <= 0 && Random.random(0, 99) < 70) {
+          // Chance 70%
+          let sbj = new Subject(); // Dropped subject
+
+          sbj.type = this.subject_type();
+          sbj.pos = monster.pos;
+          this.subjects.push(sbj);
         }
 
-        if (gatesFound || this.gates_state) { // We don't need one more gates
-            if (this.gates_state === 0)
-                this.gates_state = 1; // Gates spawned
-            return;
-        }
+        this.monsters.splice(i, 1);
+      }
+    } // Spawning new monsters
+    // We try to spawn monster for 10 times
 
-        // Set gates_state
-        this.gates_state = 1;
 
-        // Gates itself
-        this.grid[x][MARGIN - 1].gates = 1;
-        this.grid[x + 1][MARGIN - 1].gates = 2;
-        // Clear space under
-        this.grid[x][MARGIN].obstacle = 0;
-        this.grid[x + 1][MARGIN].obstacle = 0;
-        this.grid[x][MARGIN].grave = 0;
-        this.grid[x + 1][MARGIN].grave = 0;
-        // Light
-        this.spec_lights.push(new LightSource(new Vec2(x * 8 + 8, MARGIN * 8 - 8), 3));
+    for (let i = 0; i < 10; i++) {
+      // Generate random point
+      let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1)); // Checking for limitations
+
+      if (this.monsters.length >= MONSTER_LIMIT) // Too much monsters
+        break;
+      if (this.monsterTimer > 0) // We can't spawn monsters too often
+        break;
+      if (this.grid[pos.x][pos.y].obstacle) // Cell is not empty
+        continue;
+      if (this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
+        continue;
+      if (pos.x <= MARGIN && pos.y <= MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) // Out of cemetery
+        continue; // Making a monster
+
+      let monster = Monster.getRandomMonster(this);
+      monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4)); // Adding monster to array
+
+      this.monsters.push(monster); // Timer
+
+      this.monsterTimer = MONSTER_PERIOD;
+    } //// Behavior ////
+
+
+    for (let i = 0; i < this.monsters.length; i++) {
+      // Get current monster
+      let monster = this.monsters[i];
+      monster.step(DT);
+    }
+  } // Generate light around player (& other objects)
+
+
+  setLight() {
+    // Add player pos to light source
+    this.lightSources.push(new LightSource(this.player.pos, this.player.distLight + this.flickeringDelta)); // Turning light off
+
+    for (let x = 0; x < SIZE_X; x++) {
+      for (let y = 0; y < SIZE_Y; y++) {
+        this.grid[x][y].light = 0;
+      }
     }
 
-    // Generates the map
-    generate() {
-        console.log(this.level);
+    for (let i = 0; i < this.spec_lights.length; i++) {
+      this.lightSources.push(this.spec_lights[i]);
+    } // BFS deque
 
-        // Initial graves (in each cell with some chance)
-        let specGravesNum = 0;
-        for (let x = 0; x < SIZE_X; x++) {
-            for (let y = 0; y < SIZE_Y; y++) {
-                let cell = this.grid[x][y];
-                if (cell.light > 0) // Forbidden zone
-                    continue;
-                cell.ground = this.random_ground_type();
-                cell.covering = this.clever_covering_type();
-                if (cell.grave < 0) {
-                    this.spec_graves_visited[-cell.grave - 1] = 0;
-                    specGravesNum++;
-                }
-            }
+
+    let deque = new Deque(); // Adding initial cells
+
+    for (let i = 0; i < this.lightSources.length; i++) {
+      // Current light source
+      let lightSource = this.lightSources[i];
+      let cellPos = this.getCell(lightSource.pos);
+
+      for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
+        for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
+          let dist = lightSource.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
+          if (this.checkCell(new Vec2(x, y)) || dist > 16) continue;
+          this.grid[x][y].light = Math.max(this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
+          deque.addBack(new Vec2(x, y));
         }
+      }
+    } // Temporal light sources
 
-        for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
-            for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
-                let cell = this.grid[x][y];
-                if (cell.light > 0) // Forbidden zone
-                    continue;
-                if (!Random.random(0, 10)) { // Grave
-                    cell.grave = this.random_grave_type();
-                    cell.obstacle = 1;
-                    cell.covering = 0;
-                } else {
-                    cell.grave = 0;
-                    cell.obstacle = 0;
-                }
-            }
+
+    for (let i = 0; i < this.temporalLightSources.length; i++) {
+      // Current light source
+      let lightSource = this.temporalLightSources[i];
+      lightSource.step(DT);
+      let cellPos = this.getCell(lightSource.pos);
+
+      for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
+        for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
+          let dist = lightSource.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
+          if (this.checkCell(new Vec2(x, y)) || dist > 16) continue;
+          this.grid[x][y].light = Math.max(this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
+          deque.addBack(new Vec2(x, y));
         }
+      }
 
-        // Apply maze
-        let mazeField = Maze.generate(new Vec2(SIZE_X - MARGIN * 2 + 2, SIZE_Y - MARGIN * 2 + 2));
-        for (let x = MARGIN; x < SIZE_X - MARGIN; x++) {
-            for (let y = MARGIN; y < SIZE_Y - MARGIN; y++) {
-                let cell = this.grid[x][y];
-                cell.roomId = mazeField[x - MARGIN + 1][y - MARGIN + 1].roomId; // FIX IT
-                if (cell.light > 0) // Forbidden zone
-                    continue;
-                if (mazeField[x - MARGIN + 1][y - MARGIN + 1].wall) { // Grave
-                    cell.grave = this.random_grave_type();
-                    cell.obstacle = 1;
-                    cell.covering = 0;
-                } else {
-                    cell.grave = 0;
-                    cell.obstacle = 0;
-                }
-            }
-        }
+      if (lightSource.alive === 0) this.temporalLightSources.splice(i, 1);
+    } // Clean lightSources
 
-        // Spec grave
-        let spec_sum = this.spec_graves_visited[0] * this.spec_graves_visited[1] * this.spec_graves_visited[2];
 
-        if (this.level < 3 && specGravesNum <= this.spec_graves_visited_count + 1 && spec_sum === 0) {
-            let x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
-            let y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
-            let cell = this.grid[x0][y0];
+    this.lightSources = []; // BFS itself
 
-            for (let i = 0; i < 1000 && cell.light > 0; i++) {
-                x0 = Random.random(MARGIN + 2, SIZE_X - MARGIN - 2);
-                y0 = Random.random(MARGIN + 2, SIZE_Y - MARGIN - 2);
-                cell = this.grid[x0][y0];
-            }
+    let neighbors = [new Vec2(1, 0), new Vec2(-1, 0), new Vec2(0, 1), new Vec2(0, -1)];
 
-            if (1) { // Spec grave!!!
-                for (let x = x0 - 1; x <= x0 + 1; x++) {
-                    for (let y = y0 - 1; y <= y0 + 1; y++) {
-                        this.grid[x][y].obstacle = 0;
-                        this.grid[x][y].grave = 0;
-                    }
-                }
+    while (deque.peekFront()) {
+      let pos = deque.peekFront().clone();
+      deque.removeFront();
+      if (this.grid[pos.x][pos.y].light < 0) this.grid[pos.x][pos.y].light = 0;
+      if (this.grid[pos.x][pos.y].light <= 0) continue;
+      let deltaLight = 1;
+      if (this.grid[pos.x][pos.y].obstacle) deltaLight = 10;
 
-                cell.grave = -this.level - 1;
-                this.spec_graves_visited[-cell.grave - 1] = 1; // 1 - generated, 2 - visited
-                cell.obstacle = 1;
-                cell.covering = 0;
-            }
+      for (let i = 0; i < 4; i++) {
+        let pos1 = pos.plus(neighbors[i]);
+        if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].light > this.grid[pos.x][pos.y].light - deltaLight) continue;
+        this.grid[pos1.x][pos1.y].light = this.grid[pos.x][pos.y].light - deltaLight;
+        deque.addBack(pos1);
+      }
+    }
+  } // Sprite animations
 
-            console.log('spec');
-        }
 
-        //// Cemetery gates ////
-        if (this.spec_graves_visited_count >= 3)
-            this.gates(Random.random(MARGIN + 1, SIZE_X - MARGIN - 2));
+  manageAnimations() {
+    // Step
+    for (let i = 0; i < this.animations.length; i++) {
+      this.animations[i].step();
+    } // Delete
 
-        // Killing all monsters
-        this.monsters = [];
+
+    for (let i = 0; i < this.animations.length; i++) {
+      if (!this.animations[i].alive) {
+        this.animations.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
+  cooldowns() {
+    // Spec graves
+    this.specGraveTimer -= DT;
+    if (this.specGraveTimer < 0) this.specGraveTimer = 0; // Flickering
+
+    this.flickeringTimer -= DT;
+
+    if (this.flickeringTimer <= 0) {
+      this.flickeringTimer = this.flickeringCooldown;
+      this.flickeringDelta += Random.random(-1, 1) * this.flickeringD;
+      this.flickeringDelta = Math.min(Math.max(this.flickeringDelta, -this.flickeringMaxDelta), this.flickeringMaxDelta);
+    }
+  } // Pathfinding, DA HARDKOD NO VY VOOBSHE ETOT EBANYI PROEKT VIDELI, TUT V ODNOM ETOM FAILE 1000 STROK NAHUI
+
+
+  pathfinding() {
+    // ZOMBIE
+    // Clearing navigating map
+    for (let x = 0; x < SIZE_X; x++) {
+      for (let y = 0; y < SIZE_Y; y++) {
+        this.grid[x][y].zombieNav = 0;
+      }
+    } // BFS deque
+
+
+    let deque = new Deque();
+    let x = Math.floor(this.player.pos.x / 8);
+    let y = Math.floor(this.player.pos.y / 8);
+    this.grid[x][y].zombieNav = DIST_LOAD + 1;
+    deque.addBack(new Vec2(x, y)); // BFS itself
+
+    let neighbors = [new Vec2(1, 0), new Vec2(-1, 0), new Vec2(0, 1), new Vec2(0, -1)];
+
+    while (deque.peekFront()) {
+      let pos = deque.peekFront().clone();
+      deque.removeFront();
+      if (this.grid[pos.x][pos.y].zombieNav < 0) this.grid[pos.x][pos.y].zombieNav = 0;
+      if (this.grid[pos.x][pos.y].zombieNav <= 0) continue;
+      let deltaNav = 1;
+      if (this.grid[pos.x][pos.y].obstacle) deltaNav = 1000;
+
+      for (let i = 0; i < 4; i++) {
+        let pos1 = pos.plus(neighbors[i]);
+        if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].zombieNav >= this.grid[pos.x][pos.y].zombieNav - deltaNav) continue;
+        this.grid[pos1.x][pos1.y].zombieNav = this.grid[pos.x][pos.y].zombieNav - deltaNav;
+        deque.addBack(pos1);
+      }
+    } // GHOST
+    // Clearing
+
+
+    for (let x = 0; x < SIZE_X; x++) {
+      for (let y = 0; y < SIZE_Y; y++) {
+        this.grid[x][y].ghostNav = 0;
+      }
+    } // BFS deque
+
+
+    deque = new Deque();
+    x = this.getCell(this.player.pos).x;
+    y = this.getCell(this.player.pos).y;
+    this.grid[x][y].ghostNav = DIST_LOAD + 1;
+    deque.addBack(new Vec2(x, y)); // BFS itself
+
+    while (deque.peekFront()) {
+      let pos = deque.peekFront().clone();
+      deque.removeFront();
+      if (this.grid[pos.x][pos.y].ghostNav < 0) this.grid[pos.x][pos.y].ghostNav = 0;
+      if (this.grid[pos.x][pos.y].ghostNav <= 0) continue;
+      let deltaNav = 1;
+
+      for (let i = 0; i < 4; i++) {
+        let pos1 = pos.plus(neighbors[i]);
+        if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].ghostNav >= this.grid[pos.x][pos.y].ghostNav - deltaNav) continue;
+        this.grid[pos1.x][pos1.y].ghostNav = this.grid[pos.x][pos.y].ghostNav - deltaNav;
+        deque.addBack(pos1);
+      }
+    }
+  } // Function called in each iteration
+
+
+  step() {
+    this.gamepad.refresh();
+
+    if (this.player.status === 0) {
+      // If player is alive
+      this.mentalDanger = 0;
+      this.pathfinding();
+      this.playerControl();
+      this.monstersControl();
+      this.setLight(); //this.generate();
+
+      this.spawnSubjects();
+      this.manageAnimations();
+      this.cooldowns();
     }
 
-    // Subjects-spawning management
-    spawnSubjects() {
-        //// Subjects (bonuses) ////
-        this.subjectTimer -= DT; // dt
-        // Despawn
-        for (let i = 0; i < this.subjects.length; i++) {
-            let subject = this.subjects[i];
-            subject.gridPos = this.getCell(subject.pos);
-            if (!subject.type || subject.pos.dist(this.player.pos) > 1000) {
-                this.subjects.splice(i, 1);
-            }
-        }
-
-        // Spawning new subjects
-        for (let i = 0; i < 10; i++) { // We try to spawn subject for 10 times
-            // Generate random point
-            let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1));
-
-            let neighbors = 0;
-            neighbors += (this.grid[pos.x + 1][pos.y].grave > 0);
-            neighbors += (this.grid[pos.x - 1][pos.y].grave > 0);
-            neighbors += (this.grid[pos.x][pos.y + 1].grave > 0);
-            neighbors += (this.grid[pos.x][pos.y - 1].grave > 0);
-
-            // Checking for limitations
-            if (neighbors !== 3) // We place sunbjects in the dead ends
-                break;
-            if (this.subjects.length >= SUBJECT_LIMIT) // Too much subjects
-                break;
-            if (this.subjectTimer > 0) // We can't spawn subjects to often
-                break;
-            if (this.grid[pos.x][pos.y].obstacle) // Cell is not empty
-                continue;
-            if (this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
-                continue;
-            if (pos.x <= MARGIN && pos.y <= MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) // Out of cemetery
-                continue;
-
-            // Making a subject
-            let subject = new Subject(pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4)));
-
-            // Choosing type
-            subject.type = this.subject_type();
-
-            // Adding subject to array
-            this.subjects.push(subject);
-
-            // Timer
-            this.subjectTimer = SUBJECT_PERIOD;
-        }
+    if (this.keyboard.keyPressedOnce("Enter")) {
+      this.RELOAD = 1;
     }
+  }
 
-    // Moves object (collision)
-    move(object, shift, flight) {
-        let deltaPos = shift;
-        let newPosX = object.pos.plus(new Vec2(0, 0));
-        newPosX.x += deltaPos.x;
-        let newPosY = object.pos.plus(new Vec2(0, 0));
-        newPosY.y += deltaPos.y;
-        let cellPosX = newPosX.div(new Vec2(8, 8)); // Cell
-        let cellPosY = newPosY.div(new Vec2(8, 8)); // Cell
-        cellPosX.x = Math.floor(cellPosX.x);
-        cellPosX.y = Math.floor(cellPosX.y);
-        cellPosY.x = Math.floor(cellPosY.x);
-        cellPosY.y = Math.floor(cellPosY.y);
-        if (cellPosX.x < 0 || cellPosX.y < 0 || cellPosX.x >= SIZE_X || cellPosX.y >= SIZE_Y || (!flight && this.grid[cellPosX.x][cellPosX.y].obstacle)) {
-            deltaPos.x = 0;
-        }
-        if (cellPosY.x < 0 || cellPosY.y < 0 || cellPosY.x >= SIZE_X || cellPosY.y >= SIZE_Y || (!flight && this.grid[cellPosY.x][cellPosY.y].obstacle)) {
-            deltaPos.y = 0;
-        }
-        object.pos = object.pos.plus(deltaPos);
+  spawnPlayer(pos) {
+    let gridPos = this.getCell(pos);
+    this.player.pos = pos;
+    this.player.gridPos = gridPos; // Clearing area
 
-        // Grid pos
-        object.grid_pos = this.getCell(this.player.pos);
-        return deltaPos.x || deltaPos.y;
-    }
+    for (let x = Math.max(0, gridPos.x - 1); x <= Math.min(SIZE_X, gridPos.x + 1); x++) {
+      for (let y = Math.max(0, gridPos.y - 1); y <= Math.min(SIZE_Y, gridPos.y + 1); y++) {
+        this.grid[x][y].grave = 0;
+        this.grid[x][y].obstacle = 0;
+      }
+    } // Spawning gates
 
-    // Player's movement & actions
-    playerControl() {
-        // Player movement
-        // Check keys
 
-        this.player.step(DT)
+    this.gates(this.getCell(pos).x - 1);
+  }
 
-        if (this.keyboard.keyPressedOnce("Enter")) {
-            this.RELOAD = 1;
-        }
-
-        //
-        // //// WIN ////
-        // if (this.player.pos.y < MARGIN * 8 - 8)
-        //     this.player.status = 3;
-    }
-
-    // Monster management
-    monstersControl() {
-        //// Spawning & despawning ////
-        this.monsterTimer -= DT;
-        // Despawning monsters
-        for (let i = 0; i < this.monsters.length; i++) {
-            let monster = this.monsters[i];
-            // Dead, too far or inappropriate level
-            if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000 || monster.level > this.level) {
-                // Drop items
-                console.log("!!!!!", this.level);
-                if (monster.hp <= 0 && Random.random(0, 99) < 70) { // Chance 70%
-                    let sbj = new Subject(); // Dropped subject
-                    sbj.type = this.subject_type();
-                    sbj.pos = monster.pos;
-                    this.subjects.push(sbj);
-                }
-                this.monsters.splice(i, 1);
-            }
-        }
-
-        // Spawning new monsters
-        // We try to spawn monster for 10 times
-        for (let i = 0; i < 10; i++) {
-            // Generate random point
-            let pos = new Vec2(Random.random(MARGIN + 1, SIZE_X - MARGIN - 1), Random.random(MARGIN, SIZE_Y - MARGIN - 1));
-
-            // Checking for limitations
-            if (this.monsters.length >= MONSTER_LIMIT) // Too much monsters
-                break;
-            if (this.monsterTimer > 0) // We can't spawn monsters too often
-                break;
-            if (this.grid[pos.x][pos.y].obstacle) // Cell is not empty
-                continue;
-            if (this.grid[pos.x][pos.y].light > DIST_LIGHT - 1) // Visible zone
-                continue;
-            if (pos.x <= MARGIN && pos.y <= MARGIN || pos.x >= SIZE_X - MARGIN || pos.y >= SIZE_Y - MARGIN) // Out of cemetery
-                continue;
-
-            // Making a monster
-            let monster = Monster.getRandomMonster(this)
-            monster.pos = pos.mult(new Vec2(8, 8)).plus(new Vec2(4, 4));
-
-            // Adding monster to array
-            this.monsters.push(monster);
-
-            // Timer
-            this.monsterTimer = MONSTER_PERIOD;
-        }
-
-        //// Behavior ////
-        for (let i = 0; i < this.monsters.length; i++) {
-            // Get current monster
-            let monster = this.monsters[i];
-            monster.step(DT);
-        }
-    }
-
-    // Generate light around player (& other objects)
-    setLight() {
-        // Add player pos to light source
-        this.lightSources.push(new LightSource(this.player.pos, this.player.distLight + this.flickeringDelta));
-
-        // Turning light off
-        for (let x = 0; x < SIZE_X; x++) {
-            for (let y = 0; y < SIZE_Y; y++) {
-                this.grid[x][y].light = 0;
-            }
-        }
-
-        for (let i = 0; i < this.spec_lights.length; i++) {
-            this.lightSources.push(this.spec_lights[i]);
-        }
-
-        // BFS deque
-        let deque = new Deque();
-
-        // Adding initial cells
-        for (let i = 0; i < this.lightSources.length; i++) {
-            // Current light source
-            let lightSource = this.lightSources[i];
-            let cellPos = this.getCell(lightSource.pos);
-            for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
-                for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
-                    let dist = lightSource.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
-                    if (this.checkCell(new Vec2(x, y)) || dist > 16)
-                        continue;
-                    this.grid[x][y].light = Math.max(this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
-                    deque.addBack(new Vec2(x, y));
-                }
-            }
-        }
-
-        // Temporal light sources
-        for (let i = 0; i < this.temporalLightSources.length; i++) {
-            // Current light source
-            let lightSource = this.temporalLightSources[i];
-            lightSource.step(DT);
-            let cellPos = this.getCell(lightSource.pos);
-
-            for (let x = cellPos.x - 1; x <= cellPos.x + 1; x++) {
-                for (let y = cellPos.y - 1; y <= cellPos.y + 1; y++) {
-
-                    let dist = lightSource.pos.dist(new Vec2(x * 8 + 4, y * 8 + 4));
-                    if (this.checkCell(new Vec2(x, y)) || dist > 16)
-                        continue;
-                    this.grid[x][y].light = Math.max(this.grid[x][y].light, lightSource.power - DIST_LIGHT + DIST_LOAD + 1 - dist / 8);
-                    deque.addBack(new Vec2(x, y));
-                }
-            }
-
-            if (lightSource.alive === 0)
-                this.temporalLightSources.splice(i, 1);
-        }
-
-        // Clean lightSources
-        this.lightSources = [];
-
-        // BFS itself
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        while (deque.peekFront()) {
-            let pos = deque.peekFront().clone();
-            deque.removeFront();
-            if (this.grid[pos.x][pos.y].light < 0)
-                this.grid[pos.x][pos.y].light = 0;
-            if (this.grid[pos.x][pos.y].light <= 0)
-                continue;
-
-            let deltaLight = 1;
-            if (this.grid[pos.x][pos.y].obstacle)
-                deltaLight = 10;
-            for (let i = 0; i < 4; i++) {
-                let pos1 = pos.plus(neighbors[i]);
-                if (this.checkCell(pos1) || this.grid[pos1.x][pos1.y].light > this.grid[pos.x][pos.y].light - deltaLight)
-                    continue;
-                this.grid[pos1.x][pos1.y].light = this.grid[pos.x][pos.y].light - deltaLight;
-                deque.addBack(pos1);
-            }
-        }
-    }
-
-    // Sprite animations
-    manageAnimations() {
-        // Step
-        for (let i = 0; i < this.animations.length; i++) {
-            this.animations[i].step();
-        }
-        // Delete
-        for (let i = 0; i < this.animations.length; i++) {
-            if (!this.animations[i].alive) {
-                this.animations.splice(i, 1);
-                i--;
-            }
-        }
-    }
-
-    cooldowns() {
-        // Spec graves
-        this.specGraveTimer -= DT;
-        if (this.specGraveTimer < 0)
-            this.specGraveTimer = 0;
-
-        // Flickering
-        this.flickeringTimer -= DT;
-        if (this.flickeringTimer <= 0) {
-            this.flickeringTimer = this.flickeringCooldown;
-            this.flickeringDelta += Random.random(-1, 1) * this.flickeringD;
-            this.flickeringDelta = Math.min(Math.max(this.flickeringDelta, -this.flickeringMaxDelta), this.flickeringMaxDelta);
-        }
-    }
-
-    // Pathfinding, DA HARDKOD NO VY VOOBSHE ETOT EBANYI PROEKT VIDELI, TUT V ODNOM ETOM FAILE 1000 STROK NAHUI
-    pathfinding() {
-        // ZOMBIE
-        // Clearing navigating map
-        for (let x = 0; x < SIZE_X; x++) {
-            for (let y = 0; y < SIZE_Y; y++) {
-                this.grid[x][y].zombieNav = 0;
-            }
-        }
-        // BFS deque
-        let deque = new Deque();
-        let x = Math.floor(this.player.pos.x / 8);
-        let y = Math.floor(this.player.pos.y / 8);
-
-        this.grid[x][y].zombieNav = DIST_LOAD + 1;
-        deque.addBack(new Vec2(x, y));
-
-        // BFS itself
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-
-        while (deque.peekFront()) {
-            let pos = deque.peekFront().clone();
-            deque.removeFront();
-            if (this.grid[pos.x][pos.y].zombieNav < 0)
-                this.grid[pos.x][pos.y].zombieNav = 0;
-            if (this.grid[pos.x][pos.y].zombieNav <= 0)
-                continue;
-
-            let deltaNav = 1;
-            if (this.grid[pos.x][pos.y].obstacle)
-                deltaNav = 1000;
-            for (let i = 0; i < 4; i++) {
-                let pos1 = pos.plus(neighbors[i]);
-                if (this.checkCell(pos1) || (this.grid[pos1.x][pos1.y].zombieNav >= this.grid[pos.x][pos.y].zombieNav - deltaNav))
-                    continue;
-                this.grid[pos1.x][pos1.y].zombieNav = this.grid[pos.x][pos.y].zombieNav - deltaNav;
-                deque.addBack(pos1);
-            }
-        }
-
-        // GHOST
-
-        // Clearing
-        for (let x = 0; x < SIZE_X; x++) {
-            for (let y = 0; y < SIZE_Y; y++) {
-                this.grid[x][y].ghostNav = 0;
-            }
-        }
-        // BFS deque
-        deque = new Deque();
-        x = this.getCell(this.player.pos).x;
-        y = this.getCell(this.player.pos).y;
-
-        this.grid[x][y].ghostNav = DIST_LOAD + 1;
-        deque.addBack(new Vec2(x, y));
-
-        // BFS itself
-        while (deque.peekFront()) {
-            let pos = deque.peekFront().clone();
-            deque.removeFront();
-            if (this.grid[pos.x][pos.y].ghostNav < 0)
-                this.grid[pos.x][pos.y].ghostNav = 0;
-            if (this.grid[pos.x][pos.y].ghostNav <= 0)
-                continue;
-
-            let deltaNav = 1;
-
-            for (let i = 0; i < 4; i++) {
-                let pos1 = pos.plus(neighbors[i]);
-                if (this.checkCell(pos1) || (this.grid[pos1.x][pos1.y].ghostNav >= this.grid[pos.x][pos.y].ghostNav - deltaNav))
-                    continue;
-                this.grid[pos1.x][pos1.y].ghostNav = this.grid[pos.x][pos.y].ghostNav - deltaNav;
-                deque.addBack(pos1);
-            }
-        }
-    }
-
-    // Function called in each iteration
-    step() {
-        this.gamepad.refresh()
-        if (this.player.status === 0) { // If player is alive
-            this.mentalDanger = 0;
-            this.pathfinding();
-            this.playerControl();
-            this.monstersControl();
-            this.setLight();
-            //this.generate();
-            this.spawnSubjects();
-            this.manageAnimations();
-            this.cooldowns();
-        }
-        if (this.keyboard.keyPressedOnce("Enter")) {
-            this.RELOAD = 1;
-        }
-    }
-
-    spawnPlayer(pos) {
-        let gridPos = this.getCell(pos);
-
-        this.player.pos = pos;
-        this.player.gridPos = gridPos;
-
-        // Clearing area
-        for (let x = Math.max(0, gridPos.x - 1); x <= Math.min(SIZE_X, gridPos.x + 1); x++) {
-            for (let y = Math.max(0, gridPos.y - 1); y <= Math.min(SIZE_Y, gridPos.y + 1); y++) {
-                this.grid[x][y].grave = 0;
-                this.grid[x][y].obstacle = 0;
-            }
-        }
-
-        // Spawning gates
-        this.gates(this.getCell(pos).x - 1);
-    }
 }
 
-module.exports = Game
-},{"./animation":2,"./anime":3,"./cell":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque":14,"./entity/entity":16,"./entity/monster":17,"./entity/player":24,"./light-source":27,"./maze":29,"./random":31,"./subject":32,"./vec2":36}],27:[function(require,module,exports){
-// Light source
-class LightSource {
-    constructor(pos, power) {
-        if (pos)
-            this.pos = pos.clone();
-        else
-            this.pos = new Vec2(0, 0);
-        if (power)
-            this.power = power;
-        else
-            this.power = 0;
-    }
-}
-
-module.exports = LightSource
+module.exports = Game;
 },{}],28:[function(require,module,exports){
+class LightSource {
+  constructor(pos, power) {
+    if (pos) this.pos = pos.clone();else this.pos = new Vec2(0, 0);
+    if (power) this.power = power;else this.power = 0;
+  }
 
-const Parameters = require("./parameters")
-const Game = require("./game.js")
-const Draw = require("./draw.js")
-const Texture = require("./texture.js")
-const Vec2 = require("./vec2.js")
+}
 
+module.exports = LightSource;
+},{}],29:[function(require,module,exports){
+const Parameters = require(31);
 
-window.addEventListener("load", async function() {
+const Game = require(27);
 
-    try {
-        await Texture.download()
-    } catch(exception) {
-        console.error(exception)
-        return;
-    }
-    
-    // Скопировал сюда чтобы мозолило глаза
-    // Ну и потому что Texture.named нельзя вызывать перед
-    // загрузкой текстур
+const Draw = require(16);
 
-    // Loading current imgs
-    window.IMGS_GROUND = [
-        Texture.named("grounds/ground1"),
-        Texture.named("grounds/ground2"),
-        Texture.named("grounds/ground3"),
-    ];
+const Texture = require(35);
 
-    window.ROOM_IMGS_GROUND = [
-        Texture.named("grounds/room_ground_1"),
-        Texture.named("grounds/room_ground_2")
-    ];
+const Vec2 = require(37);
 
-    window.IMGS_COVERING = [
-        Texture.named("coverings/covering1"),
-        Texture.named("coverings/covering2"),
-        Texture.named("coverings/covering3"),
-        Texture.named("coverings/covering4"),
-        Texture.named("coverings/covering5"),
-        Texture.named("coverings/covering6"),
-        Texture.named("coverings/covering7"),
-        Texture.named("coverings/covering8")
-    ];
-
-    window.IMGS_SPEC_GRAVE = [
-        Texture.named("spec_graves/spec_grave1"),
-        Texture.named("spec_graves/spec_grave2"),
-        Texture.named("spec_graves/spec_grave3")
-    ];
-
-    window.IMGS_SPEC_MINI_GRAVE = [
-        Texture.named("spec_graves/spec_mini_grave1"),
-        Texture.named("spec_graves/spec_mini_grave2"),
-        Texture.named("spec_graves/spec_mini_grave3")
-    ];
-
-    // [vertical, left, right]
-    window.IMGS_GRAVE = [
-        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
-        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
-        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
-        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")],
-        [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")]
-    ];
-
-    window.COLUMN_WIDTH = 4;
-    window.COLUMN_HEIGHT = 6;
-    window.IMGS_WALL = [
-        [
-            Texture.named("walls/wall"),
-            Texture.named("walls/wall_top"),
-            Texture.named("walls/wall"),
-            Texture.named("walls/wall_top")
-        ],
-        [
-            Texture.named("walls/column"),
-            Texture.named("walls/column_top"),
-            Texture.named("walls/wall"),
-            Texture.named("walls/wall_top")
-        ]
-    ];
-
-    window.IMGS_GATES = [
-        Texture.named("gates1"),
-        Texture.named("gates2")
-    ];
-
-    window.IMGS_MONSTER = [
-        Texture.named("monsters/monster1"),
-        Texture.named("monsters/monster2"),
-        Texture.named("monsters/monster3"),
-        Texture.named("monsters/monster2")
-    ];
-
-    window.IMGS_SUBJECT = [
-        Texture.named("subjects/heal"),
-        Texture.named("subjects/oil"),
-        Texture.named("subjects/whiskey"),
-        Texture.named("subjects/matchbox"),
-        Texture.named("subjects/ammo")
-    ];
-
-    // Player animation
-    window.ANM_PLAYER_STANDING = [
-        Texture.named("player/player_standing_0"),
-        Texture.named("player/player_standing_1")
-    ];
-
-    window.ANM_PLAYER_MOVING_RIGHT = [
-        Texture.named("player/player_moving_right_0"),
-        Texture.named("player/player_moving_right_1")
-    ];
-
-    window.ANM_PLAYER_MOVING_UP = [
-        Texture.named("player/player_moving_up_0"),
-        Texture.named("player/player_moving_up_1")
-    ];
-
-    window.ANM_PLAYER_MOVING_DOWN = [
-        Texture.named("player/player_moving_down_0"),
-        Texture.named("player/player_moving_down_1")
-    ];
-
-    //// MONSTERS ////
-
-    // Zombie
-    window.ANM_ZOMBIE_STANDING = [
-        Texture.named("monsters/zombie_standing_0"),
-        Texture.named("monsters/zombie_standing_1")
-    ];
-
-    window.ANM_ZOMBIE_MOVING_UP = [
-        Texture.named("monsters/zombie_moving_up_0"),
-        Texture.named("monsters/zombie_moving_up_1")
-    ];
-
-    window.ANM_ZOMBIE_MOVING_DOWN = [
-        Texture.named("monsters/zombie_moving_down_0"),
-        Texture.named("monsters/zombie_moving_down_1")
-    ];
-
-    window.ANM_ZOMBIE_MOVING_RIGHT = [
-        Texture.named("monsters/zombie_moving_right_0"),
-        Texture.named("monsters/zombie_moving_right_1")
-    ];
-
-    // Ghost
-    window.ANM_GHOST_STANDING = [
-        Texture.named("monsters/ghost_standing_0"),
-        Texture.named("monsters/ghost_standing_1")
-    ];
-
-    window.ANM_GHOST_MOVING_UP = [
-        Texture.named("monsters/ghost_moving_up_0"),
-        Texture.named("monsters/ghost_moving_up_1"),
-        Texture.named("monsters/ghost_moving_up_2"),
-        Texture.named("monsters/ghost_moving_up_3")
-
-    ];
-
-    window.ANM_GHOST_MOVING_DOWN = [
-        Texture.named("monsters/ghost_moving_down_0"),
-        Texture.named("monsters/ghost_moving_down_1"),
-        Texture.named("monsters/ghost_moving_down_2"),
-        Texture.named("monsters/ghost_moving_down_3")
-    ];
-
-    window.ANM_GHOST_MOVING_RIGHT = [
-        Texture.named("monsters/ghost_moving_right_0"),
-        Texture.named("monsters/ghost_moving_right_1"),
-        Texture.named("monsters/ghost_moving_right_2"),
-        Texture.named("monsters/ghost_moving_right_3"),
-    ];
-
-    // Worm
-    window.ANM_WORM_STANDING = [
-        Texture.named("monsters/worm_standing_0"),
-        Texture.named("monsters/worm_standing_1"),
-        Texture.named("monsters/worm_standing_2"),
-        Texture.named("monsters/worm_standing_3")
-    ]
-
-    // Spider
-    window.ANM_SPIDER_MOVING = [
-        Texture.named("monsters/spider_moving_0"),
-        Texture.named("monsters/spider_moving_1"),
-        Texture.named("monsters/spider_moving_2"),
-    ];
-
-    // Bat
-    window.ANM_BAT_MOVING = [
-        Texture.named("monsters/bat_moving_0"),
-        Texture.named("monsters/bat_moving_1")
-    ];
-
-    // GATES
-    window.ANM_GATES = [
-        Texture.named("particles/gates/gates0"),
-        Texture.named("particles/gates/gates1"),
-        Texture.named("particles/gates/gates2"),
-        Texture.named("particles/gates/gates3")
-    ];
-
-    // ===================
-
-    window.IMG_MONSTER0 = Texture.named("monsters/zombie_standing_0");
-    window.IMG_SHADOW = Texture.named("shadow");
-    window.IMG_INTERFACE = Texture.named("interface/interface");
-    window.IMG_INTERFACE_OVERLAY = Texture.named("interface/interfaceOverlay");
-    window.IMG_MATCH = Texture.named("interface/match");
-    window.IMG_MENTAL_DANGER = Texture.named("interface/mental_danger");
-
-    // Endgame screens
-    window.IMG_DEAD = Texture.named("interface/deathscreen");
-    window.IMG_DELIRIOUS = Texture.named("interface/deliriumscreen");
-    window.IMG_WIN = Texture.named("interface/winscreen");
-    window.IMG_START_SCREEN = Texture.named("interface/startscreen");
-
-    // Sprite animations
-    window.ANM_BLOOD = [
-        Texture.named("particles/blood/blood0"),
-        Texture.named("particles/blood/blood1"),
-        Texture.named("particles/blood/blood2")
-    ];
-
-    window.ANM_IGNITION_RED = [
-        Texture.named("particles/ignition/ignition_red_0"),
-        Texture.named("particles/ignition/ignition_red_1"),
-        Texture.named("particles/ignition/ignition_red_2"),
-        Texture.named("particles/ignition/ignition_red_3"),
-        Texture.named("particles/ignition/ignition_red_4"),
-        Texture.named("particles/ignition/ignition_red_5"),
-    ];
-
-    window.ANM_IGNITION_GREEN = [
-        Texture.named("particles/ignition/ignition_green_0"),
-        Texture.named("particles/ignition/ignition_green_1"),
-        Texture.named("particles/ignition/ignition_green_2"),
-        Texture.named("particles/ignition/ignition_green_3"),
-        Texture.named("particles/ignition/ignition_green_4"),
-        Texture.named("particles/ignition/ignition_green_5"),
-    ];
-
-    window.ANM_IGNITION_BLUE = [
-        Texture.named("particles/ignition/ignition_blue_0"),
-        Texture.named("particles/ignition/ignition_blue_1"),
-        Texture.named("particles/ignition/ignition_blue_2"),
-        Texture.named("particles/ignition/ignition_blue_3"),
-        Texture.named("particles/ignition/ignition_blue_4"),
-        Texture.named("particles/ignition/ignition_blue_5"),
-    ];
-
-    window.ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
-
-    window.ANM_MATCH = [
-        Texture.named("particles/match/match0"),
-        Texture.named("particles/match/match1"),
-        Texture.named("particles/match/match2")
-    ];
-
-    window.ANM_MATCH_BURNING = [
-        Texture.named("particles/match_burn/match_burn_0"),
-        Texture.named("particles/match_burn/match_burn_1"),
-        Texture.named("particles/match_burn/match_burn_2"),
-        Texture.named("particles/match_burn/match_burn_3"),
-        Texture.named("particles/match_burn/match_burn_4")
-    ];
-
-    window.ANM_ACTIVE_GRAVE = [
-        Texture.named("particles/active_grave/active_grave_0"),
-        Texture.named("particles/active_grave/active_grave_1"),
-        Texture.named("particles/active_grave/active_grave_2"),
-        Texture.named("particles/active_grave/active_grave_3"),
-        Texture.named("particles/active_grave/active_grave_4")
-    ];
-
-    window.ANM_PISTOL_SHOT = [
-        Texture.named("interface/pistol_shot/pistol_0"),
-        Texture.named("interface/pistol_shot/pistol_1"),
-        Texture.named("interface/pistol_shot/pistol_2"),
-        Texture.named("interface/pistol_shot/pistol_3"),
-        Texture.named("interface/pistol_shot/pistol_4")
-    ];
-
-    window.ANM_TRACER_LEFT = [
-        Texture.named("particles/tracer/tracer_left")
-    ];
-    window.ANM_TRACER_RIGHT = [
-        Texture.named("particles/tracer/tracer_right")
-    ];
-    window.ANM_TRACER_UP = [
-        Texture.named("particles/tracer/tracer_up")
-    ];
-    window.ANM_TRACER_DOWN = [
-        Texture.named("particles/tracer/tracer_down")
-    ];
-
-    // Damage animation
-    window.ANM_DAMAGE = [
-        Texture.named("particles/damage/damage0"),
-        Texture.named("particles/damage/damage1"),
-        Texture.named("particles/damage/damage2"),
-        Texture.named("particles/damage/damage3")
-    ];
-
-    window.Texture = Texture
-
-    let game = new Game();
-    let draw = new Draw(CTX);
-
-    game.initialGeneration();
-    game.generate();
-    game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
-    game.player.status = 4;
+window.addEventListener("load", async function () {
+  try {
+    await Texture.download();
+  } catch (exception) {
+    console.error(exception);
+    return;
+  } // Скопировал сюда чтобы мозолило глаза
+  // Ну и потому что Texture.named нельзя вызывать перед
+  // загрузкой текстур
+  // Loading current imgs
 
 
-    function step() {
-        Vec2.counter = 0
+  window.IMGS_GROUND = [Texture.named("grounds/ground1"), Texture.named("grounds/ground2"), Texture.named("grounds/ground3")];
+  window.ROOM_IMGS_GROUND = [Texture.named("grounds/room_ground_1"), Texture.named("grounds/room_ground_2")];
+  window.IMGS_COVERING = [Texture.named("coverings/covering1"), Texture.named("coverings/covering2"), Texture.named("coverings/covering3"), Texture.named("coverings/covering4"), Texture.named("coverings/covering5"), Texture.named("coverings/covering6"), Texture.named("coverings/covering7"), Texture.named("coverings/covering8")];
+  window.IMGS_SPEC_GRAVE = [Texture.named("spec_graves/spec_grave1"), Texture.named("spec_graves/spec_grave2"), Texture.named("spec_graves/spec_grave3")];
+  window.IMGS_SPEC_MINI_GRAVE = [Texture.named("spec_graves/spec_mini_grave1"), Texture.named("spec_graves/spec_mini_grave2"), Texture.named("spec_graves/spec_mini_grave3")]; // [vertical, left, right]
 
-        game.step();
-        draw.draw(game);
+  window.IMGS_GRAVE = [[Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")], [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")], [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")], [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")], [Texture.named("graves/grave2_s"), Texture.named("graves/grave2_l"), Texture.named("graves/grave2_r")]];
+  window.COLUMN_WIDTH = 4;
+  window.COLUMN_HEIGHT = 6;
+  window.IMGS_WALL = [[Texture.named("walls/wall"), Texture.named("walls/wall_top"), Texture.named("walls/wall"), Texture.named("walls/wall_top")], [Texture.named("walls/column"), Texture.named("walls/column_top"), Texture.named("walls/wall"), Texture.named("walls/wall_top")]];
+  window.IMGS_GATES = [Texture.named("gates1"), Texture.named("gates2")];
+  window.IMGS_MONSTER = [Texture.named("monsters/monster1"), Texture.named("monsters/monster2"), Texture.named("monsters/monster3"), Texture.named("monsters/monster2")];
+  window.IMGS_SUBJECT = [Texture.named("subjects/heal"), Texture.named("subjects/oil"), Texture.named("subjects/whiskey"), Texture.named("subjects/matchbox"), Texture.named("subjects/ammo")]; // Player animation
 
-        // if (KEY_MINUS) {
-        //     VOLUME = Math.max(0, VOLUME - 0.1);
-        // }
-        // if (KEY_PLUS) {
-        //     VOLUME = Math.min(1, VOLUME + 0.1);
-        // }
+  window.ANM_PLAYER_STANDING = [Texture.named("player/player_standing_0"), Texture.named("player/player_standing_1")];
+  window.ANM_PLAYER_MOVING_RIGHT = [Texture.named("player/player_moving_right_0"), Texture.named("player/player_moving_right_1")];
+  window.ANM_PLAYER_MOVING_UP = [Texture.named("player/player_moving_up_0"), Texture.named("player/player_moving_up_1")];
+  window.ANM_PLAYER_MOVING_DOWN = [Texture.named("player/player_moving_down_0"), Texture.named("player/player_moving_down_1")]; //// MONSTERS ////
+  // Zombie
 
-        if (game.RELOAD === 1) {
-            SOUND_MUSIC.pause();
-            SOUND_MUSIC.play();
+  window.ANM_ZOMBIE_STANDING = [Texture.named("monsters/zombie_standing_0"), Texture.named("monsters/zombie_standing_1")];
+  window.ANM_ZOMBIE_MOVING_UP = [Texture.named("monsters/zombie_moving_up_0"), Texture.named("monsters/zombie_moving_up_1")];
+  window.ANM_ZOMBIE_MOVING_DOWN = [Texture.named("monsters/zombie_moving_down_0"), Texture.named("monsters/zombie_moving_down_1")];
+  window.ANM_ZOMBIE_MOVING_RIGHT = [Texture.named("monsters/zombie_moving_right_0"), Texture.named("monsters/zombie_moving_right_1")]; // Ghost
 
-            game = new Game();
-            game.initialGeneration();
-            game.generate();
-            game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
-        }
+  window.ANM_GHOST_STANDING = [Texture.named("monsters/ghost_standing_0"), Texture.named("monsters/ghost_standing_1")];
+  window.ANM_GHOST_MOVING_UP = [Texture.named("monsters/ghost_moving_up_0"), Texture.named("monsters/ghost_moving_up_1"), Texture.named("monsters/ghost_moving_up_2"), Texture.named("monsters/ghost_moving_up_3")];
+  window.ANM_GHOST_MOVING_DOWN = [Texture.named("monsters/ghost_moving_down_0"), Texture.named("monsters/ghost_moving_down_1"), Texture.named("monsters/ghost_moving_down_2"), Texture.named("monsters/ghost_moving_down_3")];
+  window.ANM_GHOST_MOVING_RIGHT = [Texture.named("monsters/ghost_moving_right_0"), Texture.named("monsters/ghost_moving_right_1"), Texture.named("monsters/ghost_moving_right_2"), Texture.named("monsters/ghost_moving_right_3")]; // Worm
 
-        // Рубрика эээкспериментыыы
-        // console.log(Vec2.counter);
-        Vec2.counter = 0
-    }
+  window.ANM_WORM_STANDING = [Texture.named("monsters/worm_standing_0"), Texture.named("monsters/worm_standing_1"), Texture.named("monsters/worm_standing_2"), Texture.named("monsters/worm_standing_3")]; // Spider
 
-    var interval = setInterval(step, DT * 1000);
-})
-},{"./draw.js":15,"./game.js":26,"./parameters":30,"./texture.js":34,"./vec2.js":36}],29:[function(require,module,exports){
-const Vec2 = require("./vec2.js")
-const Random = require("./random.js")
+  window.ANM_SPIDER_MOVING = [Texture.named("monsters/spider_moving_0"), Texture.named("monsters/spider_moving_1"), Texture.named("monsters/spider_moving_2")]; // Bat
+
+  window.ANM_BAT_MOVING = [Texture.named("monsters/bat_moving_0"), Texture.named("monsters/bat_moving_1")]; // GATES
+
+  window.ANM_GATES = [Texture.named("particles/gates/gates0"), Texture.named("particles/gates/gates1"), Texture.named("particles/gates/gates2"), Texture.named("particles/gates/gates3")]; // ===================
+
+  window.IMG_MONSTER0 = Texture.named("monsters/zombie_standing_0");
+  window.IMG_SHADOW = Texture.named("shadow");
+  window.IMG_INTERFACE = Texture.named("interface/interface");
+  window.IMG_INTERFACE_OVERLAY = Texture.named("interface/interfaceOverlay");
+  window.IMG_MATCH = Texture.named("interface/match");
+  window.IMG_MENTAL_DANGER = Texture.named("interface/mental_danger"); // Endgame screens
+
+  window.IMG_DEAD = Texture.named("interface/deathscreen");
+  window.IMG_DELIRIOUS = Texture.named("interface/deliriumscreen");
+  window.IMG_WIN = Texture.named("interface/winscreen");
+  window.IMG_START_SCREEN = Texture.named("interface/startscreen"); // Sprite animations
+
+  window.ANM_BLOOD = [Texture.named("particles/blood/blood0"), Texture.named("particles/blood/blood1"), Texture.named("particles/blood/blood2")];
+  window.ANM_IGNITION_RED = [Texture.named("particles/ignition/ignition_red_0"), Texture.named("particles/ignition/ignition_red_1"), Texture.named("particles/ignition/ignition_red_2"), Texture.named("particles/ignition/ignition_red_3"), Texture.named("particles/ignition/ignition_red_4"), Texture.named("particles/ignition/ignition_red_5")];
+  window.ANM_IGNITION_GREEN = [Texture.named("particles/ignition/ignition_green_0"), Texture.named("particles/ignition/ignition_green_1"), Texture.named("particles/ignition/ignition_green_2"), Texture.named("particles/ignition/ignition_green_3"), Texture.named("particles/ignition/ignition_green_4"), Texture.named("particles/ignition/ignition_green_5")];
+  window.ANM_IGNITION_BLUE = [Texture.named("particles/ignition/ignition_blue_0"), Texture.named("particles/ignition/ignition_blue_1"), Texture.named("particles/ignition/ignition_blue_2"), Texture.named("particles/ignition/ignition_blue_3"), Texture.named("particles/ignition/ignition_blue_4"), Texture.named("particles/ignition/ignition_blue_5")];
+  window.ANM_IGNITION = [ANM_IGNITION_RED, ANM_IGNITION_GREEN, ANM_IGNITION_BLUE];
+  window.ANM_MATCH = [Texture.named("particles/match/match0"), Texture.named("particles/match/match1"), Texture.named("particles/match/match2")];
+  window.ANM_MATCH_BURNING = [Texture.named("particles/match_burn/match_burn_0"), Texture.named("particles/match_burn/match_burn_1"), Texture.named("particles/match_burn/match_burn_2"), Texture.named("particles/match_burn/match_burn_3"), Texture.named("particles/match_burn/match_burn_4")];
+  window.ANM_ACTIVE_GRAVE = [Texture.named("particles/active_grave/active_grave_0"), Texture.named("particles/active_grave/active_grave_1"), Texture.named("particles/active_grave/active_grave_2"), Texture.named("particles/active_grave/active_grave_3"), Texture.named("particles/active_grave/active_grave_4")];
+  window.ANM_PISTOL_SHOT = [Texture.named("interface/pistol_shot/pistol_0"), Texture.named("interface/pistol_shot/pistol_1"), Texture.named("interface/pistol_shot/pistol_2"), Texture.named("interface/pistol_shot/pistol_3"), Texture.named("interface/pistol_shot/pistol_4")];
+  window.ANM_TRACER_LEFT = [Texture.named("particles/tracer/tracer_left")];
+  window.ANM_TRACER_RIGHT = [Texture.named("particles/tracer/tracer_right")];
+  window.ANM_TRACER_UP = [Texture.named("particles/tracer/tracer_up")];
+  window.ANM_TRACER_DOWN = [Texture.named("particles/tracer/tracer_down")]; // Damage animation
+
+  window.ANM_DAMAGE = [Texture.named("particles/damage/damage0"), Texture.named("particles/damage/damage1"), Texture.named("particles/damage/damage2"), Texture.named("particles/damage/damage3")];
+  window.Texture = Texture;
+  let game = new Game();
+  let draw = new Draw(CTX);
+  game.initialGeneration();
+  game.generate();
+  game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
+  game.player.status = 4;
+
+  function step() {
+    Vec2.counter = 0;
+    game.step();
+    draw.draw(game); // if (KEY_MINUS) {
+    //     VOLUME = Math.max(0, VOLUME - 0.1);
+    // }
+    // if (KEY_PLUS) {
+    //     VOLUME = Math.min(1, VOLUME + 0.1);
+    // }
+
+    if (game.RELOAD === 1) {
+      SOUND_MUSIC.pause();
+      SOUND_MUSIC.play();
+      game = new Game();
+      game.initialGeneration();
+      game.generate();
+      game.spawnPlayer(new Vec2(SIZE_X * 8 / 2, 10 + MARGIN * 8));
+    } // Рубрика эээкспериментыыы
+    // console.log(Vec2.counter);
+
+
+    Vec2.counter = 0;
+  }
+
+  var interval = setInterval(step, DT * 1000);
+});
+},{}],30:[function(require,module,exports){
+const Vec2 = require(37);
+
+const Random = require(32);
 
 class Maze {
-    // Generates room
-    static room(field, pos, size, index) {
-        // Empty room with walls
-        for (let x = pos.x; x < pos.x + size.x; x++) {
-            for (let y = pos.y; y < pos.y + size.y; y++) {
-                if (x === pos.x || y === pos.y || x === pos.x + size.x - 1 || y === pos.y + size.y - 1)
-                    field[x][y].wall = 1;
-                else
-                    field[x][y].wall = 0;
-                field[x][y].roomId = index;
-            }
+  // Generates room
+  static room(field, pos, size, index) {
+    // Empty room with walls
+    for (let x = pos.x; x < pos.x + size.x; x++) {
+      for (let y = pos.y; y < pos.y + size.y; y++) {
+        if (x === pos.x || y === pos.y || x === pos.x + size.x - 1 || y === pos.y + size.y - 1) field[x][y].wall = 1;else field[x][y].wall = 0;
+        field[x][y].roomId = index;
+      }
+    } // Doors
+
+
+    field[pos.x][pos.y + Math.floor(size.y / 2)].wall = 0;
+    field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].wall = 0;
+    field[pos.x + Math.floor(size.x / 2)][pos.y].wall = 0;
+    field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].wall = 0;
+    field[pos.x][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
+    field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
+    field[pos.x + Math.floor(size.x / 2)][pos.y].roomEnter = 1;
+    field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].roomEnter = 1;
+  } // Generates maze width current size
+
+
+  static generate(size) {
+    let field = [];
+    let walls = [];
+    let counter = 0; // Generating grid
+
+    for (let x = 0; x < size.x; x++) {
+      field.push([]);
+
+      for (let y = 0; y < size.y; y++) {
+        let cell = {
+          wall: 0,
+          id: 0
+        };
+        if (x === 0 || y === 0 || x === size.x - 1 || y === size.y - 1) cell.wall = 1;else if ((x + 1) % 2 === 0 && (y + 1) % 2 === 0) {
+          cell.id = counter;
+          counter++;
+        } else if (x % 2 === 0 && y % 2 !== 0 || y % 2 === 0 && x % 2 !== 0) {
+          cell.wall = 1;
+          walls.push(new Vec2(x, y));
+        } else {
+          cell.wall = 1;
         }
+        field[x].push(cell);
+      }
+    } // Shuffle walls
 
-        // Doors
-        field[pos.x][pos.y + Math.floor(size.y / 2)].wall = 0;
-        field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].wall = 0;
-        field[pos.x + Math.floor(size.x / 2)][pos.y].wall = 0;
-        field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].wall = 0;
 
-        field[pos.x][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
-        field[pos.x + size.x - 1][pos.y + Math.floor(size.y / 2)].roomEnter = 1;
-        field[pos.x + Math.floor(size.x / 2)][pos.y].roomEnter = 1;
-        field[pos.x + Math.floor(size.x / 2)][pos.y + size.y - 1].roomEnter = 1;
+    for (let i = 0; i < walls.length; i++) {
+      let place = walls[i];
+      let n = Random.random(0, walls.length - 1);
+      walls[i] = walls[n];
+      walls[n] = place;
+    } // Deleting walls
+
+
+    for (let i = 0; i < walls.length; i++) {
+      let wall = walls[i];
+      let id1, id2;
+
+      if (wall.x % 2) {
+        id1 = field[wall.x][wall.y - 1].id;
+        id2 = field[wall.x][wall.y + 1].id;
+      } else {
+        id1 = field[wall.x - 1][wall.y].id;
+        id2 = field[wall.x + 1][wall.y].id;
+      }
+
+      if (id1 === id2) continue;
+      field[wall.x][wall.y].wall = 0; // Naive reindexation
+
+      for (let x = 0; x < size.x; x++) for (let y = 0; y < size.y; y++) if (field[x][y].id === id2) field[x][y].id = id1;
+    } // Deleting random walls
+
+
+    for (let i = 0; i < walls.length; i++) {
+      let wall = walls[i];
+      if (Random.random(0, 99) < 5) // 5% chance
+        field[wall.x][wall.y].wall = 0;
+    } // Rooms
+
+
+    let roomsNumber = 4;
+
+    for (let i = 1; i <= roomsNumber; i++) {
+      let roomSize = new Vec2(7, 7);
+      this.room(field, new Vec2(Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2, Random.random(1, Math.floor((size.y - roomSize.y) / 2)) * 2), roomSize, i);
     }
 
-    // Generates maze width current size
-    static generate(size) {
-        let field = [];
-        let walls = [];
-        let counter = 0;
+    return field;
+  }
 
-        // Generating grid
-        for (let x = 0; x < size.x; x++) {
-            field.push([]);
-            for (let y = 0; y < size.y; y++) {
-                let cell = { wall: 0, id: 0 };
-
-                if (x === 0 || y === 0 || x === size.x - 1 || y === size.y - 1)
-                    cell.wall = 1;
-                else if ((x + 1) % 2 === 0 && (y + 1) % 2 === 0) {
-                    cell.id = counter;
-                    counter++;
-                } else if (x % 2 === 0 && y % 2 !== 0 || y % 2 === 0 && x % 2 !== 0) {
-                    cell.wall = 1;
-                    walls.push(new Vec2(x, y));
-                } else {
-                    cell.wall = 1;
-                }
-
-                field[x].push(cell);
-            }
-        }
-
-        // Shuffle walls
-        for(let i = 0; i < walls.length; i++) {
-            let place = walls[i];
-            let n = Random.random(0, walls.length-1);
-            walls[i] = walls[n];
-            walls[n] = place;
-        }
-
-        // Deleting walls
-        for (let i = 0; i < walls.length; i++) {
-            let wall = walls[i];
-            let id1, id2;
-            if (wall.x % 2) {
-                id1 = field[wall.x][wall.y - 1].id;
-                id2 = field[wall.x][wall.y + 1].id;
-            } else {
-                id1 = field[wall.x - 1][wall.y].id;
-                id2 = field[wall.x + 1][wall.y].id;
-            }
-
-            if (id1 === id2)
-                continue;
-
-            field[wall.x][wall.y].wall = 0;
-
-            // Naive reindexation
-            for (let x = 0; x < size.x; x++)
-                for (let y = 0; y < size.y; y++)
-                    if (field[x][y].id === id2)
-                        field[x][y].id = id1;
-        }
-
-        // Deleting random walls
-        for (let i = 0; i < walls.length; i++) {
-            let wall = walls[i];
-            if (Random.random(0, 99) < 5) // 5% chance
-                field[wall.x][wall.y].wall = 0;
-        }
-
-        // Rooms
-        let roomsNumber = 4;
-        for (let i = 1; i <= roomsNumber; i++) {
-            let roomSize = new Vec2(7, 7);
-            this.room(field, new Vec2(
-                Random.random(1, Math.floor((size.x - roomSize.x) / 2)) * 2,
-                Random.random(1, Math.floor((size.y - roomSize.y) / 2)) * 2,
-                  ), roomSize, i);
-        }
-
-        return field;
-    }
 }
 
-module.exports = Maze
-},{"./random.js":31,"./vec2.js":36}],30:[function(require,module,exports){
-'use strict'
-const Howl = require('howler').Howl;
+module.exports = Maze;
+},{}],31:[function(require,module,exports){
+'use strict';
 
-//// CONSTANTS ////
+const Howl = require(2).Howl; //// CONSTANTS ////
 // Directions
-window.NONE = 0
+
+
+window.NONE = 0;
 window.RIGHT = 3;
 window.DOWN = 2;
 window.LEFT = 4;
-window.UP = 1;
+window.UP = 1; // Subjects' types
 
-// Subjects' types
 window.SBJ_HEAL = 1;
 window.SBJ_OIL = 2;
 window.SBJ_WHISKEY = 3;
 window.SBJ_MATCHBOX = 4;
-window.SBJ_AMMO = 5;
-
-// Monsters' names
-
-
-
-
-
-
+window.SBJ_AMMO = 5; // Monsters' names
 //// GAME PREFERENCES ////
+
 window.DT = 0.050; // Tick time in seconds
+
 window.CELL_SIZE = 8;
 window.TEXTURE_SIZE = 8;
+window.EPS = 0.0001; // Limitations for player
 
-window.EPS = 0.0001;
-
-// Limitations for player
 window.LIMIT_HP = 3;
 window.LIMIT_OIL = 10;
 window.LIMIT_MIND = 10;
 window.LIMIT_MATCHES = 3;
-
 window.OIL_CONSUMPTION = 0.2;
 window.DIST_LIGHT = 7;
 window.DIST_LOAD = 12;
-
 window.MONSTER_LIMIT = 16; // Maximum number of monsters
+
 window.MONSTER_PERIOD = 1; // Time between monsters spawn
 
 window.SUBJECT_LIMIT = 10; // Maximum number of subjects
+
 window.SUBJECT_PERIOD = 1; // Time between subjects spawn
-
 // Map parameters
+
 window.MARGIN = 3; // Cells on map's sides, that are not changing
+
 window.SIZE_X = 27 + MARGIN * 2;
-window.SIZE_Y = 27 + MARGIN * 2;
+window.SIZE_Y = 27 + MARGIN * 2; // Music
 
-// Music
-window.VOLUME = 1;
-
-// Sounds
+window.VOLUME = 1; // Sounds
 // Loop
+
 window.SOUND_MUSIC = new Howl({
-    src: ['music/main_theme.mp3'],
-    loop: true
+  src: ['music/main_theme.mp3'],
+  loop: true
 });
 window.SOUND_STEPS = new Howl({
-    src: ['sounds/steps.wav'],
-    loop: true});
-// Single
-window.SOUND_SHOOT = new Howl({src: ['sounds/shoot.wav'],});
-window.SOUND_MATCH = new Howl({src: ['sounds/match.wav'],});
-window.SOUND_PICKUP = new Howl({src: ['sounds/pickup.wav'],});
-window.SOUND_DRINK = new Howl({src: ['sounds/drink.wav'],});
-window.SOUND_OIL = new Howl({src: ['sounds/oil.wav'],});
-window.SOUND_MATCHBOX = new Howl({src: ['sounds/match_item.wav'],});
-window.SOUND_AMMO = new Howl({src: ['sounds/ammo.wav'],});
-window.SOUND_DEATH = new Howl({src: ['sounds/death.wav'],});
+  src: ['sounds/steps.wav'],
+  loop: true
+}); // Single
 
-// Generation
+window.SOUND_SHOOT = new Howl({
+  src: ['sounds/shoot.wav']
+});
+window.SOUND_MATCH = new Howl({
+  src: ['sounds/match.wav']
+});
+window.SOUND_PICKUP = new Howl({
+  src: ['sounds/pickup.wav']
+});
+window.SOUND_DRINK = new Howl({
+  src: ['sounds/drink.wav']
+});
+window.SOUND_OIL = new Howl({
+  src: ['sounds/oil.wav']
+});
+window.SOUND_MATCHBOX = new Howl({
+  src: ['sounds/match_item.wav']
+});
+window.SOUND_AMMO = new Howl({
+  src: ['sounds/ammo.wav']
+});
+window.SOUND_DEATH = new Howl({
+  src: ['sounds/death.wav']
+}); // Generation
+
 window.SPEC_GRAVE_RADIUS = 10;
-window.HARDNESS = 0;
+window.HARDNESS = 0; // consts
 
-// consts
-window.LIFE_ETERNAL = -12222;
+window.LIFE_ETERNAL = -12222; //// DRAW PREFERENCES ////
 
-
-//// DRAW PREFERENCES ////
 window.SCALE = 10; // 1 Cell in px
-while (64 * SCALE <= Math.min(window.innerHeight, window.innerWidth)) {
-    SCALE += 1;
-}
-SCALE = 7;
 
-// Canvas
+while (64 * SCALE <= Math.min(window.innerHeight, window.innerWidth)) {
+  SCALE += 1;
+}
+
+SCALE = 7; // Canvas
+
 window.SCREEN = document.getElementById("screen");
 SCREEN.width = SCREEN.height = 128 * SCALE;
 window.CTX = SCREEN.getContext("2d");
-
-},{"howler":1}],31:[function(require,module,exports){
-
-//// RANDOM ////
-
+},{}],32:[function(require,module,exports){
 class Random {
-    static random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    static random_float(min, max) {
-        return (Math.random() * (max - min) + min);
-    }
+  static random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-    static normalDistribution(min, max, iterations) {
-        let sum = 0;
-        for (let i = 0; i < iterations; i++)
-            sum += this.random(min, max);
-        return Math.round(sum / iterations);
-    }
+  static random_float(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
-    static normalRoll(min, max, iterations) { // gives value from min to max with normal distribution
-        let roll = this.normalDistribution(-max + min, +max - min, iterations);
-        return Math.abs(roll) + min;
-    }
+  static normalDistribution(min, max, iterations) {
+    let sum = 0;
+
+    for (let i = 0; i < iterations; i++) sum += this.random(min, max);
+
+    return Math.round(sum / iterations);
+  }
+
+  static normalRoll(min, max, iterations) {
+    // gives value from min to max with normal distribution
+    let roll = this.normalDistribution(-max + min, +max - min, iterations);
+    return Math.abs(roll) + min;
+  }
+
 }
 
-module.exports = Random
-},{}],32:[function(require,module,exports){
-
-const Vec2 = require("./vec2")
+module.exports = Random;
+},{}],33:[function(require,module,exports){
+const Vec2 = require(37);
 
 class Subject {
-    constructor(pos) {
-        this.type = 0; // See types in parameters.js
-        if (pos)
-            this.pos = pos;
-        else
-            this.pos = new Vec2(0, 0);
-    }
+  constructor(pos) {
+    this.type = 0; // See types in parameters.js
+
+    if (pos) this.pos = pos;else this.pos = new Vec2(0, 0);
+  }
+
 }
 
-module.exports = Subject
-},{"./vec2":36}],33:[function(require,module,exports){
-
-const Vec2 = require("./vec2")
+module.exports = Subject;
+},{}],34:[function(require,module,exports){
+const Vec2 = require(37);
 
 class TemporalLightSource {
-    constructor(pos, power, lifespan) {
-            if (pos)
-                this.pos = pos.clone();
-            else
-                this.pos = new Vec2(0, 0);
-            if (power)
-                this.power = power;
-            else
-                this.power = 0;
-            if (lifespan) {
-                this.lifespan = lifespan;
-                this.life = this.lifespan;
-                this.initialPower = this.power;
-            } else {
-                this.life = 0;
-                this.alive = 0;
-            }
+  constructor(pos, power, lifespan) {
+    if (pos) this.pos = pos.clone();else this.pos = new Vec2(0, 0);
+    if (power) this.power = power;else this.power = 0;
 
-            this.alive = 1;
+    if (lifespan) {
+      this.lifespan = lifespan;
+      this.life = this.lifespan;
+      this.initialPower = this.power;
+    } else {
+      this.life = 0;
+      this.alive = 0;
     }
 
-    // Fading
-    step(dt) {
-        this.life -= dt;
-        if (this.life <= 0) {
-            this.life = 0;
-            this.alive = 0;
-        }
+    this.alive = 1;
+  } // Fading
 
-        this.power = Math.floor(this.initialPower * this.life / this.lifespan)
+
+  step(dt) {
+    this.life -= dt;
+
+    if (this.life <= 0) {
+      this.life = 0;
+      this.alive = 0;
     }
+
+    this.power = Math.floor(this.initialPower * this.life / this.lifespan);
+  }
+
 }
 
-module.exports = TemporalLightSource
-},{"./vec2":36}],34:[function(require,module,exports){
-
+module.exports = TemporalLightSource;
+},{}],35:[function(require,module,exports){
+const Atlas = require(1);
 
 class Texture {
+  constructor(name) {
+    this.rect = Texture.rectangles[name];
+  }
 
-    static textures = new Map()
-    static rectangles = []
-    static image
-
-    constructor(name) {
-        this.rect = Texture.rectangles[name]
-    }
-
-    static download() {
-
-        // This code is not perfect, btw
-        // it cannot get much better without creating
-        // a ton of utility files
-
-        return new Promise((resolve, reject) => {
-
-            let atlasImage = new Image()
-            atlasImage.src = "./textures/atlas.png"
-
-            atlasImage.addEventListener("load", function(){
-                if (this.complete) {
-                    Texture.image = this
-                    if(Texture.rectangles) resolve()
-                } else {
-                    reject("Failed to download atlas image")
-                }
-            })
-
-            let xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === 4) {
-                    if(xmlhttp.status === 200) {
-                        try {
-                            Texture.rectangles = JSON.parse(xmlhttp.responseText);
-                            if (Texture.image) resolve()
-                        } catch (err) {
-                            reject(err)
-                        }
-                    } else {
-                        reject("Failed to download atlas json")
-                    }
-                }
-            }
-            xmlhttp.onerror = function() {
-                reject("Failed to download atlas json")
-            }
-
-            xmlhttp.open("GET", "./textures/atlas.json", true);
-            xmlhttp.send();
-        }).then(() => {
-            for(let [name] of Object.entries(Texture.rectangles)) {
-                console.log(name)
-                Texture.textures.set(name, new Texture(name))
-            }
-        })
-    }
-
-    /**
-     * @param name Name of the sprite, like "tanks/sniper/body-bright"
-     * @returns {Texture} The sprite associated with this name
-     */
-
-    static named(name) {
-        return Texture.textures.get(name)
-    }
-}
-
-module.exports = Texture
-},{}],35:[function(require,module,exports){
-class EventEmitter {
-    constructor() {
-        this.events = new Map()
-    }
-
-    emit(event) {
-        if (this.events.has(event)) {
-            let args = Array.prototype.slice.call(arguments, 1)
-            for (let listener of this.events.get(event)) {
-                listener.apply(null, args)
-            }
-        }
-    }
-
-    on(event, handler) {
-        if (this.events.has(event)) {
-            this.events.get(event).push(handler)
+  static download() {
+    Texture.rectangles = Atlas;
+    return new Promise((resolve, reject) => {
+      let atlasImage = new Image();
+      atlasImage.src = "./textures/atlas.png";
+      atlasImage.addEventListener("load", function () {
+        if (this.complete) {
+          Texture.image = this;
+          if (Texture.rectangles) resolve();
         } else {
-            this.events.set(event, [handler]);
+          reject("Failed to download atlas image");
         }
-    }
+      });
+    }).then(() => {
+      for (let [name] of Object.entries(Texture.rectangles)) {
+        console.log(name);
+        Texture.textures.set(name, new Texture(name));
+      }
+    });
+  }
+  /**
+   * @param name Name of the sprite, like "tanks/sniper/body-bright"
+   * @returns {Texture} The sprite associated with this name
+   */
+
+
+  static named(name) {
+    return Texture.textures.get(name);
+  }
+
 }
 
-module.exports = EventEmitter
+Texture.textures = new Map();
+Texture.rectangles = [];
+Texture.image = void 0;
+module.exports = Texture;
 },{}],36:[function(require,module,exports){
+class EventEmitter {
+  constructor() {
+    this.events = new Map();
+  }
 
-/**
- * 2D Vector
- */
+  emit(event) {
+    if (this.events.has(event)) {
+      let args = Array.prototype.slice.call(arguments, 1);
 
-class Vec2 {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        Vec2.counter++
+      for (let listener of this.events.get(event)) {
+        listener.apply(null, args);
+      }
     }
+  }
 
-    plus(a) {
-        return new Vec2(this.x + a.x, this.y + a.y);
+  on(event, handler) {
+    if (this.events.has(event)) {
+      this.events.get(event).push(handler);
+    } else {
+      this.events.set(event, [handler]);
     }
+  }
 
-    add(a) {
-        this.x += a.x
-        this.y += a.y
-    }
-
-    addScalars(x, y) {
-        this.x += x
-        this.y += y
-    }
-
-    minus(a) {
-        return new Vec2(this.x - a.x, this.y - a.y);
-    }
-
-    mult(a) {
-        return new Vec2(this.x * a.x, this.y * a.y);
-    }
-
-    div(a) {
-        return new Vec2(this.x / a.x, this.y / a.y);
-    }
-
-    dist(a) {
-        let x = this.x - a.x;
-        let y = this.y - a.y;
-        return Math.abs(x) + Math.abs(y);
-    }
-
-    distToPosition(x, y) {
-        x = this.x - x;
-        y = this.y - y;
-        return Math.abs(x) + Math.abs(y);
-    }
-
-    set(x, y) {
-        this.x = x
-        this.y = y
-    }
-
-    isZero() {
-        return this.x === 0 && this.y === 0
-    }
-
-    lengthSquared() {
-        return this.x ** 2 + this.y ** 2
-    }
-
-    length() {
-        return Math.sqrt(this.lengthSquared())
-    }
-
-    clone() {
-        return new Vec2(this.x, this.y)
-    }
 }
 
-Vec2.counter = 0
-
-module.exports = Vec2
+module.exports = EventEmitter;
 },{}],37:[function(require,module,exports){
-// Weapon
-class Weapon {
+class Vec2 {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    Vec2.counter++;
+  }
 
-    damage = 1
-    ammoMax = 10
-    ammo = 0
-    cooldownTime = 0.75
-    timeToCooldown = 0
+  plus(a) {
+    return new Vec2(this.x + a.x, this.y + a.y);
+  }
 
-    constructor() {
-        this.ammo = this.ammoMax;
-        this.timeToCooldown = this.cooldownTime;
-    }
+  add(a) {
+    this.x += a.x;
+    this.y += a.y;
+  }
+
+  addScalars(x, y) {
+    this.x += x;
+    this.y += y;
+  }
+
+  minus(a) {
+    return new Vec2(this.x - a.x, this.y - a.y);
+  }
+
+  mult(a) {
+    return new Vec2(this.x * a.x, this.y * a.y);
+  }
+
+  div(a) {
+    return new Vec2(this.x / a.x, this.y / a.y);
+  }
+
+  dist(a) {
+    let x = this.x - a.x;
+    let y = this.y - a.y;
+    return Math.abs(x) + Math.abs(y);
+  }
+
+  distToPosition(x, y) {
+    x = this.x - x;
+    y = this.y - y;
+    return Math.abs(x) + Math.abs(y);
+  }
+
+  set(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  isZero() {
+    return this.x === 0 && this.y === 0;
+  }
+
+  lengthSquared() {
+    return this.x ** 2 + this.y ** 2;
+  }
+
+  length() {
+    return Math.sqrt(this.lengthSquared());
+  }
+
+  clone() {
+    return new Vec2(this.x, this.y);
+  }
+
 }
 
-module.exports = Weapon
-},{}]},{},[28]);
+Vec2.counter = 0;
+module.exports = Vec2;
+},{}],38:[function(require,module,exports){
+class Weapon {
+  constructor() {
+    this.damage = 1;
+    this.ammoMax = 10;
+    this.ammo = 0;
+    this.cooldownTime = 0.75;
+    this.timeToCooldown = 0;
+    this.ammo = this.ammoMax;
+    this.timeToCooldown = this.cooldownTime;
+  }
+
+}
+
+module.exports = Weapon;
+},{}]},{},[29]);

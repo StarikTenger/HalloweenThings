@@ -2,10 +2,6 @@
 const babelify = require('babelify')
 const browserify = require("browserify")
 const incremental = require('browserify-incremental')
-const SASS = require("node-sass")
-const CompileCache = require("../compilecache")
-const JSBuilder = require("../jsbuilder")
-const GLSLMinify = require("../glsl-minifier/glsl-minifier")
 const Timings = require("../timings")
 const resourceify = require("../resourceify")
 const folderify = require("../folderify")
@@ -129,7 +125,7 @@ class Compiler {
     /**
      * @async
      * @private
-     * @return {Promise>}
+     * @return {Promise}
      */
 
     async finished() {

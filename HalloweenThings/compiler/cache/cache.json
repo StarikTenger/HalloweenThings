@@ -1108,6 +1108,158 @@
 					"resource": "/Users/Temich/PycharmProjects/tanks/src/client/mapeditor/style.css"
 				}
 			]
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/vec2.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/draw.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/anime.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/deque.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/cell.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/random.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/light-source.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/build/textures/atlas.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/texture.js": {
+			"modificationTime": 1603995512494,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/node_modules/howler/dist/howler.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/parameters.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/maze.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/animation.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/subject.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/entity.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/weapon.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/utils/event-emitter.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/axle.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/user-controls.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/temporal-light-source.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/events/documenteventhandler.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/character-controls.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/player.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/gamepadbutton.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/gamepadaxle.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/gamepad-controller.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monsters/ghost.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monsters/skeleton.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monsters/zombie.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monsters/tentaсle.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monsters/spider.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monsters/bat.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/entity/monster.js": {
+			"modificationTime": 1603995690224,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/buttonaxle.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/keyaxle.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/controls/keyboardcontroller.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/game.js": {
+			"modificationTime": 1603995512495,
+			"data": []
+		},
+		"/Users/Temich/WebstormProjects/HalloweenThings/HalloweenThings/scripts/main.js": {
+			"modificationTime": 1603995512495,
+			"data": []
 		}
 	},
 	"css-compiler": {

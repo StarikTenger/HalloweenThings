@@ -109,14 +109,5 @@ class Monster extends Entity {
 module.exports = Monster
 
 // Trailing monster loader
-// TODO: use my browserify module for this
-
-Monster.classes = [
-    require("./monsters/zombie"),
-    require("./monsters/skeleton"),
-    require("./monsters/tentaсle"),
-    require("./monsters/ghost"),
-    require("./monsters/spider"),
-    require("./monsters/bat")
-]
+Monster.classes = require("./monsters/")
 

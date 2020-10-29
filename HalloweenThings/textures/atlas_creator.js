@@ -62,7 +62,7 @@ readdirdeep("./source").then((list) => {
 			break
 		}
 
-		json[img[0]] = {
+		json[img[0].replace(/\\/g, "/")] = {
 			x: (atl.rect.x + 1),
 			y: (atl.rect.y + 1),
 			w: (atl.rect.w - 2),

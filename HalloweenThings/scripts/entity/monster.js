@@ -1,6 +1,7 @@
 
 const Entity = require("./entity")
 const Vec2 = require("../vec2")
+const Random = require("../random")
 
 class Monster extends Entity {
 
@@ -34,6 +35,12 @@ class Monster extends Entity {
      */
     damage = 1
 
+    /**
+     * Monster level, indicates on which level monster cam be spawned
+     * @type {number}
+     */
+    level = 0
+
     constructor(config) {
         super(config);
     }
@@ -42,9 +49,6 @@ class Monster extends Entity {
         let classIndex = Math.floor(Math.random() * Monster.classes.length);
         let Clazz = Monster.classes[classIndex];
         // Chosing direction for skeleton patrolling
-        if (classIndex === 1) {
-            this.dir = LEFT;
-        }
         return new Clazz({
             game:game
         })

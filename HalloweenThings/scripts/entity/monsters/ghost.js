@@ -23,28 +23,22 @@ class Ghost extends Monster {
         super.behavior();
         // Movement
         let deltaPos = new Vec2(0, 0);
-        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
-        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
-
-        if (this.dir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-            this.dir = RIGHT;
-            console.log('l');
+        // Check neighbor cells to find
+        let neighbors = [
+            new Vec2(1, 0),
+            new Vec2(-1, 0),
+            new Vec2(0, 1),
+            new Vec2(0, -1)
+        ];
+        for (let j = 0; j < 4; j++) {
+            let pos1 = this.gridPos.plus(neighbors[j]);
+            if (this.game.checkCell(pos1))
+                continue;
+            if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav)
+                deltaPos = deltaPos.plus(neighbors[j]);
         }
-        if (this.dir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-            this.dir = LEFT;
-            console.log('r');
-        }
-
-        if (this.dir === LEFT) {
-            deltaPos.x = -1;
-        }
-        else {
-            deltaPos.x = 1;
-        }
-
-
-        let vel = 0.5;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+        let vel = 0.3;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
     }
 }
 

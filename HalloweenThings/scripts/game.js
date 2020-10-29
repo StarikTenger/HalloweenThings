@@ -1,10 +1,10 @@
-const Animation = require("./animation.js")
-const Anime = require("./anime.js")
-const Cell = require("./cell.js")
-const Deque = require("./deque.js")
-const Entity = require("./entity/entity.js")
-const LightSource = require("./light-source.js")
-const Vec2 = require("./vec2.js")
+const Animation = require("./animation")
+const Anime = require("./anime")
+const Cell = require("./cell")
+const Deque = require("./deque")
+const Entity = require("./entity/entity")
+const LightSource = require("./light-source")
+const Vec2 = require("./vec2")
 const Subject = require("./subject")
 const Random = require("./random")
 const Maze = require("./maze")
@@ -485,9 +485,10 @@ class Game {
         // Despawning monsters
         for (let i = 0; i < this.monsters.length; i++) {
             let monster = this.monsters[i];
-            if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000) {
+            // Dead, too far or inappropriate level
+            if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000 || monster.level > this.level) {
                 // Drop items
-                if (Random.random(0, 99) < 70) { // Chance 70%
+                if (monster.hp <= 0 && Random.random(0, 99) < 70) { // Chance 70%
                     let sbj = new Subject(); // Dropped subject
                     sbj.type = this.subject_type();
                     sbj.pos = monster.pos;

@@ -4203,6 +4203,7 @@ module.exports = Entity
 
 const Entity = require("./entity")
 const Vec2 = require("../vec2")
+const Random = require("../random")
 
 class Monster extends Entity {
 
@@ -4236,6 +4237,12 @@ class Monster extends Entity {
      */
     damage = 1
 
+    /**
+     * Monster level, indicates on which level monster cam be spawned
+     * @type {number}
+     */
+    level = 0
+
     constructor(config) {
         super(config);
     }
@@ -4244,9 +4251,6 @@ class Monster extends Entity {
         let classIndex = Math.floor(Math.random() * Monster.classes.length);
         let Clazz = Monster.classes[classIndex];
         // Chosing direction for skeleton patrolling
-        if (classIndex === 1) {
-            this.dir = LEFT;
-        }
         return new Clazz({
             game:game
         })
@@ -4317,7 +4321,7 @@ Monster.classes = [
 ]
 
 
-},{"../vec2":33,"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
+},{"../random":29,"../vec2":33,"./entity":16,"./monsters/ghost":18,"./monsters/skeleton":19,"./monsters/tentaсle":20,"./monsters/zombie":21}],18:[function(require,module,exports){
 
 const Monster = require("../monster")
 const Random = require("../../random")
@@ -4343,28 +4347,22 @@ class Ghost extends Monster {
         super.behavior();
         // Movement
         let deltaPos = new Vec2(0, 0);
-        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
-        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
-
-        if (this.dir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
-            this.dir = RIGHT;
-            console.log('l');
+        // Check neighbor cells to find
+        let neighbors = [
+            new Vec2(1, 0),
+            new Vec2(-1, 0),
+            new Vec2(0, 1),
+            new Vec2(0, -1)
+        ];
+        for (let j = 0; j < 4; j++) {
+            let pos1 = this.gridPos.plus(neighbors[j]);
+            if (this.game.checkCell(pos1))
+                continue;
+            if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav)
+                deltaPos = deltaPos.plus(neighbors[j]);
         }
-        if (this.dir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
-            this.dir = LEFT;
-            console.log('r');
-        }
-
-        if (this.dir === LEFT) {
-            deltaPos.x = -1;
-        }
-        else {
-            deltaPos.x = 1;
-        }
-
-
-        let vel = 0.5;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
+        let vel = 0.3;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
     }
 }
 
@@ -4384,6 +4382,8 @@ class Skeleton extends Monster {
         this.horror = 0.1
         this.seenRange = 100000;
 
+        this.patrolDir = Random.random(1, 4);
+
         // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
         // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
         // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
@@ -4399,24 +4399,47 @@ class Skeleton extends Monster {
 
     behavior() {
         super.behavior();
+
         // Movement
         let deltaPos = new Vec2(0, 0);
-        // Check neighbor cells to find
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        for (let j = 0; j < 4; j++) {
-            let pos1 = this.gridPos.plus(neighbors[j]);
-            if (this.game.checkCell(pos1))
-                continue;
-            if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav)
-                deltaPos = deltaPos.plus(neighbors[j]);
+        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
+        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
+        let gridPosUp = this.game.getCell(this.pos.plus(new Vec2(0, -1)));
+        let gridPosDown = this.game.getCell(this.pos.plus(new Vec2(0, +1)));
+
+        if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+            this.patrolDir = RIGHT;
+            console.log('l');
         }
-        let vel = 0.3;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
+        if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+            this.patrolDir = LEFT;
+            console.log('r');
+        }
+        if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
+            this.patrolDir = DOWN;
+            console.log('u');
+        }
+        if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
+            this.patrolDir = UP;
+            console.log('d');
+        }
+
+        if (this.patrolDir === LEFT) {
+            deltaPos.x = -1;
+        }
+        else if (this.patrolDir === RIGHT) {
+            deltaPos.x = 1;
+        }
+        else if (this.patrolDir === UP) {
+            deltaPos.y = -1;
+        }
+        else if (this.patrolDir === DOWN) {
+            deltaPos.y = 1;
+        }
+
+
+        let vel = 0.5;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
     }
 }
 
@@ -4871,13 +4894,13 @@ class DocumentEventHandler extends EventEmitter {
 
 module.exports = DocumentEventHandler
 },{"../utils/event-emitter":32}],24:[function(require,module,exports){
-const Animation = require("./animation.js")
-const Anime = require("./anime.js")
-const Cell = require("./cell.js")
-const Deque = require("./deque.js")
-const Entity = require("./entity/entity.js")
-const LightSource = require("./light-source.js")
-const Vec2 = require("./vec2.js")
+const Animation = require("./animation")
+const Anime = require("./anime")
+const Cell = require("./cell")
+const Deque = require("./deque")
+const Entity = require("./entity/entity")
+const LightSource = require("./light-source")
+const Vec2 = require("./vec2")
 const Subject = require("./subject")
 const Random = require("./random")
 const Maze = require("./maze")
@@ -5358,9 +5381,10 @@ class Game {
         // Despawning monsters
         for (let i = 0; i < this.monsters.length; i++) {
             let monster = this.monsters[i];
-            if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000) {
+            // Dead, too far or inappropriate level
+            if (monster.hp <= 0 || monster.pos.dist(this.player.pos) > 1000 || monster.level > this.level) {
                 // Drop items
-                if (Random.random(0, 99) < 70) { // Chance 70%
+                if (monster.hp <= 0 && Random.random(0, 99) < 70) { // Chance 70%
                     let sbj = new Subject(); // Dropped subject
                     sbj.type = this.subject_type();
                     sbj.pos = monster.pos;
@@ -5646,7 +5670,7 @@ class Game {
 }
 
 module.exports = Game
-},{"./animation.js":2,"./anime.js":3,"./cell.js":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque.js":14,"./entity/entity.js":16,"./entity/monster":17,"./entity/monsters/ghost":18,"./entity/monsters/skeleton":19,"./entity/monsters/tentaсle":20,"./entity/monsters/zombie":21,"./entity/player":22,"./light-source.js":25,"./maze":27,"./random":29,"./subject":30,"./vec2.js":33}],25:[function(require,module,exports){
+},{"./animation":2,"./anime":3,"./cell":4,"./controls/gamepad-controller":8,"./controls/keyboardcontroller":12,"./controls/user-controls":13,"./deque":14,"./entity/entity":16,"./entity/monster":17,"./entity/monsters/ghost":18,"./entity/monsters/skeleton":19,"./entity/monsters/tentaсle":20,"./entity/monsters/zombie":21,"./entity/player":22,"./light-source":25,"./maze":27,"./random":29,"./subject":30,"./vec2":33}],25:[function(require,module,exports){
 // Light source
 class LightSource {
     constructor(pos, power) {

@@ -12,6 +12,8 @@ class Skeleton extends Monster {
         this.horror = 0.1
         this.seenRange = 100000;
 
+        this.patrolDir = Random.random(1, 4);
+
         // let standing_animation = new Anime(0.5, ANM_SKELETON_STANDING);
         // let moving_up_animation = new Anime(0.3, ANM_SKELETON_MOVING_UP);
         // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
@@ -27,24 +29,47 @@ class Skeleton extends Monster {
 
     behavior() {
         super.behavior();
+
         // Movement
         let deltaPos = new Vec2(0, 0);
-        // Check neighbor cells to find
-        let neighbors = [
-            new Vec2(1, 0),
-            new Vec2(-1, 0),
-            new Vec2(0, 1),
-            new Vec2(0, -1)
-        ];
-        for (let j = 0; j < 4; j++) {
-            let pos1 = this.gridPos.plus(neighbors[j]);
-            if (this.game.checkCell(pos1))
-                continue;
-            if (this.game.grid[pos1.x][pos1.y].ghostNav > this.game.grid[this.gridPos.x][this.gridPos.y].ghostNav)
-                deltaPos = deltaPos.plus(neighbors[j]);
+        let gridPosLeft = this.game.getCell(this.pos.plus(new Vec2(-1, 0)));
+        let gridPosRight = this.game.getCell(this.pos.plus(new Vec2(+1, 0)));
+        let gridPosUp = this.game.getCell(this.pos.plus(new Vec2(0, -1)));
+        let gridPosDown = this.game.getCell(this.pos.plus(new Vec2(0, +1)));
+
+        if (this.patrolDir === LEFT && this.game.grid[gridPosLeft.x][gridPosLeft.y].obstacle) {
+            this.patrolDir = RIGHT;
+            console.log('l');
         }
-        let vel = 0.3;
-        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 1);
+        if (this.patrolDir === RIGHT && this.game.grid[gridPosRight.x][gridPosRight.y].obstacle) {
+            this.patrolDir = LEFT;
+            console.log('r');
+        }
+        if (this.patrolDir === UP && this.game.grid[gridPosUp.x][gridPosUp.y].obstacle) {
+            this.patrolDir = DOWN;
+            console.log('u');
+        }
+        if (this.patrolDir === DOWN && this.game.grid[gridPosDown.x][gridPosDown.y].obstacle) {
+            this.patrolDir = UP;
+            console.log('d');
+        }
+
+        if (this.patrolDir === LEFT) {
+            deltaPos.x = -1;
+        }
+        else if (this.patrolDir === RIGHT) {
+            deltaPos.x = 1;
+        }
+        else if (this.patrolDir === UP) {
+            deltaPos.y = -1;
+        }
+        else if (this.patrolDir === DOWN) {
+            deltaPos.y = 1;
+        }
+
+
+        let vel = 0.5;
+        this.game.move(this, deltaPos.mult(new Vec2(vel, vel)), 0);
     }
 }
 

@@ -115,6 +115,7 @@ Monster.classes = [
     require("./monsters/zombie"),
     require("./monsters/skeleton"),
     require("./monsters/tentaсle"),
-    require("./monsters/ghost")
+    require("./monsters/ghost"),
+    require("./monsters/spider")
 ]
 

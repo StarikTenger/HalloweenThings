@@ -121,8 +121,7 @@ window.addEventListener("load", async function() {
         Texture.named("player/player_moving_down_1")
     ];
 
-    // MONSTERS
-
+    //// MONSTERS ////
 
     // Zombie
     window.ANM_ZOMBIE_STANDING = [
@@ -173,7 +172,7 @@ window.addEventListener("load", async function() {
         Texture.named("monsters/ghost_moving_right_3"),
     ];
 
-// Worm
+    // Worm
     window.ANM_WORM_STANDING = [
         Texture.named("monsters/worm_standing_0"),
         Texture.named("monsters/worm_standing_1"),
@@ -181,7 +180,14 @@ window.addEventListener("load", async function() {
         Texture.named("monsters/worm_standing_3")
     ]
 
-// GATES
+    // Spider
+    window.ANM_SPIDER_MOVING = [
+        Texture.named("monsters/spider_moving_0"),
+        Texture.named("monsters/spider_moving_1"),
+        Texture.named("monsters/spider_moving_2"),
+    ];
+
+    // GATES
     window.ANM_GATES = [
         Texture.named("particles/gates/gates0"),
         Texture.named("particles/gates/gates1"),
@@ -189,7 +195,7 @@ window.addEventListener("load", async function() {
         Texture.named("particles/gates/gates3")
     ];
 
-// ===================
+    // ===================
 
     window.IMG_MONSTER0 = Texture.named("monsters/zombie_standing_0");
     window.IMG_SHADOW = Texture.named("shadow");
@@ -198,13 +204,13 @@ window.addEventListener("load", async function() {
     window.IMG_MATCH = Texture.named("interface/match");
     window.IMG_MENTAL_DANGER = Texture.named("interface/mental_danger");
 
-// Endgame screens
+    // Endgame screens
     window.IMG_DEAD = Texture.named("interface/deathscreen");
     window.IMG_DELIRIOUS = Texture.named("interface/deliriumscreen");
     window.IMG_WIN = Texture.named("interface/winscreen");
     window.IMG_START_SCREEN = Texture.named("interface/startscreen");
 
-// Sprite animations
+    // Sprite animations
     window.ANM_BLOOD = [
         Texture.named("particles/blood/blood0"),
         Texture.named("particles/blood/blood1"),

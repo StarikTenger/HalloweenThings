@@ -6557,11 +6557,7 @@ class Game {
 
     if (this.keyboard.keyPressedOnce("Enter")) {
       this.RELOAD = 1;
-    } //
-    // //// WIN ////
-    // if (this.player.pos.y < MARGIN * 8 - 8)
-    //     this.player.status = 3;
-
+    }
   } // Monster management
 
 
@@ -6811,7 +6807,10 @@ class Game {
 
     if (this.keyboard.keyPressedOnce("Enter")) {
       this.RELOAD = 1;
-    }
+    } // If game is winned
+
+
+    if (this.player.pos.y < MARGIN * 8 - 8) this.player.status = 3;
   }
 
   spawnPlayer(pos) {
@@ -7101,7 +7100,7 @@ window.EPS = 0.0001; // Limitations for player
 window.LIMIT_HP = 3;
 window.LIMIT_OIL = 10;
 window.LIMIT_MIND = 10;
-window.LIMIT_MATCHES = 3;
+window.LIMIT_MATCHES = 10;
 window.OIL_CONSUMPTION = 0.2;
 window.DIST_LIGHT = 7;
 window.DIST_LOAD = 12;
@@ -7109,15 +7108,15 @@ window.MONSTER_LIMIT = 16 * 0; // Maximum number of monsters
 
 window.MONSTER_PERIOD = 1; // Time between monsters spawn
 
-window.SUBJECT_LIMIT = 10; // Maximum number of subjects
+window.SUBJECT_LIMIT = 100; // Maximum number of subjects
 
 window.SUBJECT_PERIOD = 1; // Time between subjects spawn
 // Map parameters
 
 window.MARGIN = 3; // Cells on map's sides, that are not changing
 
-window.SIZE_X = 11 + MARGIN * 2;
-window.SIZE_Y = 11 + MARGIN * 2; // Music
+window.SIZE_X = 9 + MARGIN * 2;
+window.SIZE_Y = 9 + MARGIN * 2; // Music
 
 window.VOLUME = 1; // Sounds
 // Loop

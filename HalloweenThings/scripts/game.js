@@ -454,11 +454,6 @@ class Game {
         if (this.keyboard.keyPressedOnce("Enter")) {
             this.RELOAD = 1;
         }
-
-        //
-        // //// WIN ////
-        // if (this.player.pos.y < MARGIN * 8 - 8)
-        //     this.player.status = 3;
     }
 
     // Monster management
@@ -736,6 +731,10 @@ class Game {
         if (this.keyboard.keyPressedOnce("Enter")) {
             this.RELOAD = 1;
         }
+
+        // If game is winned
+        if (this.player.pos.y < MARGIN * 8 - 8)
+            this.player.status = 3;
     }
 
     spawnPlayer(pos) {

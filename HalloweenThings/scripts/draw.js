@@ -1,4 +1,3 @@
-
 const Vec2 = require("./vec2")
 
 // This class is responsible for drawing
@@ -8,6 +7,16 @@ class Draw {
 
         this.cam = new Vec2(0, 0); // Camera position
         this.center = new Vec2(64, 64); // Screen center (здфнукы ы)
+
+        this.lightCanvas = document.createElement("canvas")
+        this.lightCanvas.width = this.ctx.canvas.width / SCALE
+        this.lightCanvas.height = this.ctx.canvas.height / SCALE
+
+        this.lightCtx = this.lightCanvas.getContext("2d")
+        //this.lightCtx.translate(-this.center.x, -this.center.y)
+
+        this.ctx.imageSmoothingEnabled = 0;
+        this.ctx.scale(SCALE, SCALE)
     }
 
     image(texture, x, y, w, h, flip) {
@@ -19,45 +28,49 @@ class Draw {
         if(!flip)
             flip = 0;
 
-        this.ctx.save();
         let width = 1;
         if (flip) {
+            this.ctx.save();
             this.ctx.scale(-1, 1);
             width = -1;
         }
-        this.ctx.imageSmoothingEnabled = 0;
 
-        this.ctx.drawImage(Texture.image,
-            texture.rect.x,
-            texture.rect.y,
-            texture.rect.w,
-            texture.rect.h,
-            width*(x + w * flip - this.cam.x + this.center.x) * SCALE,
-            (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+        this.ctx.drawImage(Texture.image, texture.rect.x, texture.rect.y, texture.rect.w, texture.rect.h, width * (x + w * flip), y, w, h)
 
-        this.ctx.restore();
+        if(flip) {
+            this.ctx.restore();
+        }
     }
 
-    rect(x, y, w, h, color) {
+    rect(x, y, w, h, color, ctx) {
+        ctx = ctx || this.ctx
         // x = Math.round(x);
         // y = Math.round(y);
         // w = Math.round(w);
         // h = Math.round(h);
 
-        this.ctx.imageSmoothingEnabled = 0;
-        this.ctx.fillStyle = color;
-        this.ctx.fillRect((x - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, w, h);
     }
 
     draw(game) {
 
         // Focusing camera
         this.cam = game.player.pos;
-        this.center = new Vec2(64, 64);
+        this.center.set(64, 64);
 
         // Filling background
         this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0, 0, 10000, 10000);
+        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+        this.lightCtx.fillStyle = "black"
+        this.lightCtx.fillRect(0, 0, this.lightCanvas.width, this.lightCanvas.height)
+
+        this.lightCtx.save()
+        this.ctx.save()
+
+        this.ctx.translate(- this.cam.x + this.center.x, - this.cam.y + this.center.y)
+        this.lightCtx.translate(- this.cam.x + this.center.x, - this.cam.y + this.center.y)
 
         this.ySorted = [];
 
@@ -65,7 +78,7 @@ class Draw {
         for (let x = 0; x < SIZE_X; x++) {
             for (let y = 0; y < SIZE_Y; y++) {
                 if(game.grid[x][y].light <= 0 && game.player.pos.distToPosition(x * 8 + 4, y * 8 + 4) > DIST_LIGHT * 2 * 8) // We don't see this cell
-                   continue;
+                    continue;
                 let cell = game.grid[x][y];
 
                 // Choosing room covering & wall (should be better in generate)
@@ -211,12 +224,29 @@ class Draw {
                     }
                 }
 
+                if(sum === 0) {
+                    continue;
+                }
+
                 val /= sum;
 
-                let alpha = (1 - (val / DIST_LIGHT));
-                this.rect(x1, y1, pixelSize, pixelSize, "rgba(0,0,0," + alpha + ")");
+                let light = val / DIST_LIGHT;
+                if(light <= 0) {
+                    continue;
+                }
+
+                this.rect(x1, y1, pixelSize, pixelSize, "rgba(255,255,255," + light + ")", this.lightCtx);
             }
         }
+
+        this.ctx.restore()
+        this.lightCtx.restore()
+
+        this.ctx.globalCompositeOperation = "multiply"
+
+        this.ctx.drawImage(this.lightCanvas, 0, 0, this.lightCanvas.width, this.lightCanvas.height)
+
+        this.ctx.globalCompositeOperation = "source-over"
 
         //// Interface ////
         this.cam = new Vec2(0, 0);

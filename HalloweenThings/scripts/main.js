@@ -144,6 +144,31 @@ window.addEventListener("load", async function() {
         Texture.named("monsters/zombie_moving_right_1")
     ];
 
+    // Skelet
+    window.ANM_SKELET_STANDING = [
+        Texture.named("monsters/skelet_moving_right_0"),
+        Texture.named("monsters/skelet_moving_right_1"),
+        Texture.named("monsters/skelet_moving_right_2"),
+    ];
+
+    window.ANM_SKELET_MOVING_UP = [
+        Texture.named("monsters/skelet_moving_right_0"),
+        Texture.named("monsters/skelet_moving_right_1"),
+        Texture.named("monsters/skelet_moving_right_2"),
+    ];
+
+    window.ANM_SKELET_MOVING_DOWN = [
+        Texture.named("monsters/skelet_moving_right_0"),
+        Texture.named("monsters/skelet_moving_right_1"),
+        Texture.named("monsters/skelet_moving_right_2"),
+    ];
+
+    window.ANM_SKELET_MOVING_RIGHT = [
+        Texture.named("monsters/skelet_moving_right_0"),
+        Texture.named("monsters/skelet_moving_right_1"),
+        Texture.named("monsters/skelet_moving_right_2"),
+    ];
+
     // Ghost
     window.ANM_GHOST_STANDING = [
         Texture.named("monsters/ghost_standing_0"),

@@ -54,13 +54,13 @@ module.exports = {
     "w": 64,
     "h": 64
   },
-  "interface/startscreen": {
+  "interface/start_screen": {
     "x": 1,
     "y": 199,
     "w": 64,
     "h": 64
   },
-  "interface/start_screen": {
+  "interface/startscreen": {
     "x": 1,
     "y": 265,
     "w": 64,
@@ -222,6 +222,24 @@ module.exports = {
     "w": 24,
     "h": 32
   },
+  "monsters/skelet_moving_right_2": {
+    "x": 101,
+    "y": 301,
+    "w": 16,
+    "h": 32
+  },
+  "monsters/skelet_moving_right_1": {
+    "x": 101,
+    "y": 335,
+    "w": 16,
+    "h": 32
+  },
+  "monsters/skelet_moving_right_0": {
+    "x": 101,
+    "y": 369,
+    "w": 16,
+    "h": 32
+  },
   "walls/column": {
     "x": 497,
     "y": 1,
@@ -230,43 +248,43 @@ module.exports = {
   },
   "particles/gates/gates3": {
     "x": 101,
-    "y": 301,
+    "y": 403,
     "w": 16,
     "h": 16
   },
   "particles/gates/gates2": {
     "x": 101,
-    "y": 319,
+    "y": 421,
     "w": 16,
     "h": 16
   },
   "particles/gates/gates1": {
     "x": 101,
-    "y": 337,
+    "y": 439,
     "w": 16,
     "h": 16
   },
   "particles/gates/gates0": {
     "x": 101,
-    "y": 355,
+    "y": 457,
     "w": 16,
     "h": 16
   },
   "gates_full": {
     "x": 101,
-    "y": 373,
+    "y": 475,
     "w": 16,
     "h": 16
   },
   "gates_anim_1": {
     "x": 101,
-    "y": 391,
+    "y": 493,
     "w": 16,
     "h": 16
   },
   "gates_anim_0": {
-    "x": 101,
-    "y": 409,
+    "x": 135,
+    "y": 133,
     "w": 16,
     "h": 16
   },
@@ -284,541 +302,541 @@ module.exports = {
   },
   "spec_graves/spec_grave2": {
     "x": 119,
-    "y": 319,
+    "y": 335,
     "w": 8,
     "h": 16
   },
   "spec_graves/spec_grave1": {
     "x": 119,
-    "y": 337,
+    "y": 369,
     "w": 8,
     "h": 16
   },
   "player/player_walking_1": {
     "x": 119,
-    "y": 355,
+    "y": 403,
     "w": 8,
     "h": 16
   },
   "player/player_walking_0": {
     "x": 119,
-    "y": 373,
+    "y": 421,
     "w": 8,
     "h": 16
   },
   "player/player_standing_1": {
     "x": 119,
-    "y": 391,
+    "y": 439,
     "w": 8,
     "h": 16
   },
   "player/player_standing_0": {
     "x": 119,
-    "y": 409,
+    "y": 457,
     "w": 8,
     "h": 16
   },
   "player/player_moving_up_1": {
-    "x": 101,
-    "y": 427,
+    "x": 119,
+    "y": 475,
     "w": 8,
     "h": 16
   },
   "player/player_moving_up_0": {
-    "x": 111,
-    "y": 427,
+    "x": 119,
+    "y": 493,
     "w": 8,
     "h": 16
   },
   "player/player_moving_right_1": {
-    "x": 121,
-    "y": 427,
+    "x": 153,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "player/player_moving_right_0": {
-    "x": 101,
-    "y": 445,
+    "x": 163,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "player/player_moving_down_1": {
-    "x": 111,
-    "y": 445,
+    "x": 173,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "player/player_moving_down_0": {
-    "x": 121,
-    "y": 445,
+    "x": 183,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "player/player_moving_1": {
-    "x": 101,
-    "y": 463,
+    "x": 193,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "player/player_moving_0": {
-    "x": 111,
-    "y": 463,
+    "x": 203,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_red_5": {
-    "x": 121,
-    "y": 463,
+    "x": 213,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_red_4": {
-    "x": 101,
-    "y": 481,
+    "x": 223,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_red_3": {
-    "x": 111,
-    "y": 481,
+    "x": 233,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_red_2": {
-    "x": 121,
-    "y": 481,
+    "x": 243,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_red_1": {
-    "x": 135,
+    "x": 253,
     "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_red_0": {
-    "x": 135,
-    "y": 151,
+    "x": 263,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_green_5": {
-    "x": 135,
-    "y": 169,
+    "x": 273,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_green_4": {
-    "x": 135,
-    "y": 187,
+    "x": 283,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_green_3": {
-    "x": 135,
-    "y": 205,
+    "x": 293,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_green_2": {
-    "x": 135,
-    "y": 223,
+    "x": 303,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_green_1": {
-    "x": 135,
-    "y": 241,
+    "x": 313,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_green_0": {
-    "x": 135,
-    "y": 259,
+    "x": 323,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_blue_5": {
-    "x": 135,
-    "y": 277,
+    "x": 333,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_blue_4": {
-    "x": 135,
-    "y": 295,
+    "x": 343,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_blue_3": {
-    "x": 135,
-    "y": 313,
+    "x": 353,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_blue_2": {
-    "x": 135,
-    "y": 331,
+    "x": 363,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_blue_1": {
-    "x": 135,
-    "y": 349,
+    "x": 373,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition_blue_0": {
-    "x": 135,
-    "y": 367,
+    "x": 383,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition5": {
-    "x": 135,
-    "y": 385,
+    "x": 393,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition4": {
-    "x": 135,
-    "y": 403,
+    "x": 403,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition3": {
-    "x": 135,
-    "y": 421,
+    "x": 413,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition2": {
-    "x": 135,
-    "y": 439,
+    "x": 423,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition1": {
-    "x": 135,
-    "y": 457,
+    "x": 433,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/ignition/ignition0": {
-    "x": 135,
-    "y": 475,
+    "x": 443,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/active_grave/active_grave_4": {
-    "x": 135,
-    "y": 493,
+    "x": 453,
+    "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/active_grave/active_grave_3": {
-    "x": 145,
+    "x": 463,
     "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/active_grave/active_grave_2": {
-    "x": 155,
+    "x": 473,
     "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/active_grave/active_grave_1": {
-    "x": 165,
+    "x": 483,
     "y": 133,
     "w": 8,
     "h": 16
   },
   "particles/active_grave/active_grave_0": {
-    "x": 175,
+    "x": 493,
     "y": 133,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_standing_1": {
-    "x": 185,
+    "x": 503,
     "y": 133,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_standing_0": {
-    "x": 195,
-    "y": 133,
+    "x": 135,
+    "y": 151,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_moving_up_1": {
-    "x": 205,
-    "y": 133,
+    "x": 135,
+    "y": 169,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_moving_up_0": {
-    "x": 215,
-    "y": 133,
+    "x": 135,
+    "y": 187,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_moving_right_1": {
-    "x": 225,
-    "y": 133,
+    "x": 135,
+    "y": 205,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_moving_right_0": {
-    "x": 235,
-    "y": 133,
+    "x": 135,
+    "y": 223,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_moving_down_1": {
-    "x": 245,
-    "y": 133,
+    "x": 135,
+    "y": 241,
     "w": 8,
     "h": 16
   },
   "monsters/zombie_moving_down_0": {
-    "x": 255,
-    "y": 133,
+    "x": 135,
+    "y": 259,
     "w": 8,
     "h": 16
   },
   "monsters/worm_standing_3": {
-    "x": 265,
-    "y": 133,
+    "x": 135,
+    "y": 277,
     "w": 8,
     "h": 16
   },
   "monsters/worm_standing_2": {
-    "x": 275,
-    "y": 133,
+    "x": 135,
+    "y": 295,
     "w": 8,
     "h": 16
   },
   "monsters/worm_standing_1": {
-    "x": 285,
-    "y": 133,
+    "x": 135,
+    "y": 313,
     "w": 8,
     "h": 16
   },
   "monsters/worm_standing_0": {
-    "x": 295,
-    "y": 133,
+    "x": 135,
+    "y": 331,
     "w": 8,
     "h": 16
   },
   "monsters/monster_standing_1": {
-    "x": 305,
-    "y": 133,
+    "x": 135,
+    "y": 349,
     "w": 8,
     "h": 16
   },
   "monsters/monster_standing_01": {
-    "x": 315,
-    "y": 133,
+    "x": 135,
+    "y": 367,
     "w": 8,
     "h": 16
   },
   "monsters/monster_standing_0": {
-    "x": 325,
-    "y": 133,
+    "x": 135,
+    "y": 385,
     "w": 8,
     "h": 16
   },
   "monsters/monster4": {
-    "x": 335,
-    "y": 133,
+    "x": 135,
+    "y": 403,
     "w": 8,
     "h": 16
   },
   "monsters/monster3": {
-    "x": 345,
-    "y": 133,
+    "x": 135,
+    "y": 421,
     "w": 8,
     "h": 16
   },
   "monsters/monster2": {
-    "x": 355,
-    "y": 133,
+    "x": 135,
+    "y": 439,
     "w": 8,
     "h": 16
   },
   "monsters/monster1": {
-    "x": 365,
-    "y": 133,
+    "x": 135,
+    "y": 457,
     "w": 8,
     "h": 16
   },
   "monsters/ghost_standing_1": {
-    "x": 375,
-    "y": 133,
+    "x": 135,
+    "y": 475,
     "w": 8,
     "h": 16
   },
   "monsters/ghost_standing_0": {
-    "x": 385,
-    "y": 133,
+    "x": 135,
+    "y": 493,
     "w": 8,
     "h": 16
   },
   "monsters/ghost_moving_up_3": {
-    "x": 395,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_up_2": {
-    "x": 405,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_up_1": {
-    "x": 415,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_up_0": {
-    "x": 425,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_right_3": {
-    "x": 435,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_right_2": {
-    "x": 445,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_right_1": {
-    "x": 455,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_right_0": {
-    "x": 465,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_down_3": {
-    "x": 475,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_down_2": {
-    "x": 485,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_down_1": {
-    "x": 495,
-    "y": 133,
-    "w": 8,
-    "h": 16
-  },
-  "monsters/ghost_moving_down_0": {
     "x": 145,
     "y": 151,
     "w": 8,
     "h": 16
   },
-  "graves/grave_player": {
+  "monsters/ghost_moving_up_2": {
     "x": 145,
     "y": 169,
     "w": 8,
     "h": 16
   },
-  "graves/grave_10": {
+  "monsters/ghost_moving_up_1": {
     "x": 145,
     "y": 187,
     "w": 8,
     "h": 16
   },
-  "graves/grave1": {
+  "monsters/ghost_moving_up_0": {
     "x": 145,
     "y": 205,
     "w": 8,
     "h": 16
   },
-  "graves/grave0": {
+  "monsters/ghost_moving_right_3": {
     "x": 145,
     "y": 223,
     "w": 8,
     "h": 16
   },
-  "gates2": {
+  "monsters/ghost_moving_right_2": {
     "x": 145,
     "y": 241,
     "w": 8,
     "h": 16
   },
-  "gates1": {
+  "monsters/ghost_moving_right_1": {
     "x": 145,
     "y": 259,
     "w": 8,
     "h": 16
   },
-  "coverings/covering8": {
+  "monsters/ghost_moving_right_0": {
     "x": 145,
     "y": 277,
     "w": 8,
     "h": 16
   },
-  "coverings/covering7": {
+  "monsters/ghost_moving_down_3": {
     "x": 145,
     "y": 295,
     "w": 8,
     "h": 16
   },
-  "coverings/covering6": {
+  "monsters/ghost_moving_down_2": {
     "x": 145,
     "y": 313,
     "w": 8,
     "h": 16
   },
-  "coverings/covering5": {
+  "monsters/ghost_moving_down_1": {
     "x": 145,
     "y": 331,
     "w": 8,
     "h": 16
   },
-  "coverings/covering4": {
+  "monsters/ghost_moving_down_0": {
     "x": 145,
     "y": 349,
     "w": 8,
     "h": 16
   },
-  "coverings/covering3": {
+  "graves/grave_player": {
     "x": 145,
     "y": 367,
     "w": 8,
     "h": 16
   },
-  "coverings/covering2": {
+  "graves/grave_10": {
     "x": 145,
     "y": 385,
     "w": 8,
     "h": 16
   },
-  "coverings/covering1": {
+  "graves/grave1": {
     "x": 145,
     "y": 403,
+    "w": 8,
+    "h": 16
+  },
+  "graves/grave0": {
+    "x": 145,
+    "y": 421,
+    "w": 8,
+    "h": 16
+  },
+  "gates2": {
+    "x": 145,
+    "y": 439,
+    "w": 8,
+    "h": 16
+  },
+  "gates1": {
+    "x": 145,
+    "y": 457,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering8": {
+    "x": 145,
+    "y": 475,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering7": {
+    "x": 145,
+    "y": 493,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering6": {
+    "x": 155,
+    "y": 151,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering5": {
+    "x": 155,
+    "y": 169,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering4": {
+    "x": 155,
+    "y": 187,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering3": {
+    "x": 155,
+    "y": 205,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering2": {
+    "x": 155,
+    "y": 223,
+    "w": 8,
+    "h": 16
+  },
+  "coverings/covering1": {
+    "x": 155,
+    "y": 241,
     "w": 8,
     "h": 16
   },
@@ -859,116 +877,116 @@ module.exports = {
     "h": 8
   },
   "subjects/whiskey": {
-    "x": 101,
-    "y": 499,
+    "x": 119,
+    "y": 319,
     "w": 8,
     "h": 8
   },
   "subjects/oil": {
-    "x": 111,
-    "y": 499,
+    "x": 119,
+    "y": 353,
     "w": 8,
     "h": 8
   },
   "subjects/matchbox": {
-    "x": 121,
-    "y": 499,
+    "x": 119,
+    "y": 387,
     "w": 8,
     "h": 8
   },
   "subjects/heal": {
-    "x": 145,
-    "y": 421,
+    "x": 155,
+    "y": 259,
     "w": 8,
     "h": 8
   },
   "subjects/ammo": {
-    "x": 145,
-    "y": 431,
+    "x": 155,
+    "y": 269,
     "w": 8,
     "h": 8
   },
   "shadow": {
-    "x": 145,
-    "y": 441,
+    "x": 155,
+    "y": 279,
     "w": 8,
     "h": 8
   },
   "player/walking/player_walking2": {
-    "x": 145,
-    "y": 451,
+    "x": 155,
+    "y": 289,
     "w": 8,
     "h": 8
   },
   "player/walking/player_walking1": {
-    "x": 145,
-    "y": 461,
+    "x": 155,
+    "y": 299,
     "w": 8,
     "h": 8
   },
   "player/standing/player_standing2": {
-    "x": 145,
-    "y": 471,
+    "x": 155,
+    "y": 309,
     "w": 8,
     "h": 8
   },
   "player/standing/player_standing1": {
-    "x": 145,
-    "y": 481,
+    "x": 155,
+    "y": 319,
     "w": 8,
     "h": 8
   },
   "player/player3": {
-    "x": 145,
-    "y": 491,
+    "x": 155,
+    "y": 329,
     "w": 8,
     "h": 8
   },
   "player/player2": {
-    "x": 145,
-    "y": 501,
+    "x": 155,
+    "y": 339,
     "w": 8,
     "h": 8
   },
   "player/player1": {
     "x": 155,
-    "y": 151,
+    "y": 349,
     "w": 8,
     "h": 8
   },
   "particles/match/match2": {
-    "x": 165,
-    "y": 151,
+    "x": 155,
+    "y": 359,
     "w": 8,
     "h": 8
   },
   "particles/match/match1": {
-    "x": 175,
-    "y": 151,
+    "x": 155,
+    "y": 369,
     "w": 8,
     "h": 8
   },
   "particles/match/match0": {
-    "x": 185,
-    "y": 151,
+    "x": 155,
+    "y": 379,
     "w": 8,
     "h": 8
   },
   "particles/blood/blood2": {
-    "x": 195,
-    "y": 151,
+    "x": 155,
+    "y": 389,
     "w": 8,
     "h": 8
   },
   "particles/blood/blood1": {
-    "x": 205,
-    "y": 151,
+    "x": 155,
+    "y": 399,
     "w": 8,
     "h": 8
   },
   "particles/blood/blood0": {
-    "x": 215,
-    "y": 151,
+    "x": 155,
+    "y": 409,
     "w": 8,
     "h": 8
   },
@@ -5447,10 +5465,10 @@ class Skeleton extends Monster {
     // let moving_down_animation = new Anime(0.3, ANM_SKELETON_MOVING_DOWN);
     // let moving_right_animation = new Anime(0.3, ANM_SKELETON_MOVING_RIGHT);
 
-    let standing_animation = new Anime(0.5, ANM_ZOMBIE_STANDING);
-    let moving_up_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_UP);
-    let moving_down_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_DOWN);
-    let moving_right_animation = new Anime(0.3, ANM_ZOMBIE_MOVING_RIGHT);
+    let standing_animation = new Anime(0.5, ANM_SKELET_STANDING);
+    let moving_up_animation = new Anime(0.3, ANM_SKELET_MOVING_UP);
+    let moving_down_animation = new Anime(0.3, ANM_SKELET_MOVING_DOWN);
+    let moving_right_animation = new Anime(0.3, ANM_SKELET_MOVING_RIGHT);
     this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
   }
 
@@ -6811,7 +6829,12 @@ window.addEventListener("load", async function () {
   window.ANM_ZOMBIE_STANDING = [Texture.named("monsters/zombie_standing_0"), Texture.named("monsters/zombie_standing_1")];
   window.ANM_ZOMBIE_MOVING_UP = [Texture.named("monsters/zombie_moving_up_0"), Texture.named("monsters/zombie_moving_up_1")];
   window.ANM_ZOMBIE_MOVING_DOWN = [Texture.named("monsters/zombie_moving_down_0"), Texture.named("monsters/zombie_moving_down_1")];
-  window.ANM_ZOMBIE_MOVING_RIGHT = [Texture.named("monsters/zombie_moving_right_0"), Texture.named("monsters/zombie_moving_right_1")]; // Ghost
+  window.ANM_ZOMBIE_MOVING_RIGHT = [Texture.named("monsters/zombie_moving_right_0"), Texture.named("monsters/zombie_moving_right_1")]; // Skelet
+
+  window.ANM_SKELET_STANDING = [Texture.named("monsters/skelet_moving_right_0"), Texture.named("monsters/skelet_moving_right_1"), Texture.named("monsters/skelet_moving_right_2")];
+  window.ANM_SKELET_MOVING_UP = [Texture.named("monsters/skelet_moving_right_0"), Texture.named("monsters/skelet_moving_right_1"), Texture.named("monsters/skelet_moving_right_2")];
+  window.ANM_SKELET_MOVING_DOWN = [Texture.named("monsters/skelet_moving_right_0"), Texture.named("monsters/skelet_moving_right_1"), Texture.named("monsters/skelet_moving_right_2")];
+  window.ANM_SKELET_MOVING_RIGHT = [Texture.named("monsters/skelet_moving_right_0"), Texture.named("monsters/skelet_moving_right_1"), Texture.named("monsters/skelet_moving_right_2")]; // Ghost
 
   window.ANM_GHOST_STANDING = [Texture.named("monsters/ghost_standing_0"), Texture.named("monsters/ghost_standing_1")];
   window.ANM_GHOST_MOVING_UP = [Texture.named("monsters/ghost_moving_up_0"), Texture.named("monsters/ghost_moving_up_1"), Texture.named("monsters/ghost_moving_up_2"), Texture.named("monsters/ghost_moving_up_3")];

@@ -5322,7 +5322,10 @@ class Monster extends Entity {
   dealDamage() {
     if (this.pos.dist(this.game.player.pos) <= this.attackRange) {
       this.game.hurt(this.game.player, this.damage);
+      return 1;
     }
+
+    return 0;
   }
 
 }
@@ -5351,6 +5354,13 @@ class Bat extends Monster {
     let moving_down_animation = new Anime(0.3, ANM_BAT_MOVING);
     let moving_right_animation = new Anime(0.3, ANM_BAT_MOVING);
     this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  } // Bat dies after dealing damage
+
+
+  dealDamage() {
+    let dmg = super.dealDamage();
+    if (dmg) this.game.hurt(this, 10);
+    return dmg;
   }
 
   behavior() {
@@ -7068,13 +7078,13 @@ window.HARDNESS = 0; // consts
 
 window.LIFE_ETERNAL = -12222; //// DRAW PREFERENCES ////
 
-window.SCALE = 10; // 1 Cell in px
+window.SCALE = 5; // 1 Cell in px
 
 while (64 * SCALE <= Math.min(window.innerHeight, window.innerWidth)) {
   SCALE += 1;
 }
 
-SCALE = 7; // Canvas
+SCALE = 4; // Canvas
 
 window.SCREEN = document.getElementById("screen");
 SCREEN.width = SCREEN.height = 128 * SCALE;

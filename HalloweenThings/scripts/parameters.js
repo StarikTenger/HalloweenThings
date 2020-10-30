@@ -82,11 +82,11 @@ window.LIFE_ETERNAL = -12222;
 
 
 //// DRAW PREFERENCES ////
-window.SCALE = 10; // 1 Cell in px
+window.SCALE = 5; // 1 Cell in px
 while (64 * SCALE <= Math.min(window.innerHeight, window.innerWidth)) {
     SCALE += 1;
 }
-SCALE = 7;
+SCALE = 4;
 
 // Canvas
 window.SCREEN = document.getElementById("screen");

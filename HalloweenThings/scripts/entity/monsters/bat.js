@@ -21,6 +21,14 @@ class Bat extends Monster {
         this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
     }
 
+    // Bat dies after dealing damage
+    dealDamage() {
+        let dmg = super.dealDamage();
+        if (dmg)
+            this.game.hurt(this, 10);
+        return dmg;
+    }
+
     behavior() {
         super.behavior();
         // Movement

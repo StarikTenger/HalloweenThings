@@ -102,7 +102,9 @@ class Monster extends Entity {
     dealDamage() {
         if (this.pos.dist(this.game.player.pos) <= this.attackRange) {
             this.game.hurt(this.game.player, this.damage);
+            return 1;
         }
+        return 0;
     }
 }
 

@@ -27,7 +27,13 @@ class Draw {
         }
         this.ctx.imageSmoothingEnabled = 0;
 
-        this.ctx.drawImage(Texture.image, texture.rect.x, texture.rect.y, texture.rect.w, texture.rect.h, width*(x + w * flip - this.cam.x + this.center.x) * SCALE, (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE)
+        this.ctx.drawImage(Texture.image,
+            texture.rect.x,
+            texture.rect.y,
+            texture.rect.w,
+            texture.rect.h,
+            width*(x + w * flip - this.cam.x + this.center.x) * SCALE,
+            (y - this.cam.y + this.center.y) * SCALE, w * SCALE, h * SCALE);
 
         this.ctx.restore();
     }

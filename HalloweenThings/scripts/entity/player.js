@@ -273,17 +273,17 @@ class Player extends Entity {
             // Open gates
             for (let x = 0; x < SIZE_X; x++) {
                 for (let y = 0; y < SIZE_Y; y++) {
-                    if (this.game.spec_graves_visited_count < 3) // Gates are not ready
+                    if (this.game.level < 3) // Gates are not ready
                         break;
 
                     // Check for player
-                    if (this.game.gates_state === 1 && this.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
+                    if (this.game.gates_state === 1 && this.game.grid[x][y].gates === 1 && this.pos.dist(new Vec2(x * 8 + 8, y * 8 + 8)) < 32) {
                         this.game.gates_state = 2; // Gates opened
                         this.game.animations.push(new Animation(ANM_GATES, new Vec2(x * 8 + 4, y * 8 - 8), new Vec2(16, 16), 0.3));
                     }
 
                     // Clean obstacles
-                    if (this.game.gates_state === 2 && this.grid[x][y].gates) {
+                    if (this.game.gates_state === 2 && this.game.grid[x][y].gates) {
                         this.game.grid[x][y].obstacle = 0;
                     }
                 }

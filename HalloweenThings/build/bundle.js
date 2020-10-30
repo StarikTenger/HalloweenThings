@@ -5835,21 +5835,32 @@ class Player extends Entity {
 
     if (!this.controls.shootDirection.isZero()) {
       let dir = this.controls.shootDirection;
+      let endPos = {};
 
       if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) {
         // Are we able to shoot
         window.SOUND_SHOOT.play(); // Stupid collision check
 
         let pos = new Vec2(this.pos.x, this.pos.y);
+        dir = dir.mult(new Vec2(0.5, 0.5));
 
-        for (let i = 0; i < 30; i++) {
-          let hit = 0;
+        for (let i = 0; i < 100; i++) {
+          let hit = 0; // Wall collision
+
+          let gridPos = this.game.getCell(pos);
+
+          if (this.game.grid[gridPos.x][gridPos.y].obstacle) {
+            console.log("wall collision");
+            break;
+          } // Shift
+
+
+          pos = pos.plus(dir);
+          endPos = pos; // Monster collision
 
           for (let j = 0; j < this.game.monsters.length; j++) {
             // Current monster
-            let monster = this.game.monsters[j]; // Shift
-
-            pos = pos.plus(dir); // Collision check
+            let monster = this.game.monsters[j];
 
             if (pos.dist(monster.pos) < 8) {
               this.game.hurt(monster, this.weapon.damage);
@@ -5863,7 +5874,7 @@ class Player extends Entity {
         let curAnm = ANM_TRACER_UP; // Current animation
 
         if (dir.y < 0) curAnm = ANM_TRACER_UP;else if (dir.y > 0) curAnm = ANM_TRACER_DOWN;else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;else if (dir.x > 0) curAnm = ANM_TRACER_RIGHT;
-        this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
+        this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28 * 2 - 6, -36 * 2 + 6)), new Vec2(128, 128), 0.1));
         this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0)); // Modify cooldown & ammo
 
         this.weapon.timeToCooldown = this.weapon.cooldownTime;
@@ -7100,23 +7111,23 @@ window.EPS = 0.0001; // Limitations for player
 window.LIMIT_HP = 3;
 window.LIMIT_OIL = 10;
 window.LIMIT_MIND = 10;
-window.LIMIT_MATCHES = 10;
+window.LIMIT_MATCHES = 3;
 window.OIL_CONSUMPTION = 0.2;
 window.DIST_LIGHT = 7;
 window.DIST_LOAD = 12;
-window.MONSTER_LIMIT = 16 * 0; // Maximum number of monsters
+window.MONSTER_LIMIT = 24; // Maximum number of monsters
 
 window.MONSTER_PERIOD = 1; // Time between monsters spawn
 
-window.SUBJECT_LIMIT = 100; // Maximum number of subjects
+window.SUBJECT_LIMIT = 10; // Maximum number of subjects
 
 window.SUBJECT_PERIOD = 1; // Time between subjects spawn
 // Map parameters
 
 window.MARGIN = 3; // Cells on map's sides, that are not changing
 
-window.SIZE_X = 9 + MARGIN * 2;
-window.SIZE_Y = 9 + MARGIN * 2; // Music
+window.SIZE_X = 37 + MARGIN * 2;
+window.SIZE_Y = 37 + MARGIN * 2; // Music
 
 window.VOLUME = 1; // Sounds
 // Loop

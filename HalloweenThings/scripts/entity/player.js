@@ -127,21 +127,34 @@ class Player extends Entity {
         this.controls.updateShootingDirection()
 
         if (!this.controls.shootDirection.isZero()) {
-            let dir = this.controls.shootDirection
+            let dir = this.controls.shootDirection;
+            let endPos = {};
 
             if (this.weapon.timeToCooldown <= 0 && this.weapon.ammo > 0) { // Are we able to shoot
                 window.SOUND_SHOOT.play();
                 // Stupid collision check
                 let pos = new Vec2(this.pos.x, this.pos.y);
+                dir = dir.mult(new Vec2(0.5, 0.5));
 
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 100; i++) {
                     let hit = 0;
+
+                    // Wall collision
+                    let gridPos = this.game.getCell(pos);
+                    if (this.game.grid[gridPos.x][gridPos.y].obstacle) {
+                        console.log("wall collision");
+                        break;
+                    }
+
+                    // Shift
+                    pos = pos.plus(dir);
+                    endPos = pos;
+
+                    // Monster collision
                     for (let j = 0; j < this.game.monsters.length; j++) {
                         // Current monster
                         let monster = this.game.monsters[j];
-                        // Shift
-                        pos = pos.plus(dir);
-                        // Collision check
+
                         if (pos.dist(monster.pos) < 8) {
                             this.game.hurt(monster, this.weapon.damage);
                         }
@@ -157,7 +170,7 @@ class Player extends Entity {
                 else if (dir.x < 0) curAnm = ANM_TRACER_LEFT;
                 else if (dir.x > 0)  curAnm = ANM_TRACER_RIGHT;
 
-                this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28, -36)), new Vec2(64, 64), 0.1));
+                this.game.animations.push(new Animation(curAnm, this.pos.plus(new Vec2(-28*2-6, -36*2 + 6)), new Vec2(128, 128), 0.1));
                 this.game.animations.push(new Animation(ANM_PISTOL_SHOT, new Vec2(1, 47), new Vec2(13, 7), 0.1, 1, 0));
 
                 // Modify cooldown & ammo

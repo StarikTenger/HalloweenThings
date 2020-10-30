@@ -40,7 +40,7 @@ window.OIL_CONSUMPTION = 0.2;
 window.DIST_LIGHT = 7;
 window.DIST_LOAD = 12;
 
-window.MONSTER_LIMIT = 16; // Maximum number of monsters
+window.MONSTER_LIMIT = 24; // Maximum number of monsters
 window.MONSTER_PERIOD = 1; // Time between monsters spawn
 
 window.SUBJECT_LIMIT = 10; // Maximum number of subjects
@@ -48,8 +48,8 @@ window.SUBJECT_PERIOD = 1; // Time between subjects spawn
 
 // Map parameters
 window.MARGIN = 3; // Cells on map's sides, that are not changing
-window.SIZE_X = 27 + MARGIN * 2;
-window.SIZE_Y = 27 + MARGIN * 2;
+window.SIZE_X = 37 + MARGIN * 2;
+window.SIZE_Y = 37 + MARGIN * 2;
 
 // Music
 window.VOLUME = 1;

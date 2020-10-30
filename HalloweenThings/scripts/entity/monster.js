@@ -54,6 +54,19 @@ class Monster extends Entity {
         })
     }
 
+    // Creates a bat monster (witch requires it)
+    // Temporary solution, TODO: solve it somehow
+    spawnSibling() {
+        // TODO: make function for spawning monsters
+        // Making a monster
+        let monster = new Monster.classes[0]({});
+        monster.pos = this.pos.clone();
+        monster.game =this.game;
+
+        // Adding monster to array
+        this.game.monsters.push(monster);
+    }
+
     step(dt) {
         if (this.pos.dist(this.game.player.pos) < this.seenRange)
             this.behavior();

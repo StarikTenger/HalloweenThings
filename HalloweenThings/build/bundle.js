@@ -5291,6 +5291,18 @@ class Monster extends Entity {
     return new Clazz({
       game: game
     });
+  } // Creates a bat monster (witch requires it)
+  // Temporary solution, TODO: solve it somehow
+
+
+  spawnSibling() {
+    // TODO: make function for spawning monsters
+    // Making a monster
+    let monster = new Monster.classes[0]({});
+    monster.pos = this.pos.clone();
+    monster.game = this.game; // Adding monster to array
+
+    this.game.monsters.push(monster);
   }
 
   step(dt) {
@@ -5599,12 +5611,27 @@ class Tentacle extends Monster {
     this.hp = Random.random(3, 4);
     this.horror = 0.5;
     this.level = 3;
-    console.log("tentacle");
+    console.log("tentacle"); // Spawns bat with that period
+
+    this.batSpawnPeriod = 5; // Time to next bat spawn
+
+    this.batSpawnTimer = this.batSpawnPeriod;
     let standing_animation = new Anime(0.5, ANM_WORM_STANDING);
     let moving_up_animation = new Anime(0.3, ANM_WORM_STANDING);
     let moving_down_animation = new Anime(0.3, ANM_WORM_STANDING);
     let moving_right_animation = new Anime(0.3, ANM_WORM_STANDING);
     this.set_animations(standing_animation, [moving_up_animation, moving_down_animation, moving_right_animation]);
+  }
+
+  behavior() {
+    super.behavior();
+    this.batSpawnTimer -= this.game.dt;
+
+    if (this.batSpawnTimer < 0) {
+      // Spawning a bat
+      this.spawnSibling();
+      this.batSpawnTimer = this.batSpawnPeriod;
+    }
   }
 
 }
@@ -6072,8 +6099,11 @@ const Monster = require(18);
 
 
 class Game {
+  // Delta time -time per tick
   constructor() {
-    // Filling grid
+    this.dt = 1;
+    this.dt = DT; // Filling grid
+
     this.grid = [];
 
     for (let x = 0; x < SIZE_X; x++) {

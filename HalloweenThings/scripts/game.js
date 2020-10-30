@@ -20,7 +20,12 @@ const Monster = require("./entity/monster")
  */
 
 class Game {
+
+    // Delta time -time per tick
+    dt = 1
+
     constructor() {
+        this.dt = DT;
         // Filling grid
         this.grid = [];
         for (let x = 0; x < SIZE_X; x++) {
